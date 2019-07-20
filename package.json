@@ -1,0 +1,19 @@
+{
+  "name": "eternity-hash",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brrf/eternity-hash.git"
+  },
+  "author": "Moshe Praver, MD",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brrf/eternity-hash/issues"
+  },
+  "homepage": "https://github.com/brrf/eternity-hash#readme"
+}
