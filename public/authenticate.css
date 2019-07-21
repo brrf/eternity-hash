@@ -4,13 +4,12 @@ body {
 }
 
 .container {
-	width: 30%;
+	width: 20%;
 	height: 25%;	
 	margin: auto;
 	margin-top: 10%;
 	padding: 10px;
-	border: 2px solid #373737;
-	
+	border: 2px solid #373737;	
 }
 
 .header {
