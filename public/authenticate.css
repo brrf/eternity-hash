@@ -20,13 +20,22 @@ body {
 	font-size: 20px;
 }
 
+h2 {
+	margin-bottom: 0;
+	margin-top: 5px;
+}
+
+input {
+	width: 200px;
+}
+
 .input-section {
 	margin: 8px;
 }
 
 .input-label {
 	display: inline-block;
-	width: 75px;
+	width: 150px;
 }
 
 .submit-button {
