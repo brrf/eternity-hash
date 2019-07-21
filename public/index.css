@@ -17,11 +17,7 @@ h1 {
 	padding: 0;
 }
 
-button { 
-	font-family: inherit 
-}
-
-.button {
+a {
 	background-color: #F4F4F4;
 	color: #a57d37;
 	font-size: 25px;
@@ -29,11 +25,10 @@ button {
 	height: 40px;
 	width: 150px;
 	margin-left: 10px;
-	border-radius: 5px;
-	border: none;
+	text-decoration: none;
 }
 
-.button:hover {
+a:hover {
 	color: #DCD0D0;
 }
 

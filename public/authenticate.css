@@ -1,8 +1,6 @@
 body {
 	background-color: #F4F4F4;
 	color: #373737;
-	/*padding: 0;
-	margin: 0;*/
 }
 
 .container {
@@ -19,6 +17,8 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	font-family: 'Italianno', cursive;
+	font-size: 20px;
 }
 
 .input-section {
@@ -34,5 +34,9 @@ body {
 	width: 100px;
 	height: 30px;
 	margin: 8px;
-	background-color: #DCD0C0;
+	background-color: #a57d37;
+}
+
+a {
+	color: #373737;
 }
