@@ -4,6 +4,7 @@ const express     = require('express');
 const bodyParser  = require('body-parser');
 const cors        = require('cors');
 // const helmet = require('helmet');
+const db = require('./db')
 
 require('dotenv').config()
 
@@ -31,3 +32,6 @@ app.use(function(req, res, next) {
 app.listen(process.env.PORT || 3000, function () {
   console.log("Listening on port " + process.env.PORT);
 });
+
+//Connect to database
+db();
