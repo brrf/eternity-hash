@@ -1,3 +1,11 @@
 body {
-	background-color: crimson;
+	background-color: white;
+	padding: 0;
+	margin: 0;
+}
+
+h1 {
+	color: #a57d37;
+	font-family: 'Italianno', cursive;
+	margin-left: 10px;
 }
