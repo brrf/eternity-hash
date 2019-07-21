@@ -3,20 +3,21 @@
 const express     = require('express');
 const bodyParser  = require('body-parser');
 const cors        = require('cors');
-const helmet = require('helmet');
+// const helmet = require('helmet');
 
 require('dotenv').config()
 
 const app = express();
-app.use(helmet());
+// app.use(helmet());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use('/public', express.static(__dirname + '/public'));
 //Index page (static HTML)
 app.route('/')
   .get(function (req, res) {
-    res.sendFile(process.cwd() + '/views/index.html');
+    res.sendFile(__dirname + '/public/index.html');
   });
 
 //404 Not Found Middleware
