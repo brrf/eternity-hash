@@ -16,6 +16,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/public', express.static(__dirname + '/public'));
 
+//View engine
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+
 //Index page (static HTML)
 app.route('/')
   .get(function (req, res) {

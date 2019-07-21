@@ -7,7 +7,23 @@ module.exports = function (app) {
 			res.sendFile(path.join(__dirname, '../public/login.html'))
 		})
 		.post(async (req, res) => {
-			res.send('working')
+			const {username, password} = req.body
+			let errors = [];
+			if (!username || !password) {
+				errors.push('please fill out all items')
+			}
+			let user = await User.findOne({username});
+			if (!user) {
+				errors.push('No user found. Try registering!')
+			} else if (password !== user.password) {
+				errors.push('Incorrect password')
+			}
+
+			if (errors.length > 0) {
+				res.json(errors)
+			} else {
+				res.send('passport')
+			}
 		})
 	app.route('/authentication/register')
 		.get( (req, res) => {
@@ -23,21 +39,26 @@ module.exports = function (app) {
 				errors.push('passwords do not match')
 			};
 
-			let user = await User.findOne({email});
+			let user = await User.findOne({username});
 			if (user) {
-				errors.push('Email is already registered. Try logging in!')
+				errors.push('Username is already registered. Try logging in!')
 			} 
 			if (errors.length > 0) {
 				res.json(errors)
 			} else {
-				await User.create({
-					username,
-					password,
-					fname,
-					lname,
-					email
-				})
-				res.send('registered!')
+				try {
+					await User.create({
+						username,
+						password,
+						fname,
+						lname,
+						email
+					})
+					res.redirect('/authentication/login')
+				} catch (err) {
+					console.error(err);
+					res.send('An error occurred!')
+				}	
 			}
 			
 		})
