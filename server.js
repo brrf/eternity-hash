@@ -15,11 +15,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/public', express.static(__dirname + '/public'));
+
 //Index page (static HTML)
 app.route('/')
   .get(function (req, res) {
     res.sendFile(__dirname + '/public/index.html');
   });
+
+//Authentication route
+const authentication = require('./routes/authentication.js');
+authentication(app);
+
 
 //404 Not Found Middleware
 app.use(function(req, res, next) {
@@ -27,6 +33,7 @@ app.use(function(req, res, next) {
     .type('text')
     .send('Not Found');
 });
+
 
 //Start server
 app.listen(process.env.PORT || 3000, function () {
