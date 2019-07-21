@@ -1,11 +1,37 @@
 body {
-	background-color: white;
+	background-color: #F4F4F4;
 	padding: 0;
 	margin: 0;
+	font-family: 'Italianno', cursive;
+}
+
+.navbar {
+	display: flex;
+	margin: 20px;
+	justify-content: space-between;
 }
 
 h1 {
-	color: #a57d37;
-	font-family: 'Italianno', cursive;
-	margin-left: 10px;
+	color: #a57d37;	
+	margin: 0;
+	padding: 0;
 }
+
+.button {
+	background-color: #F4F4F4;
+	color: #a57d37;
+	font-size: 25px;
+	font-weight: bold;
+	font-family: 'Italianno', cursive;
+	height: 40px;
+	width: 150px;
+	margin-left: 10px;
+	border-radius: 5px;
+	border: none;
+}
+
+.button:hover {
+	color: #DCD0D0;
+}
+
+/*Other colors to consider #C0B283 #DCD0C0 #F4F4F4 #373737*/
