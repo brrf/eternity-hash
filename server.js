@@ -9,10 +9,26 @@ const db = require('./db')
 require('dotenv').config()
 
 const app = express();
+
+const passport = require('passport')
+require('./config/passport')(passport)
 // app.use(helmet());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+//Express Session
+const session = require('express-session');
+
+app.use(session({
+	secret: 'secret',
+	resave: true,
+	saveUninitialized: true
+}));
+
+//Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/public', express.static(__dirname + '/public'));
 

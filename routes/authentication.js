@@ -1,30 +1,20 @@
 const path = require('path');
-const User = require('../schemas/users')
+const User = require('../schemas/users');
+const passport = require('passport');
 
 module.exports = function (app) {
 	app.route('/authentication/login')
 		.get( (req, res) => {
-			res.sendFile(path.join(__dirname, '../public/login.html'))
+		res.sendFile(path.join(__dirname, '../public/login.html'))
 		})
-		.post(async (req, res) => {
-			const {username, password} = req.body
-			let errors = [];
-			if (!username || !password) {
-				errors.push('please fill out all items')
-			}
-			let user = await User.findOne({username});
-			if (!user) {
-				errors.push('No user found. Try registering!')
-			} else if (password !== user.password) {
-				errors.push('Incorrect password')
-			}
+		
+		.post(passport.authenticate('local', {
+		failureRedirect: '/authentication/login',
+		}), function(req, res) {
+			console.log('success!')
+    		res.redirect('/');
+ 	});
 
-			if (errors.length > 0) {
-				res.json(errors)
-			} else {
-				res.send('passport')
-			}
-		})
 	app.route('/authentication/register')
 		.get( (req, res) => {
 			res.sendFile(path.join(__dirname, '../public/register.html'))
@@ -59,7 +49,6 @@ module.exports = function (app) {
 					console.error(err);
 					res.send('An error occurred!')
 				}	
-			}
-			
+			}			
 		})
 }
