@@ -45,6 +45,9 @@ input {
 	background-color: #a57d37;
 }
 
+.submit-button:hover {
+	opacity: 0.8;}
+
 a {
 	color: #a57d37;
 	text-decoration: none;
