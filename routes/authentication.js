@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 module.exports = function (app) {
 	app.route('/authentication/login')
 		.get( (req, res) => {
-		res.sendFile(path.join(__dirname, '../public/login.html'))
+		res.sendFile(path.join(__dirname, '../src/login.html'))
 		})
 		
 		.post(passport.authenticate('local', {

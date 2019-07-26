@@ -2,13 +2,9 @@
   "name": "eternity-hash",
   "version": "1.0.0",
   "description": "",
-  "main": "App.js",
+  "main": "server.js",
   "scripts": {
-    "test": "react-scripts test",
-    "start": "nodemon server.js",
-    "react": "react-scripts start",
-    "build": "react-scripts build",
-    "eject": "react-scripts eject"
+    "start": "nodemon server.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -36,9 +32,6 @@
     "nodemon": "^1.19.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-scripts": "^3.0.1"
   },
   "browserslist": {
     "production": [

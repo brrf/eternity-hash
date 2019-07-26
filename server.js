@@ -5,6 +5,7 @@ const bodyParser  = require('body-parser');
 const cors        = require('cors');
 // const helmet = require('helmet');
 const db = require('./db')
+const path = require('path')
 
 require('dotenv').config()
 
@@ -30,17 +31,17 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/public', express.static(__dirname + '/public'));
 
 //View engine
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
 //Index page (static HTML)
-app.route('/')
-  .get(function (req, res) {
-    res.sendFile(__dirname + '/public/index.html');
-  });
+app.use( express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res)=> {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 //Authentication route
 const authentication = require('./routes/authentication.js');
@@ -56,7 +57,7 @@ app.use(function(req, res, next) {
 
 
 //Start server
-app.listen(process.env.PORT || 3000, function () {
+app.listen(process.env.PORT || 5000, function () {
   console.log("Listening on port " + process.env.PORT);
 });
 
