@@ -20,6 +20,11 @@ body {
 	font-size: 20px;
 }
 
+.logo {
+	display: block;
+	margin: 0 auto;
+}
+
 h2 {
 	margin-bottom: 0;
 	margin-top: 5px;
@@ -48,7 +53,16 @@ input {
 .submit-button:hover {
 	opacity: 0.8;}
 
-a {
+label, p {
+	font-family: none;
+}
+
+.toggle-link {
 	color: #a57d37;
 	text-decoration: none;
+	font-family: 'Italianno', cursive;
+	margin-left: 3px;
+}
+a {
+	
 }

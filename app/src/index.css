@@ -20,17 +20,21 @@ h1 {
 }
 
 a {
-	background-color: #F4F4F4;
-	color: #a57d37;
 	font-size: 25px;
 	font-weight: bold;
+	text-decoration: none;
+	color: #a57d37;
+}
+
+.navbar-link {
+	background-color: #F4F4F4;
 	height: 40px;
 	width: 150px;
 	margin-left: 40px;
-	text-decoration: none;
+	
 }
 
-a:hover {
+navbar-link:hover {
 	color: #DCD0D0;
 }
 

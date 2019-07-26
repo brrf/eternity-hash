@@ -5,8 +5,8 @@ export default function Navbar () {
 		<div className='navbar'>
           <h1>Eternity Hash</h1>
           <div className='navbar-right'>
-              <a href="./authentication/login">My Account</a>
-              <a href="./authentication/login"> Browse Collection</a>
+              <a className='navbar-link' href="./authentication/login">My Account</a>
+              <a className='navbar-link' href="./authentication/login"> Browse Collection</a>
           </div>
         </div>
 	)
