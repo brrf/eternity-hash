@@ -28,6 +28,10 @@ app.use(session({
 	saveUninitialized: true
 }));
 
+//Connect flash
+var flash = require('flash-express');
+app.use(flash());
+
 //Passport Middleware
 app.use(passport.initialize());
 app.use(passport.session());

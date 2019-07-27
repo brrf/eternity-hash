@@ -5,15 +5,15 @@ const bcrypt = require('bcrypt');
 
 module.exports = function (app) {
 	app.route('/authentication/login')
-		.get( (req, res) => {
-		res.sendFile(path.join(__dirname, '../src/login.html'))
-		})
+		// .get( (req, res) => {
+		// res.sendFile(path.join(__dirname, '../src/login.html'))
+		// })
 		
 		.post(passport.authenticate('local', {
 		failureRedirect: '/authentication/login',
 		}), function(req, res) {
 			console.log('logged in!')
-    		res.redirect('/');
+    		res.json({errors: false});
  	});
 
 	app.route('/authentication/register')
@@ -48,7 +48,7 @@ module.exports = function (app) {
 								lname,
 								email
 							})
-							res.json({errors: false})
+							res.json({errors: false, success: 'You are registered'})
 						} catch (err) {
 							console.error(err);
 							res.send('An error occurred!')

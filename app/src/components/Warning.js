@@ -6,7 +6,7 @@ export default class Warning extends React.Component {
 			<ul className='error-list'>
 		       {this.props.errors.map( error => {
 			       	return (
-			       		<li className='error-item' key={error}>{error}</li>
+			       		<li className='flash error' key={error}>{error}</li>
 			       	)
 			       })
 		   		}

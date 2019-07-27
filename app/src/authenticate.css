@@ -19,11 +19,18 @@ body {
 	margin: 0;
 }
 
-.error-item {
-	background-color: #da2b0f;
+.flash {
 	color: white;
 	margin: 5px;
 	padding: 5px;
+}
+
+.error {
+	background-color: #da2b0f;
+}
+
+.registered {
+	background-color: #63bd6ee8;
 }
 
 .form-container {
