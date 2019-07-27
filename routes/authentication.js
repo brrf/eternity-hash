@@ -36,7 +36,7 @@ module.exports = function (app) {
 				errors.push('Username is already registered. Try logging in!')
 			} 
 			if (errors.length > 0) {
-				res.json(errors)
+				res.json({errors})
 			} else {
 				bcrypt.genSalt(saltRounds, function(err, salt) {
     				bcrypt.hash(password, salt, async function(err, hash) {
@@ -48,7 +48,7 @@ module.exports = function (app) {
 								lname,
 								email
 							})
-							res.redirect('/authentication/login')
+							res.json({errors: false})
 						} catch (err) {
 							console.error(err);
 							res.send('An error occurred!')

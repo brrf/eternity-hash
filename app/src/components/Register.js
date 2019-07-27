@@ -1,4 +1,5 @@
 import React from 'react';
+import {Redirect} from 'react-router-dom'
 import Warning from './Warning'
 
 import logo from '../images/logo-192.png'
@@ -17,7 +18,8 @@ export default class Register extends React.Component {
 				lname: '',
 				email: '',
 			},
-			errors: []
+			errors: [],
+			redirect: false
 		}
 		this.updateUsername = this.updateUsername.bind(this);
 		this.updatePassword = this.updatePassword.bind(this);
@@ -27,7 +29,7 @@ export default class Register extends React.Component {
 		this.updateEmail = this.updateEmail.bind(this);
 	}
 
-	getErrors = (e) => {
+	handleSubmit = (e) => {
 		e.preventDefault();
 		this.setState({
 			errors: []
@@ -39,12 +41,20 @@ export default class Register extends React.Component {
 			mode: 'cors'
 		})
 			.then(res => res.json())
-			.then(errors => {
-				errors.forEach(error => {
+			.then(resObject => {
+				if (resObject.errors) {
+					resObject.errors.forEach(error => {
 						this.setState({
-					errors: [...this.state.errors, error]
+							errors: [...this.state.errors, error]
+							})
 					})
-				})
+				} else {
+					this.setState({
+						redirect: true
+					})
+
+				}
+				
 			});
 
 	}
@@ -105,6 +115,9 @@ export default class Register extends React.Component {
 	};
 
 	render() {
+		if (this.state.redirect) {
+       		return <Redirect to='/authentication/login'/>;
+     	}
 		return (
 			<div className='container'>
 			<Warning errors={this.state.errors}/>
@@ -113,7 +126,7 @@ export default class Register extends React.Component {
 					<a href='/'><img className='logo' src={logo} style={{width: '40px', height: '40px'}} alt='logo' /></a>
 					<h2>Register</h2>
 				</div>
-			<form onSubmit={this.getErrors}>
+			<form onSubmit={this.handleSubmit}>
 				<div className='input-section'>
 					<label className='input-label long'>Username: </label>
 					<br></br>
