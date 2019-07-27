@@ -3,7 +3,7 @@ import React from 'react';
 import logo from '../images/logo-192.png'
 import '../authenticate.css'
 
-export default function Home() {
+export default function Login() {
 	return (
 		<div className="container">
 			<div className="header">

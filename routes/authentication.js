@@ -12,22 +12,23 @@ module.exports = function (app) {
 		.post(passport.authenticate('local', {
 		failureRedirect: '/authentication/login',
 		}), function(req, res) {
+			console.log('logged in!')
     		res.redirect('/');
  	});
 
 	app.route('/authentication/register')
-		.get( (req, res) => {
-			res.sendFile(path.join(__dirname, '../public/register.html'))
-		})
+		// .get( (req, res) => {
+		// 	res.sendFile(path.join(__dirname, '../public/register.html'))
+		// })
 		.post( async (req, res) => {
 			let errors = [];
 			const saltRounds = 10;
 			const {username, password, password2, fname, lname, email} = req.body;
 			if (!username || !password || !password2 || !fname || !lname || !email) {
-				errors.push('please fill out all items');
+				errors.push('Please fill out all items');
 			};
 			if (password !== password2) {
-				errors.push('passwords do not match')
+				errors.push('Passwords do not match')
 			};
 
 			let user = await User.findOne({username});

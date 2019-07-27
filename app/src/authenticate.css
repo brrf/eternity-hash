@@ -7,9 +7,29 @@ body {
 	width: 20%;
 	height: 25%;	
 	margin: auto;
+	
+}
+
+.error-list {
+	list-style: none;
+	font-family: none;
+	font-weight: bold;
+	width: 100%; 
+	padding: 0;
+	margin: 0;
+}
+
+.error-item {
+	background-color: #da2b0f;
+	color: white;
+	margin: 5px;
+	padding: 5px;
+}
+
+.form-container {
+	border: 2px solid #373737;	
 	margin-top: 10%;
 	padding: 10px;
-	border: 2px solid #373737;	
 }
 
 .header {
