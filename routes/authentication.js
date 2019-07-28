@@ -9,12 +9,9 @@ module.exports = function (app) {
 		// res.sendFile(path.join(__dirname, '../src/login.html'))
 		// })
 		
-		.post(passport.authenticate('local', {
-		failureRedirect: '/authentication/login',
-		}), function(req, res) {
-			console.log('logged in!')
-    		res.json({errors: false});
- 	});
+		.post(passport.authenticate('local'), function(req, res) {
+    		res.json({errors: false, user: req.user});
+ 		});
 
 	app.route('/authentication/register')
 		// .get( (req, res) => {

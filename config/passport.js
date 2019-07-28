@@ -10,10 +10,10 @@ module.exports = function(passport) {
 
 	    User.findOne({ username: username }, async function (err, user) {
 	      if (err) { return done(err); }
-	      if (!user) { return done(null, false, {message: 'This user does not exist.'}); }
+	      if (!user) { return done(null, false); }
 	      const match = await bcrypt.compare(password, user.password);
-	      if (!match) { return done(null, false, {message: 'Incorrect password.'}); }
-	     
+	      if (!match) { return done(null, false); }
+
 	      return done(null, user);
 	    });
 	  }

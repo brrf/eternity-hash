@@ -4,42 +4,46 @@ const express     = require('express');
 const bodyParser  = require('body-parser');
 const cors        = require('cors');
 const helmet = require('helmet');
-const db = require('./db')
-const path = require('path')
+const db = require('./db');
+const path = require('path');
+const passport = require('passport');
+const session = require('express-session');
 
-require('dotenv').config()
+const authentication = require('./routes/authentication.js');
+require('dotenv').config();
 
 const app = express();
 
-const passport = require('passport')
-require('./config/passport')(passport)
 app.use(helmet());
-
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-//Express Session
-const session = require('express-session');
+// Passport config
+require('./config/passport')(passport);
 
+//View engine
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+
+//Express body parser
+app.use(express.urlencoded({ extended: true }));
+
+//Express Session
 app.use(session({
 	secret: 'secret',
 	resave: true,
 	saveUninitialized: true
 }));
 
-//Connect flash
-var flash = require('flash-express');
-app.use(flash());
+app.use( (req, res, next) => {
+  req.session.username = req.body.username;
+  console.log('req.session', req.session);
+  return next();
+});
 
 //Passport Middleware
 app.use(passport.initialize());
 app.use(passport.session());
-
-
-//View engine
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
 
 //Index page (static HTML)
 app.use( express.static(path.join(__dirname, 'public')));
@@ -48,10 +52,8 @@ app.get('/', (req, res)=> {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-//Authentication route
-const authentication = require('./routes/authentication.js');
+//Routes
 authentication(app);
-
 
 //404 Not Found Middleware
 app.use(function(req, res, next) {

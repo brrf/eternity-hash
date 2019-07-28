@@ -1,10 +1,11 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {connect} from 'react-redux';
 import Home from './Home'
 import Login from './Login'
 import Register from './Register'
 
-function App() {
+function App(props) {
   return (
     <Router>
 
@@ -22,4 +23,4 @@ function App() {
   );
 }
 
-export default App;
+export default connect()(App);

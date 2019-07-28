@@ -1,11 +1,15 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
 import Warning from './Warning';
+import {Link} from 'react-router-dom';
+
+import handleLoginuser from '../actions/login'
 
 import logo from '../images/logo-192.png'
 import '../authenticate.css'
 
-export default class Register extends React.Component {
+class Login extends React.Component {
 	constructor (props) {
 		super(props);
 
@@ -15,7 +19,7 @@ export default class Register extends React.Component {
 				password: '',
 			},
 			errors: [],
-			redirect: false
+			redirect: false,
 		}
 		this.updateUsername = this.updateUsername.bind(this);
 		this.updatePassword = this.updatePassword.bind(this);
@@ -36,13 +40,10 @@ export default class Register extends React.Component {
 			.then(resObject => {
 				if (resObject.errors) {
 					console.log('errors')
-					// resObject.errors.forEach(error => {
-					// 	this.setState({
-					// 		errors: [...this.state.errors, error]
-					// 		})
 				} else {
+					this.props.dispatch(handleLoginuser(resObject.user))
 					this.setState({
-						redirect: true
+						redirect: true						
 					})
 				}			
 			});
@@ -74,9 +75,10 @@ export default class Register extends React.Component {
 
 		<div className='container'>
 			{this.props.location.state ? <p className='flash registered'>{this.props.location.state.message}</p> : null}
+			<Warning errors={this.state.errors}/>
 			<div className='form-container'>
 			<div className="header">
-				<a href='/'><img className='logo' src={logo} style={{width: '40px', height: '40px'}} alt='logo' /></a>
+				<Link to='/'><img className='logo' src={logo} style={{width: '40px', height: '40px'}} alt='logo' /></Link>
 				<h2>Login</h2>
 			</div>
 			
@@ -95,8 +97,15 @@ export default class Register extends React.Component {
 				</div>
 				<input className='submit-button' type="submit" />
 			</form>
-			<p>No account? <a className='toggle-link' href="./register">Register</a></p>
+			<p>No account? <Link className='toggle-link' to="./register">Register</Link></p>
 		</div>
 		</div>
 	)}
 }
+
+function mapStateToProps(state) {
+	console.log({stateAtLogin: state})
+	return state;
+}
+
+export default connect(mapStateToProps)(Login);

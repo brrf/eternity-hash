@@ -1,5 +1,5 @@
 import React from 'react';
-import {Redirect} from 'react-router-dom'
+import {Redirect, Link} from 'react-router-dom'
 import Warning from './Warning'
 
 import logo from '../images/logo-192.png'
@@ -124,7 +124,7 @@ export default class Register extends React.Component {
 			<Warning errors={this.state.errors}/>
 			<div className='form-container'>
 				<div className='header'>
-					<a href='/'><img className='logo' src={logo} style={{width: '40px', height: '40px'}} alt='logo' /></a>
+					<Link to='/'><img className='logo' src={logo} style={{width: '40px', height: '40px'}} alt='logo' /></Link>
 					<h2>Register</h2>
 				</div>
 			<form onSubmit={this.handleSubmit}>
@@ -166,7 +166,7 @@ export default class Register extends React.Component {
 				</div>
 				<input className='submit-button' type="submit"/>
 			</form>
-				<p>Already have an account? <a className='toggle-link' href="./login">Login</a></p>
+				<p>Already have an account? <Link className='toggle-link' to="./login">Login</Link></p>
 			</div>
 			</div>
 		)
