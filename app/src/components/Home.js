@@ -5,10 +5,10 @@ import {connect} from 'react-redux';
 
 class Home extends React.Component {
 	render() {
-		let username = this.props.username ? this.props.username : null;
+		let fname = this.props.fname ? this.props.fname : null;
 		return (
 			<div>
-		        <Navbar username={username}/>
+		        <Navbar fname={fname}/>
 		        <img src={artCover} style={{width: '100%', height: '700px'}} alt='artistic design'/>
 		  	</div>
 		)
@@ -16,9 +16,8 @@ class Home extends React.Component {
 }
 
 function mapStateToProps(state) {
-	console.log({state})
-	const {username} = state;
-	return {username};
+	const {fname} = state;
+	return {fname};
 }
 
 export default connect(mapStateToProps)(Home)

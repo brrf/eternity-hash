@@ -104,7 +104,6 @@ class Login extends React.Component {
 }
 
 function mapStateToProps(state) {
-	console.log({stateAtLogin: state})
 	return state;
 }
 
