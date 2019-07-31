@@ -32,8 +32,8 @@ app.use(express.json());
 //Express Session
 app.use(session({
 	secret: 'secret',
-	resave: true,
-	saveUninitialized: true,
+	resave: false,
+	saveUninitialized: false,
   proxy: true,
   cookie: {secure: false}
 }));

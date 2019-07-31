@@ -17,15 +17,14 @@ export default class Other extends React.Component {
 		})
 			.then(res => res.json())
 			.then(resObject => {
-				console.log(resObject);
 				if(resObject.loggedIn) {
 					this.setState({
 						loggedIn: true
 					})
 				}
-			});
-			
+			});			
 	}
+
 	render() {
 		let style = {display: 'flex', justifyContent: 'center', fontWeight: 'bold'};
 		if (this.state.loggedIn) {

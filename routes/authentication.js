@@ -18,33 +18,6 @@ module.exports = function (app) {
     	res.json({errors: false, user: req.user})
     });
 
-	//  app.post('/authentication/login', (req, res, next) => {
-	//     passport.authenticate('local', (err, theUser, failureDetails) => {
-	//         if (err) {
-	//             res.status(500).json({ message: 'Something went wrong authenticating user' });
-	//             return;
-	//         }
-
-	//         if (!theUser) {
-	//             res.status(401).json(failureDetails);
-	//             return;
-	//         }
-
-	//         // save user in session
-	//         req.login(theUser, (err) => {
-	//             if (err) {
-	//                 res.status(500).json({ message: 'Session save went bad.' });
-	//                 return;
-	//             }
-	//             req.session.user = req.user
-	//             req.session.save();
-	//             console.log('first test', req.session)
-	//             console.log('---123456789098765432345678---', req.user);
-	//             res.status(200).json({errors: false, user: theUser});
-	//         });
-	//     })(req, res, next);
-	// });
-
  	app.route('/authentication/logout')
  		.get(function(req, res) {
 	  		req.logout();
