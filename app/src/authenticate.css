@@ -6,8 +6,7 @@ body {
 .container {
 	width: 20%;
 	height: 25%;	
-	margin: auto;
-	
+	margin: auto;	
 }
 
 .error-list {
@@ -78,18 +77,17 @@ input {
 }
 
 .submit-button:hover {
-	opacity: 0.8;}
+	opacity: 0.8;
+}
 
 label, p {
 	font-family: none;
 }
 
 .toggle-link {
+	font-size: 25px;
 	color: #a57d37;
 	text-decoration: none;
 	font-family: 'Italianno', cursive;
 	margin-left: 3px;
-}
-a {
-	
 }

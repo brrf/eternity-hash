@@ -59,8 +59,10 @@ h1 {
 	text-decoration: none;
 	color: #284e64;
 	margin-left: 10px;
-	font-size: 23px;
+	font-size: 15px;
+	font-weight: normal;
 	padding: 2px;
+	font-family: bold;
 }
 
 .dropdown-item:hover {

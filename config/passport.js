@@ -13,14 +13,13 @@ module.exports = function(passport) {
 	      if (!user) { return done(null, false); }
 	      const match = await bcrypt.compare(password, user.password);
 	      if (!match) { return done(null, false); }
-
 	      return done(null, user);
 	    });
 	  }
 	));
 
 	passport.serializeUser(function(user, done) {
-  		done(null, user._id);
+  		done(null, user.id);
 	});
 
 	passport.deserializeUser(function(id, done) {

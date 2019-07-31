@@ -7,6 +7,7 @@ const helmet = require('helmet');
 const db = require('./db');
 const path = require('path');
 const passport = require('passport');
+const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
 const authentication = require('./routes/authentication.js');
@@ -15,11 +16,7 @@ require('dotenv').config();
 const app = express();
 
 app.use(helmet());
-app.use(express.json());
-app.use(cors());
-
-// Passport config
-require('./config/passport')(passport);
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
 //View engine
 app.engine('html', require('ejs').renderFile);
@@ -27,23 +24,34 @@ app.set('view engine', 'html');
 
 //Express body parser
 app.use(express.urlencoded({ extended: true }));
+// app.use(cookieParser());
+app.use(express.json());
+
+
 
 //Express Session
 app.use(session({
 	secret: 'secret',
 	resave: true,
-	saveUninitialized: true
+	saveUninitialized: true,
+  proxy: true,
+  cookie: {secure: false}
 }));
 
-app.use( (req, res, next) => {
-  req.session.username = req.body.username;
-  console.log('req.session', req.session);
-  return next();
-});
+// Passport config
+require('./config/passport')(passport);
 
 //Passport Middleware
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use ((req, res, next) => {
+  res.header ('Access-Control-Allow-Origin', 'http://localhost:3000')
+  res.header ('Access-Control-Allow-Headers', 'Origin, X-Requested-With, X-AUTHENTICATION, X-IP, Content-Type, Accept')
+  res.header ('Access-Control-Allow-Credentials', true)
+  res.header ('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+  next()
+});
 
 //Index page (static HTML)
 app.use( express.static(path.join(__dirname, 'public')));

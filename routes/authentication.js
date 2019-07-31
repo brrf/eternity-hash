@@ -4,19 +4,54 @@ const passport = require('passport');
 const bcrypt = require('bcrypt');
 
 module.exports = function (app) {
-	app.route('/authentication/login')
-		// .get( (req, res) => {
-		// res.sendFile(path.join(__dirname, '../src/login.html'))
-		// })
-		
-		.post(passport.authenticate('local'), function(req, res) {
-    		res.json({errors: false, user: req.user});
- 		});
+
+	app.route('/comingsoon')
+		.get(function(req, res) {
+			if (req.user) {
+				return res.json({loggedIn: true})
+			} else {
+				return res.json({loggedIn: false})
+			}
+		});
+
+	app.post('/authentication/login', passport.authenticate('local'), (req, res) => {
+    	res.json({errors: false, user: req.user})
+    });
+
+	//  app.post('/authentication/login', (req, res, next) => {
+	//     passport.authenticate('local', (err, theUser, failureDetails) => {
+	//         if (err) {
+	//             res.status(500).json({ message: 'Something went wrong authenticating user' });
+	//             return;
+	//         }
+
+	//         if (!theUser) {
+	//             res.status(401).json(failureDetails);
+	//             return;
+	//         }
+
+	//         // save user in session
+	//         req.login(theUser, (err) => {
+	//             if (err) {
+	//                 res.status(500).json({ message: 'Session save went bad.' });
+	//                 return;
+	//             }
+	//             req.session.user = req.user
+	//             req.session.save();
+	//             console.log('first test', req.session)
+	//             console.log('---123456789098765432345678---', req.user);
+	//             res.status(200).json({errors: false, user: theUser});
+	//         });
+	//     })(req, res, next);
+	// });
+
+ 	app.route('/authentication/logout')
+ 		.get(function(req, res) {
+	  		req.logout();
+	  		res.json({error: false});
+		});
 
 	app.route('/authentication/register')
-		// .get( (req, res) => {
-		// 	res.sendFile(path.join(__dirname, '../public/register.html'))
-		// })
 		.post( async (req, res) => {
 			let errors = [];
 			const saltRounds = 10;

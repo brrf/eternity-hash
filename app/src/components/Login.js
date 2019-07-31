@@ -33,8 +33,9 @@ class Login extends React.Component {
 		fetch('http://localhost:5000/authentication/login', {
 			method: 'POST',
 			body: JSON.stringify(this.state.formData),
-			headers: {"Content-Type": "application/json"},
-			mode: 'cors'
+			headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "http://localhost:5000"},
+			mode: 'cors',
+			credentials: 'include'
 		})
 			.then(res => res.json())
 			.then(resObject => {
