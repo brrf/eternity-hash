@@ -8,7 +8,7 @@ class Home extends React.Component {
 		let fname = this.props.fname ? this.props.fname : null;
 		return (
 			<div>
-		        <Navbar fname={fname}/>
+		        <Navbar />
 		        <img src={artCover} style={{width: '100%', height: '700px'}} alt='artistic design'/>
 		  	</div>
 		)

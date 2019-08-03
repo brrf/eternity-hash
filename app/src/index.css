@@ -24,6 +24,13 @@ h1 {
 	flex-direction: row;
 }
 
+.navbar-home {
+	font-size: 37px;
+	font-weight: bold;
+	text-decoration: none;
+	color: #a57d37;
+}
+
 .navbar-item {
 	display: flex;
 	align-items: center;
