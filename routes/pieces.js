@@ -39,22 +39,27 @@ const upload = multer({
 module.exports = function (app) {
 	app.route('/collection')
 		.post(upload.array('images', 5), async (req, res) => {
-      console.log(req.body)
 			if(req.files) {
-        // let 
-        // // let filenames = [];
-        // // req.files.forEach( file => {
-        // //   filenames.push(file.filename)
-        // // })
-        // try {
-        //   await Piece.save()
-        // } catch {
-
-        // }
-        return res.json({done: 'done'}); 
+        console.log({fiels: req.files})
+        const {title, description, price} = req.body;
+        let filenames = [];
+        req.files.forEach( file => {
+          filenames.push(file.filename)
+        })  
+        console.log(filenames)   
+        try {
+          await Piece.create({
+            thumbnails: filenames,
+            title,
+            description,
+            price
+          });
+          return res.json({res: 'Your piece was added to the collection!'})
+        } catch {
+          return res.json({res: 'Oops, we had trouble adding your piece to the collection'})
+        }
       } else {
-        res.json({error: 'Error with file upload'})
-      }
-			
+        res.json({res: 'Error with file upload'})
+      }			
 		})
 }

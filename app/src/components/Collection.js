@@ -11,7 +11,7 @@ export default class Collection extends React.Component {
 				description: '',
 				price: ''
 			},		
-			error: '',
+			res: 'nothing yet',
 			blobs: []
 		}
 		this.addImage = this.addImage.bind(this);
@@ -54,14 +54,18 @@ export default class Collection extends React.Component {
 						blobs: [],
 						urls: []
 					},
-					error: resObject.error
+					res: resObject.res
 				})
 			} else {
 				this.setState({
-					images: {
-						...this.state.images,
-						urls: resObject.filenames
-					}
+					// formData: {
+					// 	...this.state.formData,
+					// 	images: {
+					// 		...this.state.images,
+					// 		urls: resObject.filenames
+					// 	}
+					// },
+					res: resObject.res
 				})
 			}			
 		})
@@ -129,7 +133,7 @@ export default class Collection extends React.Component {
 						return (<img src={blob} key={blob} alt='piece-sample' style={{width: '300px', height: '300px'}} />)
 						})
 				}
-				<p>{this.state.error}</p>
+				<p>{this.state.res}</p>
 			</div>
 		)
 	}
