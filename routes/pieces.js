@@ -37,6 +37,13 @@ const upload = multer({
 
 
 module.exports = function (app) {
+
+  app.get('/collection', async (req, res) => {
+    let collection = await Piece.find({})
+    collection = collection.filter(piece => piece.thumbnails.length !== 0)
+    res.json({collection})
+  });
+
 	app.post('/addpiece', upload.array('images', 5), async (req, res) => {    
       if(req.user.email !== 'admin@gmail.com') {
         return res.json({res: 'admin only'})
