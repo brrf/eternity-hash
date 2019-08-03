@@ -11,6 +11,8 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
 const authentication = require('./routes/authentication.js');
+const pieces = require('./routes/pieces.js');
+
 require('dotenv').config();
 
 const app = express();
@@ -62,6 +64,7 @@ app.get('/', (req, res)=> {
 
 //Routes
 authentication(app);
+pieces(app);
 
 //404 Not Found Middleware
 app.use(function(req, res, next) {

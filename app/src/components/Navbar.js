@@ -19,7 +19,7 @@ function Navbar (props) {
               	</div>
               	</div>
               </div>
-              <Link className='navbar-item' to="./comingsoon"> Browse Collection</Link>
+              <Link className='navbar-item' to="./collection"> Browse Collection</Link>
           </div>
         </div>
 	)
