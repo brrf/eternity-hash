@@ -14,6 +14,7 @@ export default class Collection extends React.Component {
 	}
 
 	addImage = (e) => {
+		if (this.state.images.length > 4) return;
 		this.setState({
 			images: [...this.state.images, URL.createObjectURL(e.target.files[0])]
 		})
@@ -55,9 +56,9 @@ export default class Collection extends React.Component {
 					? null 
 					: this.state.images.map(url => {
 						return (<img src={url} alt='piece-sample' style={{width: '300px', height: '300px'}} />)
-					})}
+						})
+				}
 				<p>{this.state.error}</p>
-				<p>{this.state.images[0]}</p>
 			</div>
 		)
 	}
