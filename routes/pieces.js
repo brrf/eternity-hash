@@ -37,7 +37,7 @@ module.exports = function (app) {
 	app.route('/collection')
 		.post(upload.single('image'), (req, res) => {
 			if(req.file) {
-       return res.json({file: req.file.filename}); 
+       return res.json({image: req.file.filename}); 
       } else {
         res.json({error: 'Error with file upload'})
       }
