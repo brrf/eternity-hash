@@ -1,4 +1,4 @@
 *node_modules
 .env
 *build
-public/pieces-images/
+app/public/pieces-images/
