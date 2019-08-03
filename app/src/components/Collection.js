@@ -5,7 +5,7 @@ export default class Collection extends React.Component {
 		super(props);
 
 		this.state = {
-			file: 'https://news.nationalgeographic.com/content/dam/news/2018/05/17/you-can-train-your-cat/02-cat-training-NationalGeographic_1484324.jpg'
+			file: ''
 		}
 		// this.submitForm = this.submitForm.bind(this);
 		this.changeFile = this.changeFile.bind(this);
@@ -22,22 +22,28 @@ export default class Collection extends React.Component {
 		})
 			.then(res => res.json())
 			.then(resObject => {
-				console.log(resObject)
-				this.setState({
+				if (resObject.error) {
+					this.setState({
+						file: '',
+						error: resObject.error
+					})
+				} else {
+					this.setState({
 					file: resObject.file
-				})
+					})
+				}			
 			})
 	}
 
 	render() {
 		return (
 			<div>
-			<form onSubmit={this.submitForm}>
-				 <input type="file" name="image" onChange={this.changeFile}/>
-				 <input className='submit-button' type="submit" />
-			</form>
-			<img src={`/pieces-images/${this.state.file}`} style={{width: '300px', height: '300px'}}/>
-			<p>{this.state.file}</p>
+				<form onSubmit={this.submitForm}>
+					 <input type="file" name="image" onChange={this.changeFile}/>
+					 <input className='submit-button' type="submit" />
+				</form>
+				{this.state.file === '' ? null : <img src={`/pieces-images/${this.state.file}`} style={{width: '300px', height: '300px'}} />}
+				<p>{this.state.error}</p>
 			</div>
 		)
 	}
