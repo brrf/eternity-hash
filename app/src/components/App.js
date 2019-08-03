@@ -6,6 +6,7 @@ import Login from './Login';
 import Logout from './Logout';
 import Register from './Register';
 import Collection from './Collection';
+import AddPiece from './AddPiece'
 import Other from './Other';
 
 function App(props) {
@@ -18,6 +19,7 @@ function App(props) {
             <Route path ='/authentication/logout' component={Logout} />
             <Route path ='/authentication/register' component={Register} />
             <Route path ='/collection' component={Collection} />
+            <Route path = '/addpiece' component={AddPiece} />
             <Route path='/comingsoon' component={Other} />
       </Switch>
     </Router>

@@ -1,6 +1,6 @@
 const multer  = require('multer');
 const path = require('path');
-
+const passport = require('passport');
 const Piece = require('../schemas/pieces');
 
 
@@ -37,16 +37,16 @@ const upload = multer({
 
 
 module.exports = function (app) {
-	app.route('/collection')
-		.post(upload.array('images', 5), async (req, res) => {
+	app.post('/addpiece', upload.array('images', 5), async (req, res) => {    
+      if(req.user.email !== 'admin@gmail.com') {
+        return res.json({res: 'admin only'})
+      }
 			if(req.files) {
-        console.log({fiels: req.files})
         const {title, description, price} = req.body;
         let filenames = [];
         req.files.forEach( file => {
           filenames.push(file.filename)
-        })  
-        console.log(filenames)   
+        })   
         try {
           await Piece.create({
             thumbnails: filenames,

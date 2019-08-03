@@ -16,6 +16,7 @@ function Navbar (props) {
               		<Link to='./comingsoon' className='dropdown-item'>My Cart</Link>
               		<Link to='./comingsoon' className='dropdown-item'>My Hashes</Link>
               		<Link to={authenticationLink.link} className='dropdown-item'>{authenticationLink.title}</Link>
+                  <Link to='./addpiece' className='dropdown-item'>Add Piece</Link>
               	</div>
               	</div>
               </div>

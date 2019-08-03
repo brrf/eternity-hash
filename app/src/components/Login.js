@@ -50,7 +50,6 @@ class Login extends React.Component {
 			});
 	}
 
-
 	updateUsername = (e) => {
 		this.setState({
 			formData: {

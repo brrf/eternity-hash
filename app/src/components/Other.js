@@ -10,7 +10,7 @@ export default class Other extends React.Component {
 	}
 
 	componentDidMount() {
-		fetch('http://localhost:5000/comingsoon', {
+		fetch('http://localhost:5000/authenticate', {
 			method: 'GET',
 			mode: 'cors',
 			credentials: 'include'

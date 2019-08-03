@@ -5,8 +5,9 @@ const bcrypt = require('bcrypt');
 
 module.exports = function (app) {
 
-	app.route('/comingsoon')
-		.get(function(req, res) {
+	app.route('/authenticate')
+		.get(function(req, res) {	
+		console.log(req.user)		
 			if (req.user) {
 				return res.json({loggedIn: true})
 			} else {
