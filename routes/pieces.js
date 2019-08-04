@@ -44,7 +44,8 @@ module.exports = function (app) {
     res.json({collection})
   });
 
-	app.post('/addpiece', upload.array('images', 5), async (req, res) => {    
+	app.route('/addpiece')
+    .post(upload.array('images', 5), async (req, res) => {    
       if(req.user.email !== 'admin@gmail.com') {
         return res.json({res: 'admin only'})
       }
@@ -69,4 +70,13 @@ module.exports = function (app) {
         res.json({res: 'Error with file upload'})
       }			
 		})
+    .delete(async (req, res) => {
+      if(!req.body.id) return res.json({res: 'provide an _id'});
+      try {
+        await Piece.findByIdAndDelete(req.body.id)
+        return res.json({res: 'Piece was deleted'})
+      } catch {
+        return res.json({res: 'Could not delete'})
+      }
+    })
 }
