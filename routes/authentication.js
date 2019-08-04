@@ -7,7 +7,6 @@ module.exports = function (app) {
 
 	app.route('/authenticate')
 		.get(function(req, res) {	
-		console.log(req.user)		
 			if (req.user) {
 				return res.json({loggedIn: true})
 			} else {

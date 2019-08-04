@@ -1,5 +1,6 @@
 import React from 'react';
-import Navbar from './Navbar'
+import Navbar from './Navbar';
+import '../collection.css'
 
 export default class Collection extends React.Component {
 	constructor(props) {
@@ -26,31 +27,20 @@ export default class Collection extends React.Component {
 	}
 
 	render() {
-		const style = {
-			collectionContainer: {
-				marginLeft: '25%',
-				display: 'flex',
-				flexWrap: 'wrap'
-			},
-			piece: {
-				width: '45%',
-			}
-		}
 		return (
 			<div>
 				<Navbar />
 				{this.state.loading 
 					? <p>Loading...</p>
-					: <div style={style.collectionContainer}>
+					: <div className='collection-container'>
 						{this.state.collection.map(piece => {
 						return (
-							<div key={piece.thumbnails[0]} style={style.piece}>				
+							<div key={piece.thumbnails[0]} className='piece'>				
 								<img 
-									style={{height: '90%', width: '90%'}}
+									className='piece-image'
 									src={require(`../../public/pieces-images/${piece.thumbnails[0]}`)}
 									alt='piece'
 								/>
-								<p>{piece.title} -- Price: ${piece.price}</p>
 							</div>
 						)
 						})}						
