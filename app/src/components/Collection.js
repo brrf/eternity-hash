@@ -1,7 +1,8 @@
 import React from 'react';
 import Navbar from './Navbar';
 import {connect} from 'react-redux';
-import receiveCollection from '../actions/collection'
+import receiveCollection from '../actions/collection';
+import {Link} from 'react-router-dom'
 import '../collection.css';
 
 class Collection extends React.Component {
@@ -29,7 +30,6 @@ class Collection extends React.Component {
 	}
 
 	render() {
-		// console.log(Array.isArray(this.props.collection))
 		return (
 			<div>
 				<Navbar />
@@ -38,13 +38,13 @@ class Collection extends React.Component {
 					: <div className='collection-container'>
 						{this.props.collection.map(piece => {
 						return (
-							<div key={piece.thumbnails[0]} className='piece'>				
-								<img 
-									className='piece-image'
-									src={require(`../../public/pieces-images/${piece.thumbnails[0]}`)}
-									alt='piece'
-								/>
-							</div>
+							<Link to={`./${piece._id}`} className='piece' key={piece._id}>			
+									<img 
+										className='piece-image'
+										src={require(`../../public/pieces-images/${piece.thumbnails[0]}`)}
+										alt='piece'		
+									/>
+							</Link>
 						)
 						})}						
 					  </div>	
@@ -55,7 +55,6 @@ class Collection extends React.Component {
 }
 
 function mapStateToProps(state) {
-	// console.log({thestate: state.collection.collection})
 	return {
 		collection: state.collection.collection
 	}

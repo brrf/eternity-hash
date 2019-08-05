@@ -44,6 +44,10 @@ module.exports = function (app) {
     res.json({collection})
   });
 
+  app.get('/collection/:id', (req, res) => {
+    res.json({hookedUp: true});
+  })
+
 	app.route('/addpiece')
     .post(upload.array('images', 5), async (req, res) => {    
       if(req.user.email !== 'admin@gmail.com' || !req.user) {
