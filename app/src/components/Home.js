@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 
 class Home extends React.Component {
 	render() {
-		let fname = this.props.fname ? this.props.fname : null;
 		return (
 			<div>
 		        <Navbar />
@@ -15,9 +14,4 @@ class Home extends React.Component {
 	}
 }
 
-function mapStateToProps(state) {
-	const {fname} = state;
-	return {fname};
-}
-
-export default connect(mapStateToProps)(Home)
+export default connect(null)(Home)

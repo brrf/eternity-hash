@@ -27,7 +27,7 @@ function Navbar (props) {
 }
 
 function mapStateToProps(state) {
-  const {fname} = state;
+  const fname = state.authedUser.authedUser ? state.authedUser.authedUser.fname : null
   return {fname};
 }
 

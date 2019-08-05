@@ -46,7 +46,7 @@ module.exports = function (app) {
 
 	app.route('/addpiece')
     .post(upload.array('images', 5), async (req, res) => {    
-      if(req.user.email !== 'admin@gmail.com') {
+      if(req.user.email !== 'admin@gmail.com' || !req.user) {
         return res.json({res: 'admin only'})
       }
 			if(req.files) {
@@ -71,7 +71,10 @@ module.exports = function (app) {
       }			
 		})
     .delete(async (req, res) => {
-      if(!req.body.id) return res.json({res: 'provide an _id'});
+      if(req.user.email !== 'admin@gmail.com' || !req.user) {
+        return res.json({res: 'admin only'})
+      }
+      if(!req.body.id) return res.json({res: 'Please provide a mongo Object ID'});
       try {
         await Piece.findByIdAndDelete(req.body.id)
         return res.json({res: 'Piece was deleted'})
