@@ -13,7 +13,6 @@ import Other from './Other';
 function App(props) {
   return (
     <Router>
-
       <Switch>
             <Route exact path ='/' component={Home} />
             <Route path ='/authentication/login' component={Login} />
