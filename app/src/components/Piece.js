@@ -32,6 +32,8 @@ class Piece extends React.Component {
 					<Carousel {...this.props}/>
 					<div className='content'>
 						<h2>{piece.title}</h2>
+						<p className='description'>{piece.description}</p>
+						<p className='price'>${piece.price}</p>
 					</div>
 				</div>
 			</div>

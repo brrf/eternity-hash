@@ -2,7 +2,7 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
-	align-items: flex-start;
+	align-items: center;
 	margin: 0 auto;
 }
 
@@ -62,8 +62,27 @@
 }
 
 .content {
-	width: 500px;
-	height: 500px;
-	background-color: crimson;
-	color: white;
+	background-color: white;
+  	box-shadow:0 0 5px 0 rgba(0,0,0,.25) inset, 0 5px 10px 5px rgba(0,0,0,.25);
+  	box-sizing: border-box;
+  	display:inline-block;
+  	margin: 3vh 3vw;
+  	padding: 2px;
+  	border: 0.7vmin ridge #b7950e;
+  	border-bottom-color: #b7950fbd;
+  	border-left-color: #b7950fe0;
+  	border-right-color: #b7950fe0;
+	margin-left: 0;
+  	position:relative;
+  	text-align:center;
+  	width: 18%;
 }
+
+  .description {
+  	font-size: 8px;
+  }
+
+  .price {
+  	font-size: 10px;
+  	font-weight: bold;
+  }
