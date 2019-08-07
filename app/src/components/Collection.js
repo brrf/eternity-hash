@@ -15,6 +15,7 @@ class Collection extends React.Component {
 	}
 
 	componentDidMount() {
+		document.body.style.backgroundImage ="url('/white_wall.png')";
 		fetch('http://localhost:5000/collection', {
 			method: 'GET',
 			mode: 'cors'
@@ -27,6 +28,10 @@ class Collection extends React.Component {
 				})
 
 			})
+	}
+
+	componentWillUnmount() {
+		document.body.style.backgroundImage = '';
 	}
 
 	render() {

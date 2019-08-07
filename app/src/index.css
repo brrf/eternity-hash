@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Italianno&display=swap');
 
 body {
-	background-color: #F4F4F4;
+/*	background-image: url('/white_wall.png');
+*/	background-color: #F4F4F4;
 	padding: 0;
 	margin: 0;
 	font-family: 'Italianno', cursive;
