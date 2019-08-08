@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux'
 import Navbar from './Navbar';
 import Carousel from './Carousel';
+import Checkout from './Checkout';
 
 import '../piece.css'
 
@@ -9,15 +10,6 @@ class Piece extends React.Component {
 	constructor(props) {
 		super(props);		
 	}
-
-	// componentDidMount() {
-	// 	document.body.style.backgroundImage ="url('/white_wall.png')";
-	// }
-
-	// componentWillUnmount() {
-	// 	document.body.style.backgroundImage = '';
-	// }
-
 	render() {
 		// const {piece} = this.props
 		const piece = {
@@ -28,16 +20,16 @@ class Piece extends React.Component {
 		return (
 			<div id='parent-container'>
 				<Navbar />
-				<div className='checkout-container'>
+				<div className='piece-component-container'>
 					<div className='piece-container'>
 						<Carousel {...this.props}/>
 						<div className='content'>
 							<h2>{piece.title}</h2>
 							<p className='description'>{piece.description}</p>
-							<p className='price'>${piece.price}</p>
+							<p className='piece-price'>${piece.price}</p>
 						</div>
 					</div>
-					<div className='checkout'>Checkout Area</div>
+					<Checkout />
 				</div>
 			</div>
 		)

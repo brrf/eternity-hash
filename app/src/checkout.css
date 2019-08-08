@@ -1,0 +1,54 @@
+.checkout-container {
+	height: 100%;
+	background-color: white;
+	width: 30%;
+	padding: 10px;
+}
+
+.price-container {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+	margin-bottom: 10px;	
+}
+
+
+.price-label{
+	font-family: Gotham;
+	font-weight: 500;
+	font-size: 12px;
+	text-transform: uppercase;
+	margin-bottom: 0;
+}
+
+.price {
+	font-family: Gotham;
+	font-size: 40px;
+	font-weight: normal;
+	color: #3e6079;
+	margin: 0;
+}
+
+.currency {
+	font-size: 11px;
+	margin-left: 4px;
+}
+
+.checkout-form {
+
+}
+
+.checkout-input-label {
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.checkout-input {
+	margin-bottom: 7px;
+}
+
+.checkout-educational-text {
+	width: 60%;
+	font-size: 11px;
+}

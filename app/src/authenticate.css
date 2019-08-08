@@ -70,10 +70,12 @@ input {
 }
 
 .submit-button {
-	width: 100px;
+	width: 150px;
 	height: 30px;
 	margin: 8px;
-	background-color: #a57d37;
+	background-color: #3e6079;
+	color: white;
+	font-weight: bold;
 }
 
 .submit-button:hover {
@@ -86,7 +88,7 @@ label, p {
 
 .toggle-link {
 	font-size: 25px;
-	color: #a57d37;
+	color: #3e6079;
 	text-decoration: none;
 	font-family: 'Italianno', cursive;
 	margin-left: 3px;

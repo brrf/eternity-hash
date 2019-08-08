@@ -2,13 +2,13 @@
 	height: 100%;
 }
 
-.checkout-container {
+.piece-component-container {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: flex-start;
 	height: 100%;
-	margin: 0;
+	margin: 65px 0px 0px 0px;
 }
 
 .piece-container {
@@ -18,7 +18,7 @@
 	justify-content: center;
 	align-items: center;
 	margin: 0 auto;
-	flex-grow: 1;
+	width: 70%;
 	height: 100%;
 }
 
@@ -97,17 +97,7 @@
 	font-size: 8px;
 }
 
-.price {
+.piece-price {
 	font-size: 10px;
 	font-weight: bold;
 }
-
-.checkout {
-	background-color: white;
-	flex-grow: 1;
-	height: 100%;
-}
-
-
-
-
