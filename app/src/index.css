@@ -1,16 +1,28 @@
 @import url('https://fonts.googleapis.com/css?family=Italianno&display=swap');
 
+html, body {
+	height: 100%;
+}
+
 body {
-/*	background-image: url('/white_wall.png');
-*/	background-color: #F4F4F4;
+	background-color: #F4F4F4;
 	padding: 0;
 	margin: 0;
 	font-family: 'Italianno', cursive;
 }
 
+.navbar-parent {
+	position: fixed;
+	top: 0;
+	left: 0;
+	margin: auto;
+	width: 100%;
+}
+
 .navbar {
+	background: #262627;
 	display: flex;
-	margin: 20px;
+	padding: 10px 20px;
 	justify-content: space-between;
 }
 
@@ -28,8 +40,8 @@ h1 {
 .navbar-home {
 	font-size: 37px;
 	font-weight: bold;
+	color: white;
 	text-decoration: none;
-	color: #a57d37;
 }
 
 .navbar-item {
@@ -38,14 +50,14 @@ h1 {
 	height: 40px;
 	width: 150px;
 	margin-left: 40px;
-	color: #a57d37;
+	color: white;
 	font-size: 25px;
 	font-weight: bold;
 	text-decoration: none;	
 }
 
 .navbar-item:hover {
-	color: #DCD0D0;
+	color: #3e6079;
 }
 
 .dropdown-items {

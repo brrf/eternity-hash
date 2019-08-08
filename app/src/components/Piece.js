@@ -10,13 +10,13 @@ class Piece extends React.Component {
 		super(props);		
 	}
 
-	componentDidMount() {
-		document.body.style.backgroundImage ="url('/white_wall.png')";
-	}
+	// componentDidMount() {
+	// 	document.body.style.backgroundImage ="url('/white_wall.png')";
+	// }
 
-	componentWillUnmount() {
-		document.body.style.backgroundImage = '';
-	}
+	// componentWillUnmount() {
+	// 	document.body.style.backgroundImage = '';
+	// }
 
 	render() {
 		// const {piece} = this.props
@@ -26,15 +26,18 @@ class Piece extends React.Component {
 			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste deleniti quas aspernatur omnis quis rem voluptatibus vel explicabo ab laudantium quasi deserunt hic ipsa beatae impedit laborum asperiores sequi, alias!'
 		}
 		return (
-			<div>
+			<div id='parent-container'>
 				<Navbar />
-				<div className='piece-container'>
-					<Carousel {...this.props}/>
-					<div className='content'>
-						<h2>{piece.title}</h2>
-						<p className='description'>{piece.description}</p>
-						<p className='price'>${piece.price}</p>
+				<div className='checkout-container'>
+					<div className='piece-container'>
+						<Carousel {...this.props}/>
+						<div className='content'>
+							<h2>{piece.title}</h2>
+							<p className='description'>{piece.description}</p>
+							<p className='price'>${piece.price}</p>
+						</div>
 					</div>
+					<div className='checkout'>Checkout Area</div>
 				</div>
 			</div>
 		)

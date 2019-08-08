@@ -7,6 +7,7 @@ function Navbar (props) {
 	let loginStatus = props.fname ? true : false; 
 	let authenticationLink = loginStatus ? {link: '/authentication/logout', title: 'Logout'} : {link: '/authentication/login', title: 'Login'};
 	return (
+    <div className='navbar-parent'>
 		<div className='navbar'>
           <Link to='/' className='navbar-home'>Eternity Hash</Link>
           <div className='navbar-right'>
@@ -22,6 +23,7 @@ function Navbar (props) {
               </div>
               <Link className='navbar-item' to="/collection"> Browse Collection</Link>
           </div>
+        </div>
         </div>
 	)
 }
