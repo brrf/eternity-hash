@@ -26,7 +26,6 @@ class Piece extends React.Component {
 						<div className='content'>
 							<h2>{piece.title}</h2>
 							<p className='description'>{piece.description}</p>
-							<p className='piece-price'>${piece.price}</p>
 						</div>
 					</div>
 					<Checkout />
@@ -38,13 +37,13 @@ class Piece extends React.Component {
 
 function mapStateToProps({collection}, {match}) {
 	let piece;
-	if (!collection.collection) return {state: null}
-	collection.collection.forEach(currentPiece => {
-		if (currentPiece._id === match.params.id) {
-			piece = currentPiece;
-			return;
-		} 
-	})
+	// if (!collection.collection) return {state: null}
+	// collection.collection.forEach(currentPiece => {
+	// 	if (currentPiece._id === match.params.id) {
+	// 		piece = currentPiece;
+	// 		return;
+	// 	} 
+	// })
 	return {piece};
 }
 

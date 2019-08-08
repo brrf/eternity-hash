@@ -18,7 +18,7 @@
 	justify-content: center;
 	align-items: center;
 	margin: 0 auto;
-	width: 70%;
+	width: 75%;
 	height: 100%;
 }
 
@@ -95,9 +95,4 @@
 
 .description {
 	font-size: 8px;
-}
-
-.piece-price {
-	font-size: 10px;
-	font-weight: bold;
 }

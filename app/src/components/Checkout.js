@@ -3,11 +3,58 @@ import {connect} from 'react-redux'
 import Navbar from './Navbar';
 import Carousel from './Carousel';
 
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 import '../checkout.css'
 
 class Checkout extends React.Component {
 	constructor(props) {
 		super(props);		
+
+		this.state = {
+			formData: {
+				date: new Date(),
+				message: ''
+			}
+		}
+		this.changeDate = this.changeDate.bind(this);
+		this.changeMessage = this.changeMessage.bind(this);
+		this.submitForm = this.submitForm.bind(this);
+	}
+
+	submitForm = (e) => {
+		e.preventDefault();
+		fetch('http://localhost:5000/cart', {
+			method: 'POST',
+			body: JSON.stringify(this.state.formData),
+			headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "http://localhost:5000"},
+			mode: 'cors',
+			credentials: 'include'
+		})
+		.then(res => res.json())
+		.then(resObject => {
+			this.setState({
+				...this.state.formData,
+				message: 'done'
+			})
+		})
+	}
+
+	changeDate = date => {
+		this.setState({
+			...this.state.formData,
+				date
+			})
+		console.log(date)
+	}
+
+	changeMessage = e => {
+		console.log(e.target.value)
+		this.setState({
+			...this.state.formData,
+			message: e.target.value
+		})
 	}
 	render() {
 		// const {piece} = this.props
@@ -26,11 +73,14 @@ class Checkout extends React.Component {
 				<form onSubmit={this.submitForm} className='checkout-form'>
 					<label className='checkout-input-label'>Date of Event:</label>
 					<br />
-					<input className='checkout-input' type='date' />
+				    <DatePicker
+				        selected={this.state.date}
+				        onChange={this.changeDate}
+				    />
 					<br />
 					<label className='checkout-input-label'>Please provide a special message:</label>
 					<br />
-					<input className='checkout-input' type='textarea' />
+					<input className='checkout-input' type='text' value={this.state.message} onChange={this.changeMessage}/>
 					<br />
 					<input className='submit-button' type='submit' value='Purchase this Piece' />
 				</form>

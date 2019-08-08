@@ -12,6 +12,7 @@ const session = require('express-session');
 
 const authentication = require('./routes/authentication.js');
 const pieces = require('./routes/pieces.js');
+const checkout = require('./routes/checkout.js');
 
 require('dotenv').config();
 
@@ -65,6 +66,7 @@ app.get('/', (req, res)=> {
 //Routes
 authentication(app);
 pieces(app);
+checkout(app);
 
 //404 Not Found Middleware
 app.use(function(req, res, next) {
