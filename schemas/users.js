@@ -19,6 +19,9 @@ const userSchema = new mongoose.Schema({
 	email: {
 		required: true,
 		type: String
+	},
+	cart: {
+		type: [String]
 	}
 });
 

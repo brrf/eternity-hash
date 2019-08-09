@@ -1,5 +1,5 @@
 const UnregisteredCart = require('../schemas/unregistered-cart');
-const RegisteredCart = require('../schemas/registered-cart'); 
+const User = require('../schemas/users');
 
 
 module.exports = function (app) {
@@ -8,11 +8,9 @@ module.exports = function (app) {
 		if (!req.body.date || !req.body.message) {
 			return res.json({error: 'Please provide a date and personalized message'})
 		} else if (req.user) {
-			console.log('here')
 			try {
-				await RegisteredCart.create({
-				piece_id: req.body.tempId,
-				user_id: req.user._id
+				await User.findByIdAndUpdate(req.user._id, {
+				$push: {cart: req.body.tempId}
 				})
 				return res.json({addedToCart: true, error: false})
 			} catch {
