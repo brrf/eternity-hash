@@ -1,4 +1,17 @@
 const mongoose = require('mongoose');
+
+const cartSubschema = new mongoose.Schema({
+	pieceId: {
+		type: String
+	},
+	message: {
+		type: String
+	},
+	date: {
+		type: Date
+	}
+});
+
 const userSchema = new mongoose.Schema({
 	username: {
 		required: true,
@@ -21,7 +34,7 @@ const userSchema = new mongoose.Schema({
 		type: String
 	},
 	cart: {
-		type: [String]
+		type: [cartSubschema]
 	}
 });
 

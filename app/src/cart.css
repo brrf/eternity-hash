@@ -1,4 +1,4 @@
-.checkout-container {
+.cart-container {
 	height: 100%;
 	background-color: white;
 	width: 25%;
@@ -35,20 +35,20 @@
 	margin-left: 4px;
 }
 
-.checkout-form {
+.cart-form {
 
 }
 
-.checkout-input-label {
+.cart-input-label {
 	text-transform: uppercase;
 	font-weight: bold;
 }
 
-.checkout-input {
+.cart-input {
 	margin-bottom: 7px;
 }
 
-.checkout-educational-text {
+.cart-educational-text {
 	width: 60%;
 	font-size: 11px;
 }

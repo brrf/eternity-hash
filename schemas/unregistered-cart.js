@@ -1,13 +1,21 @@
 const mongoose = require('mongoose');
 
 const unregisteredCartSchema = new mongoose.Schema({
-	piece_id: {
+	pieceId: {
 		required: true,
 		type: String
 	},
 	ip: {
 		required: true,
 		type: String
+	},
+	message: {
+		required: true,
+		type: String
+	},
+	date: {
+		required: true,
+		type: Date
 	}
 });
 

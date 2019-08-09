@@ -1,12 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
-
+import addToCart from '../actions/checkout'
 import DatePicker from "react-datepicker";
+
 import "react-datepicker/dist/react-datepicker.css";
+import '../cart.css'
 
-import '../checkout.css'
-
-export default class Checkout extends React.Component {
+export default class Cart extends React.Component {
 	constructor(props) {
 		super(props);		
 
@@ -38,6 +38,7 @@ export default class Checkout extends React.Component {
 			if (resObject.error) {
 				console.log(resObject.error)
 			} else {
+				dispatch(addToCart(resObject.item))
 				this.setState({
 				redirect: true
 				})
@@ -71,30 +72,30 @@ export default class Checkout extends React.Component {
 			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste deleniti quas aspernatur omnis quis rem voluptatibus vel explicabo ab laudantium quasi deserunt hic ipsa beatae impedit laborum asperiores sequi, alias!'
 		}
 		return (
-			<div className='checkout-container'>
+			<div className='cart-container'>
 				<div className='price-container'>
 					<p className='price-label'>PRICE</p>
 					<p className='price'>${piece.price}<span className='currency'>USD</span></p>
 				</div>
 				<hr />
-				<form onSubmit={this.submitForm} className='checkout-form'>
-					<label className='checkout-input-label'>Date of Event:</label>
+				<form onSubmit={this.submitForm} className='cart-form'>
+					<label className='cart-input-label'>Date of Event:</label>
 					<br />
 				    <DatePicker
 				        selected={this.state.formData.date}
 				        onChange={this.changeDate}
 				    />
 					<br />
-					<label className='checkout-input-label'>Please provide a special message:</label>
+					<label className='cart-input-label'>Please provide a special message:</label>
 					<br />
-					<input className='checkout-input' type='text' value={this.state.formData.message} onChange={this.changeMessage}/>
+					<input className='cart-input' type='text' value={this.state.formData.message} onChange={this.changeMessage}/>
 					<br />
 					<input className='submit-button' type='submit' value='Purchase this Piece' />
 				</form>
 				<hr/>
-				<p className='checkout-educational-text'>On the day of your event, we will store a copy of your message on the blockchain. This message will be stored for eternity!</p>
-				<p className='checkout-educational-text'>The Bitcoin blockchain will provide a "hash", which can be used to find this message whenever you like. The hash is unique. Another exact hash will never be produced again.</p>
-				<p className='checkout-educational-text'>The unique nature of this hash will be infused into your Eternity piece. This will ensure that your Eternity piece will also be one-of-a-kind</p> 
+				<p className='cart-educational-text'>On the day of your event, we will store a copy of your message on the blockchain. This message will be stored for eternity!</p>
+				<p className='cart-educational-text'>The Bitcoin blockchain will provide a "hash", which can be used to find this message whenever you like. The hash is unique. Another exact hash will never be produced again.</p>
+				<p className='cart-educational-text'>The unique nature of this hash will be infused into your Eternity piece. This will ensure that your Eternity piece will also be one-of-a-kind</p> 
 
 			</div>
 		)
@@ -113,4 +114,4 @@ export default class Checkout extends React.Component {
 // 	return {piece};
 // }
 
-// export default connect(null)(Checkout);
+// export default connect(null)(Cart);
