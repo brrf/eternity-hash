@@ -2,8 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 
-import Navbar from './Navbar';
-
 import '../piece.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faArrowRight, faArrowLeft, faCircle} from '@fortawesome/free-solid-svg-icons';

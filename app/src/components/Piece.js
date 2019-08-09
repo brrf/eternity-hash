@@ -28,7 +28,7 @@ class Piece extends React.Component {
 							<p className='description'>{piece.description}</p>
 						</div>
 					</div>
-					<Checkout />
+					<Checkout {...this.props}/>
 				</div>
 			</div>
 		)

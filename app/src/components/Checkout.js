@@ -1,22 +1,23 @@
 import React from 'react';
-import {connect} from 'react-redux'
-import Navbar from './Navbar';
-import Carousel from './Carousel';
+import {connect} from 'react-redux';
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import '../checkout.css'
 
-class Checkout extends React.Component {
+export default class Checkout extends React.Component {
 	constructor(props) {
 		super(props);		
 
 		this.state = {
 			formData: {
 				date: new Date(),
-				message: ''
-			}
+				message: '',
+				tempId: '5d46fcf1ef9ec16cf46c7a87'
+			},
+			redirect: false,
+
 		}
 		this.changeDate = this.changeDate.bind(this);
 		this.changeMessage = this.changeMessage.bind(this);
@@ -34,28 +35,34 @@ class Checkout extends React.Component {
 		})
 		.then(res => res.json())
 		.then(resObject => {
-			this.setState({
-				...this.state.formData,
-				message: 'done'
-			})
+			if (resObject.error) {
+				console.log(resObject.error)
+			} else {
+				this.setState({
+				redirect: true
+				})
+				console.log('should have been added to db')
+			}
 		})
 	}
 
 	changeDate = date => {
 		this.setState({
-			...this.state.formData,
+			formData: {
+				...this.state.formData,
 				date
-			})
-		console.log(date)
-	}
+			}		
+		});
+	};
 
 	changeMessage = e => {
-		console.log(e.target.value)
 		this.setState({
-			...this.state.formData,
-			message: e.target.value
-		})
-	}
+			formData: {
+				...this.state.formData,
+				message: e.target.value
+			}			
+		});
+	};
 	render() {
 		// const {piece} = this.props
 		const piece = {
@@ -74,13 +81,13 @@ class Checkout extends React.Component {
 					<label className='checkout-input-label'>Date of Event:</label>
 					<br />
 				    <DatePicker
-				        selected={this.state.date}
+				        selected={this.state.formData.date}
 				        onChange={this.changeDate}
 				    />
 					<br />
 					<label className='checkout-input-label'>Please provide a special message:</label>
 					<br />
-					<input className='checkout-input' type='text' value={this.state.message} onChange={this.changeMessage}/>
+					<input className='checkout-input' type='text' value={this.state.formData.message} onChange={this.changeMessage}/>
 					<br />
 					<input className='submit-button' type='submit' value='Purchase this Piece' />
 				</form>
@@ -94,16 +101,16 @@ class Checkout extends React.Component {
 	}
 }
 
-function mapStateToProps({collection}, {match}) {
-	let piece;
-	// if (!collection.collection) return {state: null}
-	// collection.collection.forEach(currentPiece => {
-	// 	if (currentPiece._id === match.params.id) {
-	// 		piece = currentPiece;
-	// 		return;
-	// 	} 
-	// })
-	return {piece};
-}
+// function mapStateToProps({collection}, {match}) {
+// 	let piece;
+// 	if (!collection.collection) return {state: null}
+// 	collection.collection.forEach(currentPiece => {
+// 		if (currentPiece._id === match.params.id) {
+// 			piece = currentPiece;
+// 			return;
+// 		} 
+// 	})
+// 	return {piece};
+// }
 
-export default connect(mapStateToProps)(Checkout);
+// export default connect(null)(Checkout);

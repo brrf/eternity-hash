@@ -6,7 +6,7 @@ const unregisteredCartSchema = new mongoose.Schema({
 		type: String
 	},
 	ip: {
-		required: true
+		required: true,
 		type: String
 	}
 });
