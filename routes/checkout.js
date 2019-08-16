@@ -29,9 +29,7 @@ module.exports = function (app) {
 				ip: req.ip
 			}
 			try {
-				await UnregisteredCart.create({
-					item
-				})
+				await UnregisteredCart.create(item);
 				return res.json({item, error: false})
 			} catch {
 				return res.json({error: 'error saving item to unregistered cart'})

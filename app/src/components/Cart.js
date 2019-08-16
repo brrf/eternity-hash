@@ -6,7 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import '../cart.css'
 
-export default class Cart extends React.Component {
+class Cart extends React.Component {
 	constructor(props) {
 		super(props);		
 
@@ -38,7 +38,7 @@ export default class Cart extends React.Component {
 			if (resObject.error) {
 				console.log(resObject.error)
 			} else {
-				dispatch(addToCart(resObject.item))
+				this.props.dispatch(addToCart(resObject.item))
 				this.setState({
 				redirect: true
 				})
@@ -65,7 +65,7 @@ export default class Cart extends React.Component {
 		});
 	};
 	render() {
-		// const {piece} = this.props
+		// const {dispatch} = this.props
 		const piece = {
 			title: 'Woman by the lake',
 			price: 12000,
@@ -114,4 +114,4 @@ export default class Cart extends React.Component {
 // 	return {piece};
 // }
 
-// export default connect(null)(Cart);
+export default connect()(Cart);
