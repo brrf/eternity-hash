@@ -38,14 +38,14 @@ module.exports = function (app) {
 				errors.push('Passwords do not match')
 			};
 
-			user = await User.findOne({username});
+			let user = await User.findOne({username});
 			if (user) {
 				errors.push('Username is already registered. Try logging in!')
 			} 
 			if (errors.length > 0) {
 				res.json({errors})
 			} else {
-				await bcrypt.genSalt(saltRounds, function(err, salt) {
+				bcrypt.genSalt(saltRounds, function(err, salt) {
     				bcrypt.hash(password, salt, async function(err, hash) {
 	    				let unregisteredCart = await UnregisteredCart.findOne({ip: req.ip});
 	    				if (unregisteredCart) {
