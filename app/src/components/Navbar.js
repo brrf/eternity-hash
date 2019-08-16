@@ -1,6 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faShoppingCart} from '@fortawesome/free-solid-svg-icons';
 
 function Navbar (props) {
 	let fname = props.fname ? (props.fname.charAt(0).toUpperCase() + props.fname.slice(1)) : null;
@@ -22,6 +24,11 @@ function Navbar (props) {
               	</div>
               </div>
               <Link className='navbar-item' to="/collection"> Browse Collection</Link>
+              <FontAwesomeIcon icon={faShoppingCart} size='1x' className='navbar-item cart'/>
+                {props.cartItem
+                  ? <span className='lbl-cart-count' />
+                  : null
+                }
           </div>
         </div>
         </div>
@@ -30,7 +37,10 @@ function Navbar (props) {
 
 function mapStateToProps(state) {
   const fname = state.authedUser.authedUser ? state.authedUser.authedUser.fname : null
-  return {fname};
+  return {
+    fname,
+    cartItem: state.checkout.unregisteredCart
+  };
 }
 
 export default connect(mapStateToProps)(Navbar)
