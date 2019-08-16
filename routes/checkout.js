@@ -26,14 +26,22 @@ module.exports = function (app) {
 				pieceId: req.body.tempId,
 				message: req.body.message,
 				date: req.body.date,
-				ip: req.ip
+			}			
+			let unregisteredCart = await UnregisteredCart.findOneAndUpdate({ip: req.ip}, {
+					$push: {cart: item}
+				});
+			if (!unregisteredCart) {
+				try {
+					await UnregisteredCart.create({
+						ip: req.ip,
+						cart: [item]
+					})
+				} catch {
+					return res.json({error: 'error saving item to unregistered cart'});
+				}
 			}
-			try {
-				await UnregisteredCart.create(item);
-				return res.json({item, error: false})
-			} catch {
-				return res.json({error: 'error saving item to unregistered cart'})
-			}
+			return res.json({item, error: false})			
+				
 		}
 		else return res.json({error: 'An unknown error occurred'})
 	})
