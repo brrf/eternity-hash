@@ -34,7 +34,8 @@ const userSchema = new mongoose.Schema({
 		type: String
 	},
 	cart: {
-		type: [cartSubschema]
+		type: [cartSubschema],
+		default: []
 	}
 });
 

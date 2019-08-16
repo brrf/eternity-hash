@@ -1,5 +1,6 @@
 const path = require('path');
 const User = require('../schemas/users');
+const UnregisteredCart = require('../schemas/unregistered-cart');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 
@@ -26,6 +27,7 @@ module.exports = function (app) {
 
 	app.route('/authentication/register')
 		.post( async (req, res) => {
+			let cart = [];
 			let errors = [];
 			const saltRounds = 10;
 			const {username, password, password2, fname, lname, email} = req.body;
@@ -36,31 +38,38 @@ module.exports = function (app) {
 				errors.push('Passwords do not match')
 			};
 
-			let user = await User.findOne({username});
+			user = await User.findOne({username});
 			if (user) {
 				errors.push('Username is already registered. Try logging in!')
 			} 
 			if (errors.length > 0) {
 				res.json({errors})
 			} else {
-				bcrypt.genSalt(saltRounds, function(err, salt) {
+				await bcrypt.genSalt(saltRounds, function(err, salt) {
     				bcrypt.hash(password, salt, async function(err, hash) {
-    					try {
-							await User.create({
-								username,
-								password: hash,
-								fname,
-								lname,
-								email
-							})
-							res.json({errors: false, success: 'You are registered'})
-						} catch (err) {
-							console.error(err);
-							res.send('An error occurred!')
-						}
+	    				let unregisteredCart = await UnregisteredCart.findOne({ip: req.ip});
+	    				if (unregisteredCart) {
+	    					cart = unregisteredCart.cart;
+	    					await UnregisteredCart.findByIdAndDelete(unregisteredCart._id);
+	    				}					
+						await User.create({
+							username,
+							password: hash,
+							fname,
+							lname,
+							email,
+							cart
+						}, (err, user) => {
+							if (err) {
+								console.error(err);
+								res.send('an error occurred');
+							} else {
+								return res.json({errors: false})
+							}
+							}
+						);
 		    		});
-				});
-					
+				});				
 			}			
 		})
 }
