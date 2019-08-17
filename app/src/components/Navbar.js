@@ -23,8 +23,10 @@ function Navbar (props) {
               	</div>
               	</div>
               </div>
-              <Link className='navbar-item' to="/collection"> Browse Collection</Link>
-              <FontAwesomeIcon icon={faShoppingCart} size='1x' className='navbar-item cart'/>
+              <Link className='navbar-item' to="/collection">Browse Collection</Link>
+              <Link to='/cart'>
+                <FontAwesomeIcon icon={faShoppingCart} size='1x' className='navbar-item cart'/>
+              </Link>
                 {props.cartItem
                   ? <span className='lbl-cart-count' />
                   : null

@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux'
 import Navbar from './Navbar';
 import Carousel from './Carousel';
-import Cart from './Cart';
+import AddToCart from './AddToCart';
 
 import '../piece.css'
 
@@ -28,7 +28,7 @@ class Piece extends React.Component {
 							<p className='description'>{piece.description}</p>
 						</div>
 					</div>
-					<Cart {...this.props}/>
+					<AddToCart {...this.props}/>
 				</div>
 			</div>
 		)

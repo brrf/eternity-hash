@@ -8,6 +8,7 @@ import Register from './Register';
 import Collection from './Collection';
 import Piece from './Piece';
 import AddPiece from './AddPiece';
+import Cart from './Cart';
 import Other from './Other';
 
 function App(props) {
@@ -21,6 +22,7 @@ function App(props) {
             <Route exact path = '/collection' component={Collection} />
             <Route path = '/collection/:id' component={Piece} />
             <Route path = '/addpiece' component={AddPiece} />
+            <Route path = '/cart' component={Cart} />
             <Route path= '/comingsoon' component={Other} />
       </Switch>
     </Router>
