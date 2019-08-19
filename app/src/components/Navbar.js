@@ -25,7 +25,7 @@ function Navbar (props) {
               </div>
               <Link className='navbar-item' to="/collection">Browse Collection</Link>
               <Link to='/cart'>
-                <FontAwesomeIcon icon={faShoppingCart} size='1x' className='navbar-item cart'/>
+                <FontAwesomeIcon icon={faShoppingCart} size='1x' className='navbar-item cart-svg'/>
               </Link>
                 {props.cartItem
                   ? <span className='lbl-cart-count' />

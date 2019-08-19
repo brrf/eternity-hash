@@ -1,9 +1,14 @@
-export default function checkout (state = {unregisteredCart: false}, action) {
+export default function checkout (state = [], action) {
 	switch (action.type) {
 		case 'ADD_TO_CART':
 			return {
 				...state,
-				unregisteredCart: true
+				cart: [action.item]
+			}
+		case 'RECEIVE_CART':
+			return {
+				...state,
+				cart: action.cart
 			}
 		default: return state
 	}

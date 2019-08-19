@@ -7,16 +7,12 @@ import AddToCart from './AddToCart';
 import '../piece.css'
 
 class Piece extends React.Component {
-	constructor(props) {
-		super(props);		
-	}
+	// constructor(props) {
+	// 	super(props);		
+	// }
 	render() {
-		// const {piece} = this.props
-		const piece = {
-			title: 'Woman by the lake',
-			price: 12000,
-			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste deleniti quas aspernatur omnis quis rem voluptatibus vel explicabo ab laudantium quasi deserunt hic ipsa beatae impedit laborum asperiores sequi, alias!'
-		}
+		const {piece} = this.props
+		
 		return (
 			<div id='parent-container'>
 				<Navbar />
@@ -37,13 +33,13 @@ class Piece extends React.Component {
 
 function mapStateToProps({collection}, {match}) {
 	let piece;
-	// if (!collection.collection) return {state: null}
-	// collection.collection.forEach(currentPiece => {
-	// 	if (currentPiece._id === match.params.id) {
-	// 		piece = currentPiece;
-	// 		return;
-	// 	} 
-	// })
+	if (!collection.collection) return {state: null}
+	collection.collection.forEach(currentPiece => {
+		if (currentPiece._id === match.params.id) {
+			piece = currentPiece;
+			return;
+		} 
+	})
 	return {piece};
 }
 

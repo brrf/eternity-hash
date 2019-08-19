@@ -1,5 +1,6 @@
 const UnregisteredCart = require('../schemas/unregistered-cart');
 const User = require('../schemas/users');
+const Piece = require('../schemas/pieces')
 
 
 module.exports = function (app) {
@@ -8,9 +9,16 @@ module.exports = function (app) {
 		.get(async (req, res) => {
 			if (!req.user) {
 				try {
-					const cart = await UnregisteredCart.findOne({ip: req.ip});
-					if (!cart) return res.json({cart: null})
+					let cart = [];
+					const cartObj = await UnregisteredCart.findOne({ip: req.ip});
+					if (!cartObj) return res.json({cart: null})
+					else {
+						await Promise.all(cartObj.cart.map( async itemRef => {
+							const item = await Piece.findById(itemRef.pieceId);
+							cart.push(item);
+						}));
 					return res.json({cart})
+					}
 				} catch {
 					console.log('error finding unregistered cart')
 				}
@@ -18,7 +26,7 @@ module.exports = function (app) {
 				try {
 					const cart = await User.findOne({id: req.user._id});
 					if (!cart) return res.json({cart: null})
-					return res.json({cart})
+					return res.json({cart: cart.cart})
 				} catch {
 					console.log('error finding registered cart')
 				}
@@ -29,7 +37,6 @@ module.exports = function (app) {
 				return res.json({error: 'Please provide a date and personalized message'})
 			} else if (req.user) {
 				const item = {
-					pieceId: req.body.tempId,
 					message: req.body.message,
 					date: req.body.date
 				}
@@ -43,7 +50,6 @@ module.exports = function (app) {
 				}			
 			} else if (req.ip) {
 				const item = {
-					pieceId: req.body.tempId,
 					message: req.body.message,
 					date: req.body.date,
 				}			

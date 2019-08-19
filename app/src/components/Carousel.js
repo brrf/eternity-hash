@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
+// import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 
 import '../piece.css';
@@ -19,7 +19,7 @@ export default class Carousel extends React.Component {
 	}
 
 	decrementImage = () => {
-		let value;
+		// let value;
 		// if(this.state.currentImage === 0) {
 		// 	value = this.props.piece.thumbnails.length - 1
 		// } else value = this.state.currentImage - 1
@@ -43,8 +43,8 @@ export default class Carousel extends React.Component {
 		if (this.props.state === null) {
 			return <Redirect to='/collection' />
 		}
-		// const thumbnails = this.props.piece.thumbnails
-		const thumbnails = ['images-1565129295508.jpeg', 'images-1565129295507.jpeg']
+		const thumbnails = this.props.piece.thumbnails
+		//const thumbnails = ['images-1565129295508.jpeg', 'images-1565129295507.jpeg']
 
 		const hidden = thumbnails.length === 1 ? 'hidden' : null;
 
@@ -58,7 +58,7 @@ export default class Carousel extends React.Component {
 						<img
 							className='current-image' 
 							src={require(`../../public/pieces-images/${thumbnails[this.state.currentImage]}`)}
-							alt='current-image'		
+							alt='current'		
 						/>
 						<div className='image-indicators'>
 							{thumbnails.map( (circle, index) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom'
-import addToCart from '../actions/checkout'
+import {addToCart} from '../actions/checkout'
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -26,6 +26,7 @@ class AddToCart extends React.Component {
 	}
 
 	submitForm = (e) => {
+		//Add item to user.cart or a cart for the ip
 		e.preventDefault();
 		fetch('http://localhost:5000/cart', {
 			method: 'POST',
@@ -39,11 +40,16 @@ class AddToCart extends React.Component {
 			if (resObject.error) {
 				console.log(resObject.error)
 			} else {
-				this.props.dispatch(addToCart(resObject.item))
+				//add item to redux cart(piece, message, date)
+				const cartItem = {
+					piece: this.props.piece,
+					message: resObject.item.message,
+					date: resObject.item.date
+				}
+				this.props.dispatch(addToCart(cartItem))
 				this.setState({
 				redirect: true
 				})
-				console.log('should have been added to db')
 			}
 		})
 	}
@@ -69,14 +75,9 @@ class AddToCart extends React.Component {
 	render() {
 		if (this.state.redirect) {
 			return <Redirect to={{pathname: '/cart'}} />
-		}
-			
-		// const {dispatch} = this.props
-		const piece = {
-			title: 'Woman by the lake',
-			price: 12000,
-			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste deleniti quas aspernatur omnis quis rem voluptatibus vel explicabo ab laudantium quasi deserunt hic ipsa beatae impedit laborum asperiores sequi, alias!'
-		}
+		}			
+		const {piece} = this.props;
+
 		return (
 			<div className='cart-container'>
 				<div className='price-container'>
@@ -107,17 +108,5 @@ class AddToCart extends React.Component {
 		)
 	}
 }
-
-// function mapStateToProps({collection}, {match}) {
-// 	let piece;
-// 	if (!collection.collection) return {state: null}
-// 	collection.collection.forEach(currentPiece => {
-// 		if (currentPiece._id === match.params.id) {
-// 			piece = currentPiece;
-// 			return;
-// 		} 
-// 	})
-// 	return {piece};
-// }
 
 export default connect()(AddToCart);

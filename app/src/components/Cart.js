@@ -1,42 +1,50 @@
 import React from 'react';
+import Navbar from './Navbar';
+import {connect} from 'react-redux';
 
-export default class Cart extends React.Component {
-	constructor(props) {
-		super(props);
+import '../cart.css'
 
-		this.state = {
-			loading: true,
-			cart: null
-		}
-	}
+class Cart extends React.Component {
+	// constructor(props) {
+	// 	super(props);
 
-	componentDidMount () {
-		fetch('http://localhost:5000/cart', {
-			method: 'GET',
-			//headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "http://localhost:5000"},
-			mode: 'cors',
-			credentials: 'include'
-		})
-		.then(res => res.json())
-		.then(resObject => {
-			if (resObject.cart === null) {
-				return;
-			} else {
-				this.setState({
-					loading: false,
-					cart: resObject.cart
-				})
-			}
-		})
-	}
+	// 	// this.state = {
+	// 	// 	loading: true,
+	// 	// 	cart: null
+	// 	// }
+	// }
 
 	render() {
-		console.log(this.state.cart)
-		if (this.state.loading) {
-			return <div>Loading</div>
-		}
+	console.log(this.props.cart)
 		return (
-			<div>Your Cart</div>
+			<div>
+				<Navbar />
+				<div className='cart-component-container'>
+					<div className='cart container'>
+						{this.props.cart
+							? this.props.cart.map( item => {
+								if (item === null) return;
+								return (
+									<div className='cart-piece'>
+										<img 
+											className='piece-image'
+											src={require(`../../public/pieces-images/${item.thumbnails[0]}`)}
+											alt='piece'		
+										/>
+									</div>)
+								})
+							: <p>Cart Empty</p>
+						}
+					</div>
+					<div className='checkout-details container'>Here Too</div>
+				</div>
+			</div>
 		)
 	}
 }
+
+function mapStateToProps(state) {
+	return {cart: state.checkout.cart};
+}
+
+export default connect(mapStateToProps)(Cart);
