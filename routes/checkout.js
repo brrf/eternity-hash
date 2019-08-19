@@ -24,9 +24,16 @@ module.exports = function (app) {
 				}
 			} else {
 				try {
-					const cart = await User.findOne({id: req.user._id});
-					if (!cart) return res.json({cart: null})
-					return res.json({cart: cart.cart})
+					let cart = [];
+					if (req.user.cart === []) return res.json({cart: null});
+					else {
+						await Promise.all(req.user.cart.map( async itemRef => {
+							const item = await Piece.findById(itemRef.pieceId);
+							cart.push(item);
+						}));
+						console.log({cart})
+					return res.json({cart})
+					}
 				} catch {
 					console.log('error finding registered cart')
 				}

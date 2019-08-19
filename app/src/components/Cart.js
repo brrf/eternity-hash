@@ -15,17 +15,18 @@ class Cart extends React.Component {
 	// }
 
 	render() {
-	console.log(this.props.cart)
+	console.log({cart: this.props.cart})
 		return (
 			<div>
 				<Navbar />
 				<div className='cart-component-container'>
 					<div className='cart container'>
 						{this.props.cart
-							? this.props.cart.map( item => {
-								if (item === null) return;
+							? this.props.cart.map( (item, index) => {
+								if (item === null) return null;
 								return (
-									<div className='cart-piece'>
+									<div className='cart-piece'
+										 key={index} >
 										<img 
 											className='piece-image'
 											src={require(`../../public/pieces-images/${item.thumbnails[0]}`)}
