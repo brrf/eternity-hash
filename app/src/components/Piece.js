@@ -12,7 +12,7 @@ class Piece extends React.Component {
 	// }
 	render() {
 		const {piece} = this.props
-		
+
 		return (
 			<div id='parent-container'>
 				<Navbar />

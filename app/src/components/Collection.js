@@ -43,7 +43,7 @@ class Collection extends React.Component {
 					: <div className='collection-container'>
 						{this.props.collection.map(piece => {
 						return (
-							<Link to={`/collection/${piece._id}`} className='piece' key={piece._id}>			
+							<Link to={`/collection/${piece._id}`} pieceId={piece._id} className='piece' key={piece._id}>			
 									<img 
 										className='piece-image'
 										src={require(`../../public/pieces-images/${piece.thumbnails[0]}`)}

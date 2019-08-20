@@ -15,7 +15,7 @@ class AddToCart extends React.Component {
 			formData: {
 				date: new Date(),
 				message: '',
-				tempId: '5d46fcf1ef9ec16cf46c7a87'
+				pieceId: this.props.piece._id
 			},
 			redirect: false,
 
@@ -26,6 +26,7 @@ class AddToCart extends React.Component {
 	}
 
 	submitForm = (e) => {
+
 		//Add item to user.cart or a cart for the ip
 		e.preventDefault();
 		fetch('http://localhost:5000/cart', {
@@ -36,20 +37,11 @@ class AddToCart extends React.Component {
 			credentials: 'include'
 		})
 		.then(res => res.json())
-		.then(resObject => {
+		.then(async resObject => {
 			if (resObject.error) {
 				console.log(resObject.error)
 			} else {
-				//add item to redux cart(piece, message, date)
-				const cartItem = {
-					piece: this.props.piece,
-					message: resObject.item.message,
-					date: resObject.item.date
-				}
-				this.props.dispatch(addToCart(cartItem))
-				this.setState({
-				redirect: true
-				})
+				
 			}
 		})
 	}

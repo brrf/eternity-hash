@@ -5,13 +5,18 @@ const Piece = require('../schemas/pieces')
 
 module.exports = function (app) {
 
+	app.get('/hydratecartitem/:itemId', async (req, res) => {
+		const item = await Piece.findById(req.params.itemId);
+		res.json({item})
+	});
+
 	app.route('/cart')
 		.get(async (req, res) => {
 			if (!req.user) {
 				try {
 					let cart = [];
 					const cartObj = await UnregisteredCart.findOne({ip: req.ip});
-					if (!cartObj) return res.json({cart: null})
+					if (!cartObj) return res.json({cart: []})
 					else {
 						await Promise.all(cartObj.cart.map( async itemRef => {
 							const item = await Piece.findById(itemRef.pieceId);
@@ -31,7 +36,6 @@ module.exports = function (app) {
 							const item = await Piece.findById(itemRef.pieceId);
 							cart.push(item);
 						}));
-						console.log({cart})
 					return res.json({cart})
 					}
 				} catch {
@@ -45,7 +49,8 @@ module.exports = function (app) {
 			} else if (req.user) {
 				const item = {
 					message: req.body.message,
-					date: req.body.date
+					date: req.body.date,
+					pieceId: req.body.pieceId
 				}
 				try {
 					await User.findByIdAndUpdate(req.user._id, {
@@ -59,7 +64,8 @@ module.exports = function (app) {
 				const item = {
 					message: req.body.message,
 					date: req.body.date,
-				}			
+					pieceId: req.body.pieceId
+				}		
 				let unregisteredCart = await UnregisteredCart.findOneAndUpdate({ip: req.ip}, {
 						$push: {cart: item}
 					});

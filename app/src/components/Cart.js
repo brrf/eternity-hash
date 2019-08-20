@@ -15,7 +15,6 @@ class Cart extends React.Component {
 	// }
 
 	render() {
-	console.log({cart: this.props.cart})
 		return (
 			<div>
 				<Navbar />
@@ -23,7 +22,7 @@ class Cart extends React.Component {
 					<div className='cart container'>
 						{this.props.cart
 							? this.props.cart.map( (item, index) => {
-								if (item === null) return null;
+								if (item === null) return;
 								return (
 									<div className='cart-piece'
 										 key={index} >
@@ -45,6 +44,7 @@ class Cart extends React.Component {
 }
 
 function mapStateToProps(state) {
+	console.log({availableState: state.checkout.cart});
 	return {cart: state.checkout.cart};
 }
 

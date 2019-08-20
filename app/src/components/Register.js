@@ -120,7 +120,7 @@ export default class Register extends React.Component {
        		return <Redirect to={{pathname: '/authentication/login', state: {message: 'You are registered!'}}}/>;
      	}
 		return (
-			<div className='container'>
+			<div className='account-container'>
 			<Warning errors={this.state.errors}/>
 			<div className='form-container'>
 				<div className='header'>

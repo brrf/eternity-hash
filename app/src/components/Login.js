@@ -72,7 +72,7 @@ class Login extends React.Component {
      	}
 	return (
 
-		<div className='container'>
+		<div className='account-container'>
 			{this.props.location.state ? <p className='flash registered'>{this.props.location.state.message}</p> : null}
 			<Warning errors={this.state.errors}/>
 			<div className='form-container'>
