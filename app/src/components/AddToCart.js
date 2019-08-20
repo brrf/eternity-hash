@@ -1,10 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom'
-import {addToCart} from '../actions/checkout'
+import {addItemToCart} from '../actions/cart'
 import DatePicker from "react-datepicker";
 
-import "react-datepicker/dist/react-datepicker.css";
+import 'react-datepicker/dist/react-datepicker.css';
 import '../add-to-cart.css'
 
 class AddToCart extends React.Component {
@@ -27,7 +27,7 @@ class AddToCart extends React.Component {
 
 	submitForm = (e) => {
 
-		//Add item to user.cart or a cart for the ip
+		//Add item to cart in mongoDb
 		e.preventDefault();
 		fetch('http://localhost:5000/cart', {
 			method: 'POST',
@@ -41,6 +41,10 @@ class AddToCart extends React.Component {
 			if (resObject.error) {
 				console.log(resObject.error)
 			} else {
+				this.props.dispatch(addItemToCart(resObject.item))
+				this.setState({
+					redirect: true
+				})
 				
 			}
 		})

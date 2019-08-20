@@ -41,7 +41,7 @@ function mapStateToProps(state) {
   const fname = state.authedUser.authedUser ? state.authedUser.authedUser.fname : null
   return {
     fname,
-    cartItem: state.checkout.unregisteredCart
+    cartItem: state.cart.unregisteredCart
   };
 }
 

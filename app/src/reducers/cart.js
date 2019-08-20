@@ -1,9 +1,9 @@
-export default function checkout (state = {cart: []}, action) {
+export default function cart (state = {cart: []}, action) {
 	switch (action.type) {
-		case 'ADD_TO_CART':
+		case 'ADD_ITEM_TO_CART':
 			return {
 				...state,
-				cart: [...state.cart, action.piece]
+				cart: [...state.cart, action.item]
 			}
 		case 'RECEIVE_CART':
 		console.log({cart: action.cart})

@@ -1,10 +1,10 @@
 import {combineReducers} from 'redux';
 import authedUser from './authedUser';
 import collection from './collection';
-import checkout from './checkout'
+import cart from './cart'
 
 export default combineReducers({
 			authedUser,
 			collection,
-			checkout
+			cart
 });

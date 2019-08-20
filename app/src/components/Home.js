@@ -2,7 +2,7 @@ import React from 'react';
 import artCover from '../images/art-cover.jpg';
 import Navbar from './Navbar';
 import {connect} from 'react-redux';
-import {receiveCart} from '../actions/checkout';
+import {receiveCart} from '../actions/cart';
 
 class Home extends React.Component {
 
@@ -14,7 +14,7 @@ class Home extends React.Component {
 		})
 		.then(res => res.json())
 		.then(resObject => {
-			if (resObject.cart === null) {
+			if (resObject.cart === []) {
 				return;
 			} else {
 				this.props.dispatch(receiveCart(resObject.cart))

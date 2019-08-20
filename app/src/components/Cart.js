@@ -23,12 +23,13 @@ class Cart extends React.Component {
 						{this.props.cart
 							? this.props.cart.map( (item, index) => {
 								if (item === null) return;
+								console.log(item);
 								return (
 									<div className='cart-piece'
 										 key={index} >
 										<img 
 											className='piece-image'
-											src={require(`../../public/pieces-images/${item.thumbnails[0]}`)}
+											src={require(`../../public/pieces-images/${item.piece.thumbnails[0]}`)}
 											alt='piece'		
 										/>
 									</div>)
@@ -44,8 +45,8 @@ class Cart extends React.Component {
 }
 
 function mapStateToProps(state) {
-	console.log({availableState: state.checkout.cart});
-	return {cart: state.checkout.cart};
+	//console.log({stateCart: state.cart.cart})
+	return {cart: state.cart.cart};
 }
 
 export default connect(mapStateToProps)(Cart);
