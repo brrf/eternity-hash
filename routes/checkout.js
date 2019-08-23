@@ -19,8 +19,9 @@ module.exports = function (app) {
 							const piece = await Piece.findById(itemRef.pieceId);
 							cart.push({
 								piece,
-								message: req.body.message,
-								date: req.body.date,
+								message: itemRef.message,
+								date: itemRef.date,
+								itemId: itemRef._id
 							});
 						}));
 					}
@@ -34,10 +35,12 @@ module.exports = function (app) {
 					else {
 						await Promise.all(req.user.cart.map( async itemRef => {
 							const piece = await Piece.findById(itemRef.pieceId);
+
 							cart.push({
 								piece,
-								message: req.body.message,
-								date: req.body.date,
+								message: itemRef.message,
+								date: itemRef.date,
+								itemId: itemRef._id
 							});
 						}));
 					}
@@ -45,6 +48,7 @@ module.exports = function (app) {
 					console.log('error finding registered cart')
 				}
 			}
+			console.log(cart);
 			res.json({cart})
 		})
 		.post(async (req, res) => {
@@ -89,5 +93,10 @@ module.exports = function (app) {
 			} catch {
 				return res.json({error: 'could not return the full piece'})
 			}
+		})
+		.delete(async (req, res) => {
+			console.log('here?')
+			console.log(req.body)
+			res.json({a: 1});
 		})
 }

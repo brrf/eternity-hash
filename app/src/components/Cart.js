@@ -5,17 +5,28 @@ import {connect} from 'react-redux';
 import '../cart.css'
 
 class Cart extends React.Component {
-	// constructor(props) {
-	// 	super(props);
+	constructor(props) {
+		super(props);
 
-	// 	// this.state = {
-	// 	// 	loading: true,
-	// 	// 	cart: null
-	// 	// }
-	// }
+		// this.state = {
+		// 	loading: true,
+		// 	cart: null
+		// }
+		this.deleteItem = this.deleteItem.bind(this);
+	}
+
+	deleteItem = (itemId) => {
+		console.log(itemId);
+		fetch('http://localhost:5000/cart', {
+			method: 'DELETE',
+			body: JSON.stringify({}),
+			headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "http://localhost:5000"},
+			mode: 'cors',
+			credentials: 'include'
+		})
+	}
 
 	render() {
-		console.log({cart: this.props.cart})
 		return (
 			<div>
 				<Navbar />
@@ -32,6 +43,7 @@ class Cart extends React.Component {
 											src={require(`../../public/pieces-images/${item.piece.thumbnails[0]}`)}
 											alt='piece'		
 										/>
+										<button onClick={() => this.deleteItem(item.itemId)}>Delete</button>
 									</div>)
 								})
 							: <p>Cart Empty</p>
@@ -45,7 +57,6 @@ class Cart extends React.Component {
 }
 
 function mapStateToProps(state) {
-	//console.log({stateCart: state.cart.cart})
 	return {cart: state.cart.cart};
 }
 
