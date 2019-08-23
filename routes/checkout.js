@@ -93,9 +93,9 @@ module.exports = function (app) {
 			}
 		})
 		.delete(async (req, res) => {
-			if (req.user) {
-				await User.findById(req.user._id, function (err, user) {
-					if (err) {
+
+			function deleteUser(err, user) {
+				if (err) {
 						return res.json({error: 'An error occurred with your account'});
 					} else if (!user) {
 						return res.json({error: 'This user does not seem to exist'})
@@ -103,17 +103,14 @@ module.exports = function (app) {
 						user.cart = user.cart.filter( item => item._id != req.body.itemId);
 						user.save();
 					}
+			}
+			if (req.user) {
+				await User.findById(req.user._id, function (err, user) {
+					deleteUser(err, user);
 				})
 			} else {
 				await UnregisteredCart.findOne({ip: req.ip}, function (err, user) {
-					if (err) {
-						return res.json({error: 'An error occurred with your account'});
-					} else if (!user) {
-						return res.json({error: 'This user does not seem to exist'})
-					} else {
-						user.cart = user.cart.filter( item => item._id != req.body.itemId);
-						user.save();
-					}
+					deleteUser(err, user);
 				})
 			}
 			return res.json({a: 1});
