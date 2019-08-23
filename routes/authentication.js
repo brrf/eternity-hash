@@ -3,6 +3,7 @@ const User = require('../schemas/users');
 const UnregisteredCart = require('../schemas/unregistered-cart');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
+const transferUnregisteredCart = require('../utils/transfer-unregistered-cart');
 
 module.exports = function (app) {
 
@@ -15,7 +16,19 @@ module.exports = function (app) {
 			}
 		});
 
-	app.post('/authentication/login', passport.authenticate('local'), (req, res) => {
+	app.post('/authentication/login', passport.authenticate('local'), async (req, res) => {
+		const cart = await transferUnregisteredCart(req.ip);
+		try {
+			if (cart) {
+				console.log({thecartIs: cart})
+				await User.findByIdAndUpdate(req.user._id, {
+					$push: {cart: {$each: cart} }
+					})	
+			}	
+		} catch {
+			return res.json({error: 'error saving item to registered cart'})
+		}	
+		console.log(`${req.user.username} is logged in`);
     	res.json({errors: false, user: req.user})
     });
 
@@ -47,11 +60,7 @@ module.exports = function (app) {
 			} else {
 				bcrypt.genSalt(saltRounds, function(err, salt) {
     				bcrypt.hash(password, salt, async function(err, hash) {
-	    				let unregisteredCart = await UnregisteredCart.findOne({ip: req.ip});
-	    				if (unregisteredCart) {
-	    					cart = unregisteredCart.cart;
-	    					await UnregisteredCart.findByIdAndDelete(unregisteredCart._id);
-	    				}					
+    					const cart = transferUnregisteredCart(req.ip)
 						await User.create({
 							username,
 							password: hash,

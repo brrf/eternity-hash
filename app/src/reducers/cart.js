@@ -6,7 +6,6 @@ export default function cart (state = {cart: []}, action) {
 				cart: [...state.cart, action.item]
 			}
 		case 'RECEIVE_CART':
-		console.log({cart: action.cart})
 			return {
 				...state,
 				cart: action.cart
