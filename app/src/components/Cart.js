@@ -16,10 +16,10 @@ class Cart extends React.Component {
 	}
 
 	deleteItem = (itemId) => {
-		console.log(itemId);
+
 		fetch('http://localhost:5000/cart', {
 			method: 'DELETE',
-			body: JSON.stringify({}),
+			body: JSON.stringify({itemId}),
 			headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "http://localhost:5000"},
 			mode: 'cors',
 			credentials: 'include'

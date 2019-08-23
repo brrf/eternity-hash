@@ -35,7 +35,6 @@ module.exports = function (app) {
 					else {
 						await Promise.all(req.user.cart.map( async itemRef => {
 							const piece = await Piece.findById(itemRef.pieceId);
-
 							cart.push({
 								piece,
 								message: itemRef.message,
@@ -48,7 +47,6 @@ module.exports = function (app) {
 					console.log('error finding registered cart')
 				}
 			}
-			console.log(cart);
 			res.json({cart})
 		})
 		.post(async (req, res) => {
@@ -95,8 +93,29 @@ module.exports = function (app) {
 			}
 		})
 		.delete(async (req, res) => {
-			console.log('here?')
-			console.log(req.body)
-			res.json({a: 1});
+			if (req.user) {
+				await User.findById(req.user._id, function (err, user) {
+					if (err) {
+						return res.json({error: 'An error occurred with your account'});
+					} else if (!user) {
+						return res.json({error: 'This user does not seem to exist'})
+					} else {
+						user.cart = user.cart.filter( item => item._id != req.body.itemId);
+						user.save();
+					}
+				})
+			} else {
+				await UnregisteredCart.findOne({ip: req.ip}, function (err, user) {
+					if (err) {
+						return res.json({error: 'An error occurred with your account'});
+					} else if (!user) {
+						return res.json({error: 'This user does not seem to exist'})
+					} else {
+						user.cart = user.cart.filter( item => item._id != req.body.itemId);
+						user.save();
+					}
+				})
+			}
+			return res.json({a: 1});
 		})
 }
