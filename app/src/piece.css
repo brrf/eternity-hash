@@ -93,6 +93,13 @@
   	width: 30%;
 }
 
+.artist-label {
+	font-family: sans-serif;
+	margin: 0;
+	font-size: 11px;
+	font-weight: normal;
+}
+
 .description {
 	font-size: 8px;
 }

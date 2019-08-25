@@ -21,6 +21,7 @@ class Piece extends React.Component {
 						<Carousel {...this.props}/>
 						<div className='content'>
 							<h2>{piece.title}</h2>
+							<h3 className='artist-label'>By: {piece.artist}</h3>
 							<p className='description'>{piece.description}</p>
 						</div>
 					</div>

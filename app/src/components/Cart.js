@@ -1,35 +1,16 @@
 import React from 'react';
 import Navbar from './Navbar';
+import CartItem from './CartItem';
 import {connect} from 'react-redux';
-import {updateCart} from '../actions/cart';
 
 import '../cart.css'
 
 class Cart extends React.Component {
 	constructor(props) {
-		super(props);
-
-		this.deleteItem = this.deleteItem.bind(this);
+		super(props);		
 	}
 
-	deleteItem = (itemId) => {
-
-		fetch('http://localhost:5000/cart', {
-			method: 'DELETE',
-			body: JSON.stringify({itemId}),
-			headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "http://localhost:5000"},
-			mode: 'cors',
-			credentials: 'include'
-		})
-			.then(res => res.json())
-			.then(resObject => {
-				if (resObject.error) {
-					console.log(resObject.error);
-				} else {
-					this.props.dispatch(updateCart(resObject.cart));
-				}
-			})
-	}
+	
 
 	render() {
 		return (
@@ -37,20 +18,11 @@ class Cart extends React.Component {
 				<Navbar />
 				<div className='cart-component-container'>
 					<div className='cart container'>
-						{this.props.cart
+						{this.props.cart.length > 0
 							? this.props.cart.map( (item, index) => {
 								if (item === null || !item.piece || !item.piece.thumbnails) return;
-								return (
-									<div className='cart-piece'
-										 key={index} >
-										<img 
-											className='piece-image'
-											src={require(`../../public/pieces-images/${item.piece.thumbnails[0]}`)}
-											alt='piece'		
-										/>
-										<button onClick={() => this.deleteItem(item.itemId)}>Delete</button>
-									</div>)
-								})
+								return <CartItem key={index} item={item}  />
+							})
 							: <p>Cart Empty</p>
 						}
 					</div>

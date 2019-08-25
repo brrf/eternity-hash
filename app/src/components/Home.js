@@ -17,6 +17,7 @@ class Home extends React.Component {
 			if (resObject.cart === []) {
 				return;
 			} else {
+			//	console.log(typeof resObject.cart[0].date)
 				this.props.dispatch(receiveCart(resObject.cart))
 			}
 		})

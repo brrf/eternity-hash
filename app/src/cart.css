@@ -7,10 +7,60 @@
 .container {
 	background-color: white;
 	margin: 25px;
+	padding: 15px;
 }
 
 .cart {
 	flex-grow: 2;
+}
+
+.cart-piece {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	margin-bottom: 15px;
+}
+
+.cart-item-image-container {
+	margin-right: 50px;
+}
+
+.piece-image {
+	width: 25vw;
+}
+
+.cart-details-container {
+	width: 50%;
+}
+
+.cart-piece-details-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.cart-piece-title {
+	font-family: 'Montserrat';
+	font-weight: 400px;
+	font-size: 18px;
+	text-transform: uppercase
+}
+
+.cart-piece-artist {
+	color: #3e6079;
+	font-size: 14px;
+}
+
+.cart-action:hover {
+	color: crimson;
+}
+
+.cart-item-details-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 125px;
 }
 
 .checkout-details {

@@ -29,6 +29,7 @@ class AddToCart extends React.Component {
 
 		//Add item to cart in mongoDb
 		e.preventDefault();
+		console.log(typeof this.state.formData.date)
 		fetch('http://localhost:5000/cart', {
 			method: 'POST',
 			body: JSON.stringify(this.state.formData),
@@ -41,6 +42,7 @@ class AddToCart extends React.Component {
 			if (resObject.error) {
 				console.log(resObject.error)
 			} else {
+				//console.log(typeof resObject.item.date)
 				this.props.dispatch(addItemToCart(resObject.item))
 				this.setState({
 					redirect: true
