@@ -11,3 +11,10 @@ export function receiveCart (cart) {
 		cart
 	}
 }
+
+export function updateCart (newCart) {
+	return {
+		type: 'UPDATE_CART',
+		newCart
+	}
+}

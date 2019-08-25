@@ -93,26 +93,27 @@ module.exports = function (app) {
 			}
 		})
 		.delete(async (req, res) => {
-
-			function deleteUser(err, user) {
+			let newCart;
+			function deleteCartItem (err, user, itemId) {
 				if (err) {
 						return res.json({error: 'An error occurred with your account'});
 					} else if (!user) {
 						return res.json({error: 'This user does not seem to exist'})
 					} else {
-						user.cart = user.cart.filter( item => item._id != req.body.itemId);
+						user.cart = user.cart.filter(item => item._id != itemId);
 						user.save();
+						return user.cart;
 					}
 			}
 			if (req.user) {
 				await User.findById(req.user._id, function (err, user) {
-					deleteUser(err, user);
+					newCart = deleteCartItem(err, user, req.body.itemId);
 				})
 			} else {
 				await UnregisteredCart.findOne({ip: req.ip}, function (err, user) {
-					deleteUser(err, user);
+					newCart = deleteCartItem(err, user, req.body.itemId);
 				})
 			}
-			return res.json({a: 1});
+			return res.json({error: null, cart: newCart});
 		})
 }

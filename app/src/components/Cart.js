@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from './Navbar';
 import {connect} from 'react-redux';
+import {updateCart} from '../actions/cart';
 
 import '../cart.css'
 
@@ -24,6 +25,12 @@ class Cart extends React.Component {
 			mode: 'cors',
 			credentials: 'include'
 		})
+			.then(res => res.json())
+			.then(resObject => {
+				if (!resObject.error) {
+					this.props.dispatch(updateCart(resObject.cart));
+				}
+			})
 	}
 
 	render() {

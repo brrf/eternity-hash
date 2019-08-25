@@ -10,6 +10,11 @@ export default function cart (state = {cart: []}, action) {
 				...state,
 				cart: action.cart
 			}
+		case 'UPDATE_CART':
+			return {
+				...state,
+				cart: action.newCart
+			}
 		default: return state
 	}
 }
