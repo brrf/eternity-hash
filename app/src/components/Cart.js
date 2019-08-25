@@ -9,10 +9,6 @@ class Cart extends React.Component {
 	constructor(props) {
 		super(props);
 
-		// this.state = {
-		// 	loading: true,
-		// 	cart: null
-		// }
 		this.deleteItem = this.deleteItem.bind(this);
 	}
 

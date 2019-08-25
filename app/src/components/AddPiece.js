@@ -11,6 +11,7 @@ export default class AddPiece extends React.Component {
 				images: [],
 				title: '',
 				description: '',
+				artist: '',
 				price: ''
 			},		
 			res: 'nothing yet',
@@ -24,6 +25,7 @@ export default class AddPiece extends React.Component {
 		this.uploadImages = this.uploadImages.bind(this);
 		this.updateTitle = this.updateTitle.bind(this);
 		this.updateDescription = this.updateDescription.bind(this);
+		this.updateArtist = this.updateArtist.bind(this);
 		this.updatePrice = this.updatePrice.bind(this);
 		this.updateId = this.updateId.bind(this);
 	}
@@ -63,6 +65,7 @@ export default class AddPiece extends React.Component {
 		}
 		formData.append('title', this.state.formData.title);
 		formData.append('description', this.state.formData.description);
+		formData.append('artist', this.state.formData.artist);
 		formData.append('price', this.state.formData.price)
 		fetch('http://localhost:5000/addpiece', {
 		method: 'POST',
@@ -129,6 +132,16 @@ export default class AddPiece extends React.Component {
 		})
 	};
 
+	updateArtist = (e) => {
+		this.setState({
+			formData: {
+				...this.state.formData,
+				artist: e.target.value
+			}
+				
+		})
+	};
+
 	updatePrice = (e) => {
 		this.setState({
 			formData: {
@@ -168,6 +181,12 @@ export default class AddPiece extends React.Component {
 									<label className='input-label'>Description:</label>
 									<br></br>
 									<input type="textarea" name="description" value={this.state.formData.description} onChange={this.updateDescription}/>
+									<br></br>
+								</div>
+								<div className='input-section'>
+									<label className='input-label'>Artist:</label>
+									<br></br>
+									<input type="text" name="artist" value={this.state.formData.artist} onChange={this.updateArtist}/>
 									<br></br>
 								</div>
 								<div className='input-section'>

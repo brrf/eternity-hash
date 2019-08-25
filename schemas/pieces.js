@@ -13,6 +13,10 @@ const pieceSchema = new mongoose.Schema({
 		required: true,
 		type: Number
 	},
+	artist: {
+		required: true,
+		type: String
+	},
 	maxLimit: {
 		type: Number
 	},

@@ -35,7 +35,7 @@ module.exports = function (app) {
 					else {
 						await Promise.all(req.user.cart.map( async itemRef => {
 							const piece = await Piece.findById(itemRef.pieceId);
-							cart.push({
+								cart.push({
 								piece,
 								message: itemRef.message,
 								date: itemRef.date,

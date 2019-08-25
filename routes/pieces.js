@@ -54,7 +54,7 @@ module.exports = function (app) {
         return res.json({res: 'admin only'})
       }
 			if(req.files) {
-        const {title, description, price} = req.body;
+        const {title, description, price, artist} = req.body;
         let filenames = [];
         req.files.forEach( file => {
           filenames.push(file.filename)
@@ -64,7 +64,8 @@ module.exports = function (app) {
             thumbnails: filenames,
             title,
             description,
-            price
+            price,
+            artist
           });
           return res.json({res: 'Your piece was added to the collection!'})
         } catch {
