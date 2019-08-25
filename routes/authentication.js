@@ -20,7 +20,6 @@ module.exports = function (app) {
 		const cart = await transferUnregisteredCart(req.ip);
 		try {
 			if (cart) {
-				console.log({thecartIs: cart})
 				await User.findByIdAndUpdate(req.user._id, {
 					$push: {cart: {$each: cart} }
 					})	
@@ -40,7 +39,6 @@ module.exports = function (app) {
 
 	app.route('/authentication/register')
 		.post( async (req, res) => {
-			let cart = [];
 			let errors = [];
 			const saltRounds = 10;
 			const {username, password, password2, fname, lname, email} = req.body;
@@ -60,7 +58,8 @@ module.exports = function (app) {
 			} else {
 				bcrypt.genSalt(saltRounds, function(err, salt) {
     				bcrypt.hash(password, salt, async function(err, hash) {
-    					const cart = transferUnregisteredCart(req.ip)
+    					let cart =  await transferUnregisteredCart(req.ip);
+    					if (!cart) cart = [];
 						await User.create({
 							username,
 							password: hash,

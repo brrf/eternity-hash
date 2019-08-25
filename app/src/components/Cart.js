@@ -27,7 +27,9 @@ class Cart extends React.Component {
 		})
 			.then(res => res.json())
 			.then(resObject => {
-				if (!resObject.error) {
+				if (resObject.error) {
+					console.log(resObject.error);
+				} else {
 					this.props.dispatch(updateCart(resObject.cart));
 				}
 			})

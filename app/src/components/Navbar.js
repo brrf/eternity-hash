@@ -27,8 +27,8 @@ function Navbar (props) {
               <Link to='/cart'>
                 <FontAwesomeIcon icon={faShoppingCart} size='1x' className='navbar-item cart-svg'/>
               </Link>
-                {props.cartItem
-                  ? <span className='lbl-cart-count' />
+                {props.cartCount > 0
+                  ? <span className='lbl-cart-count'>{props.cartCount}</span>
                   : null
                 }
           </div>
@@ -41,7 +41,7 @@ function mapStateToProps(state) {
   const fname = state.authedUser.authedUser ? state.authedUser.authedUser.fname : null
   return {
     fname,
-    cartItem: state.cart.unregisteredCart
+    cartCount: state.cart.cart.length
   };
 }
 

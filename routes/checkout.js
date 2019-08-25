@@ -93,7 +93,7 @@ module.exports = function (app) {
 			}
 		})
 		.delete(async (req, res) => {
-			let newCart;
+			let newCart = [];
 			function deleteCartItem (err, user, itemId) {
 				if (err) {
 						return res.json({error: 'An error occurred with your account'});
