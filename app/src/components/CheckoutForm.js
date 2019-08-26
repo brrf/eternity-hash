@@ -8,7 +8,6 @@ class CheckoutForm extends Component {
   }
 
   async submit(ev) {
-    console.log('here')
     let {token} = await this.props.stripe.createToken({name: "Name"});
     let response = await fetch("http://localhost:5000/charge", {
       method: "POST",
