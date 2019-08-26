@@ -2,9 +2,24 @@ const UnregisteredCart = require('../schemas/unregistered-cart');
 const User = require('../schemas/users');
 const Piece = require('../schemas/pieces')
 const hydratePiece = require('../utils/hydrate-piece');
-
+const stripe = require("stripe")("sk_test_o39Kr0ePiALbt2HfXt9VrZ3s00GgKCxGbX");
 
 module.exports = function (app) {
+
+	app.post('/charge', async (req, res) => {
+		console.log('here');
+		try {
+		    let {status} = await stripe.charges.create({
+		      amount: 2000,
+		      currency: "usd",
+		      description: "An example charge",
+		      source: req.body
+			});
+		    res.json({status});
+		} catch (err) {
+		    res.status(500).end();
+		}
+	})
 
 	app.route('/cart')
 		.get(async (req, res) => {

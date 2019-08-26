@@ -27,6 +27,7 @@ app.set('view engine', 'html');
 
 //Express body parser
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.text());
 // app.use(cookieParser());
 app.use(express.json());
 
