@@ -8,17 +8,28 @@ class CheckoutForm extends Component {
   }
 
   async submit(ev) {
+    
     let {token} = await this.props.stripe.createToken({name: "Name"});
-    let response = await fetch("http://localhost:5000/charge", {
+    if (!token) {
+      console.log('error with card');
+      return;
+    }
+
+    await fetch("http://localhost:5000/charge", {
       method: "POST",
-      headers: {"Content-Type": "text/plain"},
-      body: token.id,
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({id: token.id}),
       mode: 'cors',
       credentials: 'include'
-    });
-
-    if (response.ok) console.log("Purchase Complete!")
+    })
+      .then(res => res.json())
+      .then(resObject => {
+        if(resObject.error) {
+          console.log('error charging card');
+        } else console.log('success!')
+     });
   }
+
 
   render() {
     return (

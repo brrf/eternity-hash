@@ -7,18 +7,24 @@ const stripe = require("stripe")("sk_test_o39Kr0ePiALbt2HfXt9VrZ3s00GgKCxGbX");
 module.exports = function (app) {
 
 	app.post('/charge', async (req, res) => {
-		console.log('here');
-		try {
-		    let {status} = await stripe.charges.create({
-		      amount: 2000,
-		      currency: "usd",
-		      description: "An example charge",
-		      source: req.body
-			});
-		    res.json({status});
-		} catch (err) {
-		    res.status(500).end();
-		}
+		let amount = 0;
+		await Promise.all(req.user.cart.map(async itemRef => {
+			const piece = await Piece.findById(itemRef.pieceId);
+			if(!piece || !piece.price) return;
+			amount += piece.price;
+		}));
+	    await stripe.charges.create({
+	      amount: amount * 100,
+	      currency: "usd",
+	      description: "An example charge",
+	      source: req.body.id
+		}, (err, charge) => {
+			if (err) {
+				console.log({err});
+				return res.json({error: 'Could not charge card'})
+			}
+			res.json({charge});
+		});
 	})
 
 	app.route('/cart')

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const cartSubschema = new mongoose.Schema({
+const itemSubSchema = new mongoose.Schema({
 	pieceId: {
 		type: String
 	},
@@ -36,7 +36,11 @@ const userSchema = new mongoose.Schema({
 		unique: true
 	},
 	cart: {
-		type: [cartSubschema],
+		type: [itemSubSchema],
+		default: []
+	},
+	purchasedItems: {
+		type: [itemSubSchema],
 		default: []
 	}
 });

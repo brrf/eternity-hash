@@ -31,7 +31,7 @@ class Cart extends React.Component {
 					        <div className="example">
 					          <h1>React Stripe Elements Example</h1>
 					          <Elements>
-					            <CheckoutForm />
+					            <CheckoutForm cart={this.props.cart}/>
 					          </Elements>
 					        </div>
 					     </StripeProvider>
