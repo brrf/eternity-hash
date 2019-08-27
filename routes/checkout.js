@@ -1,6 +1,6 @@
 const UnregisteredCart = require('../schemas/unregistered-cart');
 const User = require('../schemas/users');
-const Piece = require('../schemas/pieces')
+const Piece = require('../schemas/pieces');
 const hydratePiece = require('../utils/hydrate-piece');
 const stripe = require("stripe")("sk_test_o39Kr0ePiALbt2HfXt9VrZ3s00GgKCxGbX");
 
@@ -18,12 +18,19 @@ module.exports = function (app) {
 	      currency: "usd",
 	      description: "An example charge",
 	      source: req.body.id
-		}, (err, charge) => {
+		}, async (err, charge) => {
 			if (err) {
 				console.log({err});
 				return res.json({error: 'Could not charge card'})
 			}
-			res.json({charge});
+			let user = await User.findById(req.user._id);
+			console.log({initialUser: user});
+			user.purchasedItems.push(...user.cart);
+			console.log({userwithpurchases: user});
+			user.cart = [];
+			console.log({userwithoutcart: user})
+			user.save();
+			res.json({error: false});
 		});
 	})
 

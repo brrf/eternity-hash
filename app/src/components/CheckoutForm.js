@@ -4,11 +4,15 @@ import {CardElement, injectStripe} from 'react-stripe-elements';
 class CheckoutForm extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      redirect: false
+    }
+
     this.submit = this.submit.bind(this);
   }
 
-  async submit(ev) {
-    
+  async submit(ev) {    
     let {token} = await this.props.stripe.createToken({name: "Name"});
     if (!token) {
       console.log('error with card');
@@ -24,9 +28,9 @@ class CheckoutForm extends Component {
     })
       .then(res => res.json())
       .then(resObject => {
-        if(resObject.error) {
-          console.log('error charging card');
-        } else console.log('success!')
+        resObject.error
+          ? console.log(resObject.error)
+          : console.log('success');
      });
   }
 
