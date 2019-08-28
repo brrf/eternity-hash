@@ -1,12 +1,16 @@
 const UnregisteredCart = require('../schemas/unregistered-cart');
 const User = require('../schemas/users');
 const Piece = require('../schemas/pieces');
+const PurchasedItems = require('../schemas/purchaseditems');
 const hydratePiece = require('../utils/hydrate-piece');
 const stripe = require("stripe")("sk_test_o39Kr0ePiALbt2HfXt9VrZ3s00GgKCxGbX");
 
 module.exports = function (app) {
 
 	app.post('/charge', async (req, res) => {
+		if (!req.user) {
+			return res.json({error: false, redirect: '/authentication/register'})
+		}
 		let amount = 0;
 		await Promise.all(req.user.cart.map(async itemRef => {
 			const piece = await Piece.findById(itemRef.pieceId);
@@ -23,14 +27,13 @@ module.exports = function (app) {
 				console.log({err});
 				return res.json({error: 'Could not charge card'})
 			}
+
+			// transfer purchased items into a) users purchased items and b) items to be processed by admin. Then remove items from user cart
 			let user = await User.findById(req.user._id);
-			console.log({initialUser: user});
 			user.purchasedItems.push(...user.cart);
-			console.log({userwithpurchases: user});
 			user.cart = [];
-			console.log({userwithoutcart: user})
-			user.save();
-			res.json({error: false});
+			await user.save();
+			res.json({error: false, redirect: 'purchaseditems'});
 		});
 	})
 

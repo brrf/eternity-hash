@@ -52,8 +52,11 @@ class CartItem extends React.Component {
 					</div>
 					<hr/>
 					<div className='cart-item-details-container'>
-						<div style={{margin: '5px', fontSize: '19px'}}>{item.message}</div>
-						<div style={{fontWeight: 'bold', fontSize: '22px'}}>Date: {formatDate(item.date)}</div>
+						<div className='cart-item-message'>{item.message}</div>
+						<div className='cart-item-bottom'>
+							<div className='cart-item-date'>Date: {formatDate(item.date)}</div>
+							<div className='cart-piece-price value'>${item.piece.price}<span className='cart-piece-price currency'>USD</span></div>
+						</div>
 					</div>
 				</div>
 				

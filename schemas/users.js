@@ -1,16 +1,5 @@
 const mongoose = require('mongoose');
-
-const itemSubSchema = new mongoose.Schema({
-	pieceId: {
-		type: String
-	},
-	message: {
-		type: String
-	},
-	date: {
-		type: Date
-	}
-});
+const itemSchema = require('./item');
 
 const userSchema = new mongoose.Schema({
 	username: {
@@ -36,11 +25,11 @@ const userSchema = new mongoose.Schema({
 		unique: true
 	},
 	cart: {
-		type: [itemSubSchema],
+		type: [itemSchema],
 		default: []
 	},
 	purchasedItems: {
-		type: [itemSubSchema],
+		type: [itemSchema],
 		default: []
 	}
 });

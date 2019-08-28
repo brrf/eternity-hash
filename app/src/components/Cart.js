@@ -29,9 +29,8 @@ class Cart extends React.Component {
 					<div className='checkout-details container'>
 						<StripeProvider apiKey="pk_test_MBRlAb7bEYiivk4yPFdUgGNd00U1dtjalz">
 					        <div className="example">
-					          <h1>React Stripe Elements Example</h1>
 					          <Elements>
-					            <CheckoutForm cart={this.props.cart}/>
+					            <CheckoutForm fontSize='14px' />
 					          </Elements>
 					        </div>
 					     </StripeProvider>

@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
-import {CardElement, injectStripe} from 'react-stripe-elements';
+import React from 'react';
+import {CardNumberElement, CardExpiryElement, CardCVCElement, PostalCodeElement, injectStripe} from 'react-stripe-elements';
+import {Redirect} from 'react-router-dom';
 
-class CheckoutForm extends Component {
+class CheckoutForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -10,7 +11,43 @@ class CheckoutForm extends Component {
     }
 
     this.submit = this.submit.bind(this);
-  }
+  };
+
+  handleBlur = () => {
+    console.log('[blur]');
+  };
+  handleChange = (change) => {
+    console.log('[change]', change);
+  };
+  handleClick = () => {
+    console.log('[click]');
+  };
+  handleFocus = () => {
+    console.log('[focus]');
+  };
+  handleReady = () => {
+    console.log('[ready]');
+  };
+
+  createOptions = (fontSize, padding) => {
+    return {
+      style: {
+        base: {
+          fontSize,
+          color: '#424770',
+          letterSpacing: '0.025em',
+          fontFamily: 'Source Code Pro, monospace',
+          '::placeholder': {
+            color: '#aab7c4',
+          },
+          padding,
+        },
+        invalid: {
+          color: '#9e2146',
+        },
+      },
+    };
+  };
 
   async submit(ev) {    
     let {token} = await this.props.stripe.createToken({name: "Name"});
@@ -30,20 +67,52 @@ class CheckoutForm extends Component {
       .then(resObject => {
         resObject.error
           ? console.log(resObject.error)
-          : console.log('success');
+          : this.setState({
+            redirect: resObject.redirect
+          })
      });
-  }
-
+  };
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />
+    }
     return (
-      <div className="checkout">
-        <p>Would you like to complete the purchase?</p>
-        <CardElement />
-        <button onClick={this.submit}>Send</button>
-      </div>
-    );
+      <form onSubmit={this.submit}>
+        <label>
+          Card number
+          <CardNumberElement
+            onBlur={this.handleBlur}
+            onChange={this.handleChange}
+            onFocus={this.handleFocus}
+            onReady={this.handleReady}
+            {...this.createOptions(this.props.fontSize)}
+          />
+        </label>
+        <label>
+          Expiration date
+          <CardExpiryElement
+            onBlur={this.handleBlur}
+            onChange={this.handleChange}
+            onFocus={this.handleFocus}
+            onReady={this.handleReady}
+            {...this.createOptions(this.props.fontSize)}
+          />
+        </label>
+        <label>
+          CVC
+          <CardCVCElement
+            onBlur={this.handleBlur}
+            onChange={this.handleChange}
+            onFocus={this.handleFocus}
+            onReady={this.handleReady}
+            {...this.createOptions(this.props.fontSize)}
+          />
+        </label>
+        <button className='submit-button'>Pay</button>
+      </form>
+    )
   }
-}
+};
 
 export default injectStripe(CheckoutForm);

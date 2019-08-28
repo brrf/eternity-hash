@@ -63,6 +63,33 @@
 	height: 125px;
 }
 
+.cart-item-message {
+	margin: 5px;
+	fontSize: 10px;
+}
+
+.cart-item-bottom {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-end;
+}
+
+.cart-item-date {
+	font-weight: bold;
+	font-size: 22px;
+}
+
+.cart-piece-price {
+	font-family: 'Gotham';
+	color: #3e6079;
+}
+
+.value {
+	font-size: 24px;
+
+}
+
 .checkout-details {
 	flex-grow: 1;
 }
