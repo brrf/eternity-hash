@@ -1,7 +1,10 @@
 import React from 'react';
 import Navbar from './Navbar';
 import CartItemLarge from './CartItemLarge';
-import CartItemSmall from './CartItemSmall';	
+import CartItemSmall from './CartItemSmall';
+import AccountInformation from './AccountInformation';
+import ShippingInformation from './ShippingInformation';
+import PaymentInformation from './PaymentInformation';	
 import Stripe from './Stripe';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
@@ -18,11 +21,18 @@ class Cart extends React.Component {
 
 		}
 		this.handleProceed = this.handleProceed.bind(this);	
+		this.toggleStep = this.toggleStep.bind(this);
 	}
 
 	handleProceed = () => {
 		this.setState({
 			proceed: true
+		})
+	}
+
+	toggleStep = (step) => {
+		this.setState({
+			step
 		})
 	}
 
@@ -70,18 +80,9 @@ class Cart extends React.Component {
 								}
 							</div>
 							<div className='checkout-details-large'>
-								<div className='checkout-step-container'>
-									<div className='checkout-step-number-container'><div className='checkout-step-number'>1</div></div>
-									<div className='checkout-step-label'>Account Information</div>
-								</div>
-								<div className='checkout-step-container'>
-									<div className='checkout-step-number-container'><div className='checkout-step-number'>2</div></div>
-									<div className='checkout-step-label'>Shipping Information</div>
-								</div>
-								<div className='checkout-step-container'>
-									<div className='checkout-step-number-container'><div className='checkout-step-number'>3</div></div>
-									<div className='checkout-step-label'>Payment Information</div>
-								</div>
+								<AccountInformation index={1} step={this.state.step} text='Account Information' clickEvent={this.toggleStep}/>
+								<ShippingInformation index={2} step={this.state.step} text='Shipping Information' clickEvent={this.toggleStep}/>
+								<PaymentInformation index={3} step={this.state.step} text='Payment Information' clickEvent={this.toggleStep}/>
 							</div>
 						</div>
 				}				
