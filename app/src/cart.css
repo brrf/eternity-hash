@@ -96,6 +96,8 @@
 	height: 125px;
 }
 
+.
+
 .cart-item-message {
 	margin: 5px;
 	fontSize: 10px;
@@ -123,16 +125,24 @@
 }
 
 .checkout-step-container {
-	display: flex;
-	flex-direction: row;
 	align-items: center;
 	background-color: white;
 	padding: 10px;
 	margin: 5px;
 	padding-left: 60px;
+	display: flex;
+	flex-direction: row;
 }
 
-.checkout-step-container:hover {
+.checkout-step-container-active {
+	align-items: flex-start;
+}
+
+.checkout-step-container-inactive {
+	
+}
+
+.checkout-step-container-inactive:hover {
 	background-color: #3e607969;
 	cursor: pointer;
 }

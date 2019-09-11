@@ -5,7 +5,6 @@ import CartItemSmall from './CartItemSmall';
 import AccountInformation from './AccountInformation';
 import ShippingInformation from './ShippingInformation';
 import PaymentInformation from './PaymentInformation';	
-import Stripe from './Stripe';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
