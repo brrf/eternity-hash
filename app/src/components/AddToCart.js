@@ -77,7 +77,7 @@ class AddToCart extends React.Component {
 		const {piece} = this.props;
 
 		return (
-			<div className='cart-container'>
+			<div className='add-to-cart-container'>
 				<div className='price-container'>
 					<p className='price-label'>PRICE</p>
 					<p className='price'>${piece.price}<span className='currency'>USD</span></p>

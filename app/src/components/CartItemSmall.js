@@ -1,32 +1,9 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {updateCart} from '../actions/cart';
-
 import formatDate from '../utils/formatDate';
 
-class CartItemSmall extends React.Component {
+export default class CartItemSmall extends React.Component {
 	constructor (props) {
 		super(props);
-
-		this.deleteItem = this.deleteItem.bind(this);
-	}
-
-	deleteItem = (itemId) => {
-		fetch('http://localhost:5000/cart', {
-			method: 'DELETE',
-			body: JSON.stringify({itemId}),
-			headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "http://localhost:5000"},
-			mode: 'cors',
-			credentials: 'include'
-		})
-			.then(res => res.json())
-			.then(resObject => {
-				if (resObject.error) {
-					console.log(resObject.error);
-				} else {
-					this.props.dispatch(updateCart(resObject.cart));
-				}
-			})
 	}
 
 	render() {
@@ -48,9 +25,3 @@ class CartItemSmall extends React.Component {
 		)
 	}
 }
-
-// function mapStateToProps(state) {
-// 	return {cart: state.cart.cart};
-// }
-
-export default connect()(CartItemSmall);

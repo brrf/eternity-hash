@@ -56,11 +56,11 @@ class Cart extends React.Component {
 								<p className='checkout-details-label'>Estimated Tax:</p><span className='checkout-price-value'>${tax}</span><br/>
 								<hr/>
 								<p className='checkout-details-label'>Total:</p><span className='checkout-price-value'>${subtotal + shipping + tax}</span><br/>
-								<button onClick={this.handleProceed} className='submit-button' style={{width: '250px'}}>Proceed to 3-Step Checkout</button>
+								<button onClick={this.handleProceed} disabled={!this.props.cart.length} className='submit-button' style={{width: '250px'}}>Proceed to 3-Step Checkout</button>
 							</div>
 						</div>
-					: <div className='cart-component-container'>
-							<div className={'cart-container cart-small'}>
+					: 	<div className='cart-component-container'>
+							<div className='cart-container cart-small'>
 								{this.props.cart.length > 0
 									? this.props.cart.map( (item, index) => {
 										if (item === null || !item.piece || !item.piece.thumbnails) return;
@@ -69,13 +69,19 @@ class Cart extends React.Component {
 									: <p>Cart Empty</p>
 								}
 							</div>
-							<div className={'cart-container checkout-details-large'}>
-								<p className='checkout-details-label'>Subtotal:</p><span className='checkout-price-value'>${subtotal}</span><br/>
-								<p className='checkout-details-label'>Shipping:</p><span className='checkout-price-value'>${shipping}</span><br/>
-								<p className='checkout-details-label'>Estimated Tax:</p><span className='checkout-price-value'>${tax}</span><br/>
-								<hr/>
-								<p className='checkout-details-label'>Total:</p><span className='checkout-price-value'>${subtotal + shipping + tax}</span><br/>
-								<button onClick={this.handleProceed} className='submit-button' style={{width: '250px'}}>Proceed to 3-Step Checkout</button>
+							<div className='checkout-details-large'>
+								<div className='checkout-step-container'>
+									<div className='checkout-step-number-container'><div className='checkout-step-number'>1</div></div>
+									<div className='checkout-step-label'>Account Information</div>
+								</div>
+								<div className='checkout-step-container'>
+									<div className='checkout-step-number-container'><div className='checkout-step-number'>2</div></div>
+									<div className='checkout-step-label'>Shipping Information</div>
+								</div>
+								<div className='checkout-step-container'>
+									<div className='checkout-step-number-container'><div className='checkout-step-number'>3</div></div>
+									<div className='checkout-step-label'>Payment Information</div>
+								</div>
 							</div>
 						</div>
 				}				
