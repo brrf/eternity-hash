@@ -10,8 +10,21 @@
 	padding: 15px;
 }
 
-.cart {
-	flex-grow: 2;
+.cart-large {
+	width: 66%;
+	transition-duration: width 2s
+}
+
+.cart-small {
+	width: 34%;
+}
+
+.checkout-details-small {
+	width: 34%;
+}
+
+.checkout-details-large {
+	width: 66%;
 }
 
 .checkout-details-label {
@@ -38,8 +51,12 @@
 	margin-right: 50px;
 }
 
-.piece-image {
+.piece-image-large {
 	width: 25vw;
+}
+
+.piece-image-small {
+	width: 10vw;
 }
 
 .cart-details-container {

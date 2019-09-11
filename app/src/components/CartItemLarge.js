@@ -6,7 +6,7 @@ import {faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 
 import formatDate from '../utils/formatDate';
 
-class CartItem extends React.Component {
+class CartItemLarge extends React.Component {
 	constructor (props) {
 		super(props);
 
@@ -37,7 +37,7 @@ class CartItem extends React.Component {
 			<div className='cart-piece'>
 				<div className='cart-item-image-container'>
 					<img 
-						className='piece-image'
+						className='piece-image-large'
 						src={require(`../../public/pieces-images/${item.piece.thumbnails[0]}`)}
 						alt='piece'		
 					/>
@@ -58,8 +58,7 @@ class CartItem extends React.Component {
 							<div className='cart-piece-price value'>${item.piece.price}<span className='cart-piece-price currency'>USD</span></div>
 						</div>
 					</div>
-				</div>
-				
+				</div>				
 			</div>
 		)
 	}
@@ -69,4 +68,4 @@ class CartItem extends React.Component {
 // 	return {cart: state.cart.cart};
 // }
 
-export default connect()(CartItem);
+export default connect()(CartItemLarge);
