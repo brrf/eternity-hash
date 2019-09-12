@@ -17,7 +17,6 @@ module.exports = function (app) {
 		});
 
 	app.post('/authentication/login', passport.authenticate('local'), async (req, res) => {
-		console.log(req.user)
 		const cart = await transferUnregisteredCart(req.ip);
 		try {
 			if (cart) {

@@ -40,7 +40,10 @@ class Logout extends React.Component {
 }
 
 function mapStateToProps(state) {
-	const {fname} = state;
+	let fname;
+	if (state.authedUser.authedUser) {
+		fname = state.authedUser.authedUser.fname
+	}
 	return {fname};
 }
 
