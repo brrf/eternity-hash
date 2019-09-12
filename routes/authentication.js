@@ -17,7 +17,7 @@ module.exports = function (app) {
 		});
 
 	app.post('/authentication/login', passport.authenticate('local'), async (req, res) => {
-		console.log('here')
+		console.log(req.user)
 		const cart = await transferUnregisteredCart(req.ip);
 		try {
 			if (cart) {
@@ -28,7 +28,7 @@ module.exports = function (app) {
 		} catch {
 			return res.json({error: 'error saving item to registered cart'})
 		}	
-		console.log(`${req.user.username} is logged in`);
+		console.log(`${req.user.fname} is logged in`);
     	res.json({errors: false, user: req.user})
     });
 
