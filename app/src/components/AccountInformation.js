@@ -18,8 +18,8 @@ class AccountInformation extends React.Component {
 		this.updateEmail = this.updateEmail.bind(this);
 	}
 
-	handleSubmit = () => {
-		console.log('here');
+	handleSubmit = (e) => {
+		e.preventDefault()
 	}
 
 	updateFname = (e) => {
@@ -50,38 +50,39 @@ class AccountInformation extends React.Component {
 	};
 
 	render() {
+		let containerClassNames = 'checkout-step-container';
+		if (this.props.step !== this.props.index) {
+			containerClassNames = 'checkout-step-container checkout-step-container-inactive'
+		}
 		return (
-			<div>
-			{this.props.step === this.props.index
-				? 
-					<form className='checkout-step-container checkout-step-container-active' onSubmit={this.handleSubmit}>
-						<div className='checkout-step-number-container'><div className='checkout-step-number'>{this.props.index}</div></div>
-						<div>
-							<div className='input-section'>
-								<label className='input-label long'>E-mail:</label>
-								<br></br>
-								<input type="email" name="email" onChange={this.updateEmail} value={this.state.formData.email}/>
-								<br></br>
-							</div>
-							<div className='input-section'>
-								<label className='input-label long'>First Name:</label>
-								<br></br>
-								<input type="fname" name="fname" onChange={this.updateFname} value={this.state.formData.fname}/>
-								<br></br>
-							</div>
-							<div className='input-section'>
-								<label className='input-label long'>Last Name:</label>
-								<br></br>
-								<input type="lname" name="lname" onChange={this.updateLname} value={this.state.formData.lname}/>
-								<br></br>
-							</div>
-							<input className='submit-button' type="submit" value="Continue"/>
-						</div>
-					</form>
-				: <div className='checkout-step-container checkout-step-container-inactive' onClick={() => this.props.clickEvent(this.props.index)}>
+			<div className={containerClassNames} onClick={() => this.props.clickEvent(this.props.index)}>
+				<div className='checkout-step-label-container'>
 					<div className='checkout-step-number-container'><div className='checkout-step-number'>{this.props.index}</div></div>
 					<div className='checkout-step-label'>{this.props.text}</div>
-				  </div>
+				</div>	
+			{this.props.step === this.props.index
+				? <form onSubmit={this.handleSubmit} className='checkout-step-form-container'>
+						<div className='input-section'>
+							<label className='input-label long'>E-mail:</label>
+							<br></br>
+							<input type="email" name="email" onChange={this.updateEmail} value={this.state.formData.email}/>
+							<br></br>
+						</div>
+						<div className='input-section'>
+							<label className='input-label long'>First Name:</label>
+							<br></br>
+							<input type="fname" name="fname" onChange={this.updateFname} value={this.state.formData.fname}/>
+							<br></br>
+						</div>
+						<div className='input-section'>
+							<label className='input-label long'>Last Name:</label>
+							<br></br>
+							<input type="lname" name="lname" onChange={this.updateLname} value={this.state.formData.lname}/>
+							<br></br>
+						</div>
+						<input className='submit-button' type="submit" value="Continue"/>
+				  </form>
+				: null
 			}
 			</div>
 		)

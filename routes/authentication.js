@@ -17,6 +17,7 @@ module.exports = function (app) {
 		});
 
 	app.post('/authentication/login', passport.authenticate('local'), async (req, res) => {
+		console.log('here')
 		const cart = await transferUnregisteredCart(req.ip);
 		try {
 			if (cart) {
@@ -41,17 +42,17 @@ module.exports = function (app) {
 		.post( async (req, res) => {
 			let errors = [];
 			const saltRounds = 10;
-			const {username, password, password2, fname, lname, email} = req.body;
-			if (!username || !password || !password2 || !fname || !lname || !email) {
+			const {password, password2, fname, lname, email} = req.body;
+			if (!password || !password2 || !fname || !lname || !email) {
 				errors.push('Please fill out all items');
 			};
 			if (password !== password2) {
 				errors.push('Passwords do not match')
 			};
 
-			let user = await User.findOne({username});
+			let user = await User.findOne({email});
 			if (user) {
-				errors.push('Username is already registered. Try logging in!')
+				errors.push('Email is already registered. Try logging in!')
 			} 
 			if (errors.length > 0) {
 				res.json({errors})
@@ -61,7 +62,6 @@ module.exports = function (app) {
     					let cart =  await transferUnregisteredCart(req.ip);
     					if (!cart) cart = [];
 						await User.create({
-							username,
 							password: hash,
 							fname,
 							lname,

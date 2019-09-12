@@ -14,13 +14,13 @@ class Login extends React.Component {
 
 		this.state = {
 			formData: {
-				username: '',
+				email: '',
 				password: '',
 			},
 			errors: [],
 			redirect: false,
 		}
-		this.updateUsername = this.updateUsername.bind(this);
+		this.updateEmail = this.updateEmail.bind(this);
 		this.updatePassword = this.updatePassword.bind(this);
 	}
 
@@ -49,11 +49,11 @@ class Login extends React.Component {
 			});
 	}
 
-	updateUsername = (e) => {
+	updateEmail = (e) => {
 		this.setState({
 			formData: {
 				...this.state.formData,
-				username: e.target.value
+				email: e.target.value
 			}		
 		})
 	};
@@ -83,9 +83,9 @@ class Login extends React.Component {
 			
 			<form onSubmit={this.handleSubmit}>
 				<div className='input-section'>
-					<label className='input-label'>Username: </label>
+					<label className='input-label'>E-mail: </label>
 					<br></br>
-					<input type="text" name="username" value={this.state.formData.username} onChange={this.updateUsername}/>
+					<input type="text" name="email" value={this.state.formData.email} onChange={this.updateEmail}/>
 					<br></br>
 				</div>
 				<div className='input-section'>

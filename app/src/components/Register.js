@@ -11,7 +11,6 @@ export default class Register extends React.Component {
 
 		this.state = {
 			formData: {
-				username: '',
 				password: '',
 				password2: '',
 				fname: '',
@@ -21,7 +20,6 @@ export default class Register extends React.Component {
 			errors: [],
 			redirect: false
 		}
-		this.updateUsername = this.updateUsername.bind(this);
 		this.updatePassword = this.updatePassword.bind(this);
 		this.updatePassword2 = this.updatePassword2.bind(this);
 		this.updateFname = this.updateFname.bind(this);
@@ -58,16 +56,6 @@ export default class Register extends React.Component {
 			});
 
 	}
-
-
-	updateUsername = (e) => {
-		this.setState({
-			formData: {
-				...this.state.formData,
-				username: e.target.value
-			}		
-		})
-	};
 
 	updatePassword = (e) => {
 		this.setState({
@@ -129,9 +117,9 @@ export default class Register extends React.Component {
 				</div>
 			<form onSubmit={this.handleSubmit}>
 				<div className='input-section'>
-					<label className='input-label long'>Username: </label>
+					<label className='input-label long'>E-mail:</label>
 					<br></br>
-					<input type="text" name="username" onChange={this.updateUsername} value={this.state.formData.username}/>
+					<input type="email" name="email" onChange={this.updateEmail} value={this.state.formData.email}/>
 					<br></br>
 				</div>
 				<div className='input-section'>
@@ -156,12 +144,6 @@ export default class Register extends React.Component {
 					<label className='input-label long'>Last Name:</label>
 					<br></br>
 					<input type="lname" name="lname" onChange={this.updateLname} value={this.state.formData.lname}/>
-					<br></br>
-				</div>
-				<div className='input-section'>
-					<label className='input-label long'>E-mail:</label>
-					<br></br>
-					<input type="email" name="email" onChange={this.updateEmail} value={this.state.formData.email}/>
 					<br></br>
 				</div>
 				<input className='submit-button' type="submit"/>

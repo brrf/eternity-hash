@@ -5,10 +5,13 @@ const bcrypt = require('bcrypt');;
 
 module.exports = function(passport) {
 
-	passport.use(new LocalStrategy(
+	passport.use(new LocalStrategy({
+	  usernameField: 'email',
+	  passwordField: 'password'
+	  },
 	  function(username, password, done) {
 
-	    User.findOne({ username: username }, async function (err, user) {
+	    User.findOne({ email: username }, async function (err, user) {
 	      if (err) { return done(err); }
 	      if (!user) { return done(null, false); }
 	      const match = await bcrypt.compare(password, user.password);
