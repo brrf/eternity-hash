@@ -69,8 +69,8 @@ class Cart extends React.Component {
 						</div>
 					: 	<div className='cart-component-container'>
 							<div className='cart-container cart-small'>
-								{this.props.cart.length > 0
-									? this.props.cart.map( (item, index) => {
+								{this.props.cart.cart.length > 0
+									? this.props.cart.cart.map( (item, index) => {
 										if (item === null || !item.piece || !item.piece.thumbnails) return;
 										return <CartItemSmall key={index} item={item}  />
 									})
