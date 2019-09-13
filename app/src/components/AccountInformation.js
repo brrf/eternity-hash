@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import LoginForm from './LoginForm';
+import Warning from './Warning'
 
 import {setCheckoutStep} from '../actions/cart';
 
@@ -14,7 +15,8 @@ class AccountInformation extends React.Component {
 				fname: '',
 				lname: ''
 			},
-			accountOwner: false
+			accountOwner: false,
+			errors: []
 		}
 
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,6 +41,15 @@ class AccountInformation extends React.Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
+		this.setState({
+			errors: []
+		});
+		if (!this.state.formData.email || !this.state.formData.fname || !this.state.formData.lname) {
+			this.setState({
+				errors: ['Please fill out all fields']
+			})
+			return;
+		}
 		this.props.dispatch(setCheckoutStep({currentStep: this.props.index + 1, completed: true}));
 	}
 
@@ -102,28 +113,29 @@ class AccountInformation extends React.Component {
 							  	<p onClick={this.toggleAccountOwner} className='checkout-step-account-toggle'>No account? Checkout with email only!</p>
 							  </div>
 							: <div className={containerClassNames}>
+								<Warning errors={this.state.errors}/>
 								<div className='checkout-step-forms-container'>
-									  <form onSubmit={this.handleSubmit} className='checkout-step-form-container'>
-											<div className='input-section'>
-												<label className='input-label long'>E-mail:</label>
-												<br></br>
-												<input type="email" name="email" onChange={this.updateEmail} value={this.state.formData.email}/>
-												<br></br>
-											</div>
-											<div className='input-section'>
-												<label className='input-label long'>First Name:</label>
-												<br></br>
-												<input type="fname" name="fname" onChange={this.updateFname} value={this.state.formData.fname}/>
-												<br></br>
-											</div>
-											<div className='input-section'>
-												<label className='input-label long'>Last Name:</label>
-												<br></br>
-												<input type="lname" name="lname" onChange={this.updateLname} value={this.state.formData.lname}/>
-												<br></br>
-											</div>
-											<input className='submit-button' type="submit" value="Continue"/>
-									  </form>
+									<form onSubmit={this.handleSubmit} className='checkout-step-form-container'>
+										<div className='input-section'>
+											<label className='input-label long'>E-mail:</label>
+											<br></br>
+											<input type="email" name="email" onChange={this.updateEmail} value={this.state.formData.email}/>
+											<br></br>
+										</div>
+										<div className='input-section'>
+											<label className='input-label long'>First Name:</label>
+											<br></br>
+											<input type="fname" name="fname" onChange={this.updateFname} value={this.state.formData.fname}/>
+											<br></br>
+										</div>
+										<div className='input-section'>
+											<label className='input-label long'>Last Name:</label>
+											<br></br>
+											<input type="lname" name="lname" onChange={this.updateLname} value={this.state.formData.lname}/>
+											<br></br>
+										</div>
+										<input className='submit-button' type="submit" value="Continue"/>
+									</form>
 								{!this.props.authedUser
 								  	? <p onClick={this.toggleAccountOwner} className='checkout-step-account-toggle'>Already have an account? Log-in!</p>
 								  	: null

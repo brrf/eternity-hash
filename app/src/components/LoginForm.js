@@ -28,6 +28,12 @@ class LoginForm extends React.Component {
 		this.setState({
 			errors: []
 		})
+		if (!this.state.formData.email || !this.state.formData.password) {
+			this.setState({
+				errors: [...this.state.errors, 'Please fill out all fields']
+			})
+			return;
+		}
 		fetch('http://localhost:5000/authentication/login', {
 			method: 'POST',
 			body: JSON.stringify(this.state.formData),
