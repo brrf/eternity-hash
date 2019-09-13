@@ -1,4 +1,4 @@
-export default function cart (state = {cart: [], checkoutStep: 1}, action) {
+export default function cart (state = {cart: [], checkoutStep: {currentStep: 1, completed: 0}}, action) {
 	switch (action.type) {
 		case 'ADD_ITEM_TO_CART':
 			return {
@@ -16,10 +16,19 @@ export default function cart (state = {cart: [], checkoutStep: 1}, action) {
 				cart: action.newCart
 			}
 		case 'SET_CHECKOUT_STEP':
-			if (typeof action.step !== 'number') return state;
+			if (typeof action.checkoutStep.currentStep !== 'number') return state;
+			let completed = state.checkoutStep.completed;
+			if (action.checkoutStep.completed && action.checkoutStep.currentStep > state.checkoutStep.completed) {
+				console.log('here?');
+				completed++;
+				console.log({completed})
+			}
 			return {
 				...state, 
-				checkoutStep: action.step
+				checkoutStep: {
+					currentStep: action.checkoutStep.currentStep,
+					completed
+				}
 			}
 		default: return state
 	}

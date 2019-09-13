@@ -1,6 +1,8 @@
 import React from 'react';
-import {connect} from 'react-redux'
-import LoginForm from './LoginForm'
+import {connect} from 'react-redux';
+import LoginForm from './LoginForm';
+
+import {setCheckoutStep} from '../actions/cart';
 
 class AccountInformation extends React.Component {
 	constructor(props) {
@@ -36,7 +38,8 @@ class AccountInformation extends React.Component {
 	}
 
 	handleSubmit = (e) => {
-		e.preventDefault()
+		e.preventDefault();
+		this.props.dispatch(setCheckoutStep({currentStep: this.props.index + 1, completed: true}));
 	}
 
 	updateFname = (e) => {
@@ -80,57 +83,63 @@ class AccountInformation extends React.Component {
 
 	render() {
 		let containerClassNames = 'checkout-step-container';
-		if (this.props.step !== this.props.index) {
+		if (this.props.checkoutStep !== this.props.index) {
 			containerClassNames = 'checkout-step-container checkout-step-container-inactive'
 		}
 		return (
-			<div className={containerClassNames} onClick={() => this.props.clickEvent(this.props.index)}>
-				<div className='checkout-step-label-container'>
-					<div className='checkout-step-number-container'><div className='checkout-step-number'>{this.props.index}</div></div>
-					<div className='checkout-step-label'>{this.props.text}</div>
-				</div>	
-			{this.props.step === this.props.index
-				? this.state.accountOwner
-					? <React.Fragment>
-						<LoginForm success={this.loggedIn}/>
-					  	<p onClick={this.toggleAccountOwner} className='checkout-step-account-toggle'>No account? Checkout with email only!</p>
-					  </React.Fragment>
-					: <div className='checkout-step-forms-container'>
-						  <form onSubmit={this.handleSubmit} className='checkout-step-form-container'>
-								<div className='input-section'>
-									<label className='input-label long'>E-mail:</label>
-									<br></br>
-									<input type="email" name="email" onChange={this.updateEmail} value={this.state.formData.email}/>
-									<br></br>
-								</div>
-								<div className='input-section'>
-									<label className='input-label long'>First Name:</label>
-									<br></br>
-									<input type="fname" name="fname" onChange={this.updateFname} value={this.state.formData.fname}/>
-									<br></br>
-								</div>
-								<div className='input-section'>
-									<label className='input-label long'>Last Name:</label>
-									<br></br>
-									<input type="lname" name="lname" onChange={this.updateLname} value={this.state.formData.lname}/>
-									<br></br>
-								</div>
-								<input className='submit-button' type="submit" value="Continue"/>
-						  </form>
-						{!this.props.authedUser
-						  	? <p onClick={this.toggleAccountOwner} className='checkout-step-account-toggle'>Already have an account? Log-in!</p>
-						  	: null
+			<React.Fragment>
+				{this.props.checkoutStep !== this.props.index
+					?  <div className={containerClassNames} onClick={() => this.props.clickEvent(this.props.index)}>
+							<div className='checkout-step-label-container'>
+								<div className='checkout-step-number-container'><div className='checkout-step-number'>{this.props.index}</div></div>
+								<div className='checkout-step-label'>{this.props.text}</div>
+							</div>
+						</div>			
+					: <React.Fragment>
+						{this.state.accountOwner
+							? <div className={containerClassNames}>
+								<LoginForm success={this.loggedIn}/>
+							  	<p onClick={this.toggleAccountOwner} className='checkout-step-account-toggle'>No account? Checkout with email only!</p>
+							  </div>
+							: <div className={containerClassNames}>
+								<div className='checkout-step-forms-container'>
+									  <form onSubmit={this.handleSubmit} className='checkout-step-form-container'>
+											<div className='input-section'>
+												<label className='input-label long'>E-mail:</label>
+												<br></br>
+												<input type="email" name="email" onChange={this.updateEmail} value={this.state.formData.email}/>
+												<br></br>
+											</div>
+											<div className='input-section'>
+												<label className='input-label long'>First Name:</label>
+												<br></br>
+												<input type="fname" name="fname" onChange={this.updateFname} value={this.state.formData.fname}/>
+												<br></br>
+											</div>
+											<div className='input-section'>
+												<label className='input-label long'>Last Name:</label>
+												<br></br>
+												<input type="lname" name="lname" onChange={this.updateLname} value={this.state.formData.lname}/>
+												<br></br>
+											</div>
+											<input className='submit-button' type="submit" value="Continue"/>
+									  </form>
+								{!this.props.authedUser
+								  	? <p onClick={this.toggleAccountOwner} className='checkout-step-account-toggle'>Already have an account? Log-in!</p>
+								  	: null
+								}
+							  	</div>
+							</div>
 						}
-					  </div>
-				: null
-			}
-			</div>
+					</React.Fragment>
+				}
+			</React.Fragment>
 		)
 	}
 }
 
 function mapStateToProps(state) {
-	return {authedUser: state.authedUser.authedUser}
+	return {authedUser: state.authedUser.authedUser, checkoutStep: state.cart.checkoutStep.currentStep}
 }
 
 export default connect(mapStateToProps)(AccountInformation)

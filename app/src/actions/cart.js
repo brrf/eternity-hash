@@ -19,9 +19,9 @@ export function updateCart (newCart) {
 	}
 }
 
-export function setCheckoutStep (step) {
+export function setCheckoutStep (checkoutStep) {
 	return {
 		type: 'SET_CHECKOUT_STEP',
-		step
+		checkoutStep
 	}
 }

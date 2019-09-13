@@ -160,7 +160,8 @@
 
 .checkout-step-number {
 	color: white;
-	font-size: 40px;
+	font-size: 36px;
+	font-family: none;
 }
 
 .checkout-step-label {

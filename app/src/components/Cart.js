@@ -29,8 +29,9 @@ class Cart extends React.Component {
 		})
 	}
 
-	toggleStep = (step) => {
-		this.props.dispatch(setCheckoutStep(step));		
+	toggleStep = (currentStep) => {
+		if (this.props.cart.checkoutStep.completed + 1 < currentStep) return; 
+		this.props.dispatch(setCheckoutStep({currentStep, completed: false}));		
 	}
 
 	render() {
@@ -39,7 +40,7 @@ class Cart extends React.Component {
 		}
 		let subtotal = 0;
 		let shipping = 8.00;
-		this.props.cart.forEach( item => subtotal += item.piece.price);
+		this.props.cart.cart.forEach( item => subtotal += item.piece.price);
 		let tax = Math.round((subtotal * 0.08)*100)/100;
 
 		return (
@@ -49,8 +50,8 @@ class Cart extends React.Component {
 					?
 						<div className='cart-component-container'>
 							<div className={'cart-container cart-large'}>
-								{this.props.cart.length > 0
-									? this.props.cart.map( (item, index) => {
+								{this.props.cart.cart.length > 0
+									? this.props.cart.cart.map( (item, index) => {
 										if (item === null || !item.piece || !item.piece.thumbnails) return;
 										return <CartItemLarge key={index} item={item}  />
 									})
@@ -63,7 +64,7 @@ class Cart extends React.Component {
 								<p className='checkout-details-label'>Estimated Tax:</p><span className='checkout-price-value'>${tax}</span><br/>
 								<hr/>
 								<p className='checkout-details-label'>Total:</p><span className='checkout-price-value'>${subtotal + shipping + tax}</span><br/>
-								<button onClick={this.handleProceed} disabled={!this.props.cart.length} className='submit-button' style={{width: '250px'}}>Proceed to 3-Step Checkout</button>
+								<button onClick={this.handleProceed} disabled={!this.props.cart.cart.length} className='submit-button' style={{width: '250px'}}>Proceed to 3-Step Checkout</button>
 							</div>
 						</div>
 					: 	<div className='cart-component-container'>
@@ -77,9 +78,9 @@ class Cart extends React.Component {
 								}
 							</div>
 							<div className='checkout-details-large'>
-								<AccountInformation index={1} step={this.props.checkoutStep} text='Account Information' clickEvent={this.toggleStep}/>
-								<AccountInformation index={2} step={this.props.checkoutStep} text='Shipping Information' clickEvent={this.toggleStep}/>
-								<AccountInformation index={3} step={this.props.checkoutStep} text='Payment Information' clickEvent={this.toggleStep}/>
+								<AccountInformation index={1} text='Account Information' clickEvent={this.toggleStep}/>
+								<AccountInformation index={2} text='Shipping Information' clickEvent={this.toggleStep}/>
+								<AccountInformation index={3} text='Payment Information' clickEvent={this.toggleStep}/>
 							</div>
 						</div>
 				}				
@@ -89,7 +90,8 @@ class Cart extends React.Component {
 }
 
 function mapStateToProps(state) {
-	return {cart: state.cart.cart, checkoutStep: state.cart.checkoutStep};
+	console.log({state});
+	return {cart: state.cart};
 }
 
 export default connect(mapStateToProps)(Cart);
