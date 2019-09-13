@@ -29,7 +29,6 @@ class AddToCart extends React.Component {
 
 		//Add item to cart in mongoDb
 		e.preventDefault();
-		console.log(typeof this.state.formData.date)
 		fetch('http://localhost:5000/cart', {
 			method: 'POST',
 			body: JSON.stringify(this.state.formData),

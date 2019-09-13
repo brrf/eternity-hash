@@ -17,10 +17,6 @@
 	width: 66%;
 }
 
-/*.cart-small {
-	width: 34%;
-}*/
-
 .checkout-details-small {
 	width: 34%;
 	height: 30%;
@@ -173,6 +169,19 @@
 	font-size: 25px;
 }
 
+.checkout-step-forms-container {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+}
+
 .checkout-step-form-container {
 	margin-top: 15px;
+}
+
+.checkout-step-account-toggle {
+	text-decoration: underline;
+	color: #3e6079;
+	padding-left: 25px;
+	cursor: pointer;
 }

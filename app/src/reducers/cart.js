@@ -1,4 +1,4 @@
-export default function cart (state = {cart: []}, action) {
+export default function cart (state = {cart: [], checkoutStep: 1}, action) {
 	switch (action.type) {
 		case 'ADD_ITEM_TO_CART':
 			return {
@@ -14,6 +14,12 @@ export default function cart (state = {cart: []}, action) {
 			return {
 				...state,
 				cart: action.newCart
+			}
+		case 'SET_CHECKOUT_STEP':
+			if (typeof action.step !== 'number') return state;
+			return {
+				...state, 
+				checkoutStep: action.step
 			}
 		default: return state
 	}

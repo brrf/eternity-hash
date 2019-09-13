@@ -1,4 +1,6 @@
 import React from 'react';
+import {connect} from 'react-redux'
+import LoginForm from './LoginForm'
 
 class AccountInformation extends React.Component {
 	constructor(props) {
@@ -9,13 +11,16 @@ class AccountInformation extends React.Component {
 				email: '',
 				fname: '',
 				lname: ''
-			}
+			},
+			accountOwner: false
 		}
 
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.updateFname = this.updateFname.bind(this);
 		this.updateLname = this.updateLname.bind(this);
 		this.updateEmail = this.updateEmail.bind(this);
+		this.toggleAccountOwner = this.toggleAccountOwner.bind(this);
+		this.loggedIn = this.loggedIn.bind(this);
 	}
 
 	handleSubmit = (e) => {
@@ -49,6 +54,18 @@ class AccountInformation extends React.Component {
 		})
 	};
 
+	toggleAccountOwner = (e) => {
+		this.setState({
+			accountOwner: !this.state.accountOwner
+		})
+	}
+
+	loggedIn = () => {
+		this.setState({
+			redirect: true
+		})
+	}
+
 	render() {
 		let containerClassNames = 'checkout-step-container';
 		if (this.props.step !== this.props.index) {
@@ -61,27 +78,35 @@ class AccountInformation extends React.Component {
 					<div className='checkout-step-label'>{this.props.text}</div>
 				</div>	
 			{this.props.step === this.props.index
-				? <form onSubmit={this.handleSubmit} className='checkout-step-form-container'>
-						<div className='input-section'>
-							<label className='input-label long'>E-mail:</label>
-							<br></br>
-							<input type="email" name="email" onChange={this.updateEmail} value={this.state.formData.email}/>
-							<br></br>
-						</div>
-						<div className='input-section'>
-							<label className='input-label long'>First Name:</label>
-							<br></br>
-							<input type="fname" name="fname" onChange={this.updateFname} value={this.state.formData.fname}/>
-							<br></br>
-						</div>
-						<div className='input-section'>
-							<label className='input-label long'>Last Name:</label>
-							<br></br>
-							<input type="lname" name="lname" onChange={this.updateLname} value={this.state.formData.lname}/>
-							<br></br>
-						</div>
-						<input className='submit-button' type="submit" value="Continue"/>
-				  </form>
+				? this.state.accountOwner
+					? <React.Fragment>
+						<LoginForm success={this.loggedIn}/>
+					  	<p onClick={this.toggleAccountOwner} className='checkout-step-account-toggle'>No account? Checkout with email only!</p>
+					  </React.Fragment>
+					: <div className='checkout-step-forms-container'>
+						  <form onSubmit={this.handleSubmit} className='checkout-step-form-container'>
+								<div className='input-section'>
+									<label className='input-label long'>E-mail:</label>
+									<br></br>
+									<input type="email" name="email" onChange={this.updateEmail} value={this.state.formData.email}/>
+									<br></br>
+								</div>
+								<div className='input-section'>
+									<label className='input-label long'>First Name:</label>
+									<br></br>
+									<input type="fname" name="fname" onChange={this.updateFname} value={this.state.formData.fname}/>
+									<br></br>
+								</div>
+								<div className='input-section'>
+									<label className='input-label long'>Last Name:</label>
+									<br></br>
+									<input type="lname" name="lname" onChange={this.updateLname} value={this.state.formData.lname}/>
+									<br></br>
+								</div>
+								<input className='submit-button' type="submit" value="Continue"/>
+						  </form>
+						  <p onClick={this.toggleAccountOwner} className='checkout-step-account-toggle'>Already have an account? Log-in!</p>
+					  </div>
 				: null
 			}
 			</div>
@@ -89,4 +114,9 @@ class AccountInformation extends React.Component {
 	}
 }
 
-export default AccountInformation
+function mapStateToProps(state) {
+	return state;
+}
+
+export default connect(mapStateToProps)(AccountInformation)
+

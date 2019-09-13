@@ -5,21 +5,22 @@ import {Link, Redirect} from 'react-router-dom';
 
 import handleLoginuser from '../actions/login'
 
-import LoginForm from './LoginForm'
-
 import logo from '../images/logo-192.png'
 import '../authenticate.css'
 
-class Login extends React.Component {
+class LoginForm extends React.Component {
 	constructor (props) {
 		super(props);
 
 		this.state = {
-			redirect: false,
+			formData: {
+				email: '',
+				password: '',
+			},
+			errors: [],
 		}
 		this.updateEmail = this.updateEmail.bind(this);
 		this.updatePassword = this.updatePassword.bind(this);
-		this.loggedIn = this.loggedIn.bind(this);
 	}
 
 	handleSubmit = (e) => {
@@ -39,10 +40,8 @@ class Login extends React.Component {
 				if (resObject.errors) {
 					console.log('errors')
 				} else {
-					this.props.dispatch(handleLoginuser(resObject.user))
-					this.setState({
-						redirect: true						
-					})
+					this.props.dispatch(handleLoginuser(resObject.user));
+					this.props.success();
 				}			
 			});
 	}
@@ -64,34 +63,33 @@ class Login extends React.Component {
 			}		
 		})
 	};
-
-	loggedIn = () => {
-		this.setState({
-			redirect: true
-		})
-	}
-
 	render() {
-		if (this.state.redirect) {
-       		return <Redirect to='/'/>;
-     	}
-	return (
-		<div className='account-container'>
-			{this.props.location.state ? <p className='flash registered'>{this.props.location.state.message}</p> : null}
-			<div className='form-container'>
-				<div className="header">
-					<Link to='/'><img className='logo' src={logo} style={{width: '40px', height: '40px'}} alt='logo' /></Link>
-					<h2>Login</h2>
-				</div>
-				<LoginForm success={this.loggedIn}/>
-				<p>No account? <Link className='toggle-link' to="./register">Register</Link></p>
-			</div>
-		</div>
-	)}
+		return (
+			<React.Fragment>
+				<Warning errors={this.state.errors}/>
+				<form onSubmit={this.handleSubmit}>
+					<div className='input-section'>
+						<label className='input-label'>E-mail: </label>
+						<br></br>
+						<input type="text" name="email" value={this.state.formData.email} onChange={this.updateEmail}/>
+						<br></br>
+					</div>
+					<div className='input-section'>
+						<label className='input-label'>Password:</label>
+						<br></br>
+						<input type="password" name="password" value={this.state.formData.password} onChange={this.updatePassword}/>
+						<br></br>
+					</div>
+					<input className='submit-button' type="submit" />
+				</form>
+			</React.Fragment>
+		)
+	}
 }
 
 function mapStateToProps(state) {
 	return state;
 }
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps)(LoginForm);
+

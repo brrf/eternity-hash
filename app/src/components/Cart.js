@@ -8,6 +8,8 @@ import PaymentInformation from './PaymentInformation';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
+import {setCheckoutStep} from '../actions/cart';
+
 import '../cart.css'
 
 class Cart extends React.Component {
@@ -16,8 +18,6 @@ class Cart extends React.Component {
 		this.state = {
 			redirect: false,
 			proceed: false,
-			step: 1
-
 		}
 		this.handleProceed = this.handleProceed.bind(this);	
 		this.toggleStep = this.toggleStep.bind(this);
@@ -30,9 +30,7 @@ class Cart extends React.Component {
 	}
 
 	toggleStep = (step) => {
-		this.setState({
-			step
-		})
+		this.props.dispatch(setCheckoutStep(step));		
 	}
 
 	render() {
@@ -79,9 +77,9 @@ class Cart extends React.Component {
 								}
 							</div>
 							<div className='checkout-details-large'>
-								<AccountInformation index={1} step={this.state.step} text='Account Information' clickEvent={this.toggleStep}/>
-								<AccountInformation index={2} step={this.state.step} text='Shipping Information' clickEvent={this.toggleStep}/>
-								<AccountInformation index={3} step={this.state.step} text='Payment Information' clickEvent={this.toggleStep}/>
+								<AccountInformation index={1} step={this.props.checkoutStep} text='Account Information' clickEvent={this.toggleStep}/>
+								<AccountInformation index={2} step={this.props.checkoutStep} text='Shipping Information' clickEvent={this.toggleStep}/>
+								<AccountInformation index={3} step={this.props.checkoutStep} text='Payment Information' clickEvent={this.toggleStep}/>
 							</div>
 						</div>
 				}				
@@ -91,7 +89,8 @@ class Cart extends React.Component {
 }
 
 function mapStateToProps(state) {
-	return {cart: state.cart.cart};
+	console.log({state});
+	return {cart: state.cart.cart, checkoutStep: state.cart.checkoutStep};
 }
 
 export default connect(mapStateToProps)(Cart);

@@ -18,3 +18,10 @@ export function updateCart (newCart) {
 		newCart
 	}
 }
+
+export function setCheckoutStep (step) {
+	return {
+		type: 'SET_CHECKOUT_STEP',
+		step
+	}
+}
