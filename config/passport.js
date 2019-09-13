@@ -8,7 +8,7 @@ module.exports = function(passport) {
 	passport.use(new LocalStrategy({
 	  usernameField: 'email',
 	  passwordField: 'password'
-	  },
+	},
 	  function(username, password, done) {
 
 	    User.findOne({ email: username }, async function (err, user) {

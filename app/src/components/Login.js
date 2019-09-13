@@ -17,53 +17,8 @@ class Login extends React.Component {
 		this.state = {
 			redirect: false,
 		}
-		this.updateEmail = this.updateEmail.bind(this);
-		this.updatePassword = this.updatePassword.bind(this);
 		this.loggedIn = this.loggedIn.bind(this);
 	}
-
-	handleSubmit = (e) => {
-		e.preventDefault();
-		this.setState({
-			errors: []
-		})
-		fetch('http://localhost:5000/authentication/login', {
-			method: 'POST',
-			body: JSON.stringify(this.state.formData),
-			headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "http://localhost:5000"},
-			mode: 'cors',
-			credentials: 'include'
-		})
-			.then(res => res.json())
-			.then(resObject => {
-				if (resObject.errors) {
-					console.log('errors')
-				} else {
-					this.props.dispatch(handleLoginuser(resObject.user))
-					this.setState({
-						redirect: true						
-					})
-				}			
-			});
-	}
-
-	updateEmail = (e) => {
-		this.setState({
-			formData: {
-				...this.state.formData,
-				email: e.target.value
-			}		
-		})
-	};
-
-	updatePassword = (e) => {
-		this.setState({
-			formData: {
-				...this.state.formData,
-				password: e.target.value
-			}		
-		})
-	};
 
 	loggedIn = () => {
 		this.setState({
