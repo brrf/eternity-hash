@@ -23,6 +23,18 @@ class AccountInformation extends React.Component {
 		this.loggedIn = this.loggedIn.bind(this);
 	}
 
+	componentDidMount = () => {
+		if (this.props.authedUser) {
+			this.setState({
+				formData: {
+					email: this.props.authedUser.email,
+					fname: this.props.authedUser.fname,
+					lname: this.props.authedUser.lname
+				}
+			})
+		}
+	}
+
 	handleSubmit = (e) => {
 		e.preventDefault()
 	}
@@ -105,7 +117,10 @@ class AccountInformation extends React.Component {
 								</div>
 								<input className='submit-button' type="submit" value="Continue"/>
 						  </form>
-						  <p onClick={this.toggleAccountOwner} className='checkout-step-account-toggle'>Already have an account? Log-in!</p>
+						{!this.props.authedUser
+						  	? <p onClick={this.toggleAccountOwner} className='checkout-step-account-toggle'>Already have an account? Log-in!</p>
+						  	: null
+						}
 					  </div>
 				: null
 			}
@@ -115,7 +130,7 @@ class AccountInformation extends React.Component {
 }
 
 function mapStateToProps(state) {
-	return state;
+	return {authedUser: state.authedUser.authedUser}
 }
 
 export default connect(mapStateToProps)(AccountInformation)
