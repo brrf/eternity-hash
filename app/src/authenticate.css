@@ -22,10 +22,11 @@ body {
 	color: white;
 	margin: 5px;
 	padding: 5px;
+	margin-bottom: 15px;
 }
 
 .error {
-	background-color: #da2b0f;
+	background-color: #da2b0fad;
 }
 
 .registered {

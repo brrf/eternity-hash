@@ -94,26 +94,27 @@ class AccountInformation extends React.Component {
 
 	render() {
 		let containerClassNames = 'checkout-step-container';
+		let clickEvent;
 		if (this.props.checkoutStep !== this.props.index) {
 			containerClassNames = 'checkout-step-container checkout-step-container-inactive'
+			clickEvent = () => this.props.clickEvent(this.props.index)
 		}
 		return (
-			<React.Fragment>
+			<div className={containerClassNames} onClick={clickEvent}>
+				<Warning errors={this.state.errors}/>
+				<div className='checkout-step-label-container'>
+					<div className='checkout-step-number-container'><div className='checkout-step-number'>{this.props.index}</div></div>
+					<div className='checkout-step-label'>{this.props.text}</div>
+				</div>
 				{this.props.checkoutStep !== this.props.index
-					?  <div className={containerClassNames} onClick={() => this.props.clickEvent(this.props.index)}>
-							<div className='checkout-step-label-container'>
-								<div className='checkout-step-number-container'><div className='checkout-step-number'>{this.props.index}</div></div>
-								<div className='checkout-step-label'>{this.props.text}</div>
-							</div>
-						</div>			
+					?  null		
 					: <React.Fragment>
 						{this.state.accountOwner
-							? <div className={containerClassNames}>
+							? <React.Fragment>
 								<LoginForm success={this.loggedIn}/>
 							  	<p onClick={this.toggleAccountOwner} className='checkout-step-account-toggle'>No account? Checkout with email only!</p>
-							  </div>
-							: <div className={containerClassNames}>
-								<Warning errors={this.state.errors}/>
+							</React.Fragment>
+							: <React.Fragment>
 								<div className='checkout-step-forms-container'>
 									<form onSubmit={this.handleSubmit} className='checkout-step-form-container'>
 										<div className='input-section'>
@@ -141,11 +142,11 @@ class AccountInformation extends React.Component {
 								  	: null
 								}
 							  	</div>
-							</div>
+							</React.Fragment>
 						}
 					</React.Fragment>
 				}
-			</React.Fragment>
+			</div>
 		)
 	}
 }
