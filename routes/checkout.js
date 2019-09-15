@@ -145,6 +145,6 @@ module.exports = function (app) {
 					newCart = deleteCartItem(err, user, req.body.itemId);
 				})
 			}
-			return res.json({error: null, cart: newCart});
+			return res.json({error: null});
 		})
 }

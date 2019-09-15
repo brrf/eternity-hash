@@ -73,28 +73,32 @@ class LoginForm extends React.Component {
 		return (
 			<React.Fragment>
 				<Warning errors={this.state.errors}/>
-				<form onSubmit={this.handleSubmit}>
-					<div className='input-section'>
-						<label className='input-label'>E-mail: </label>
-						<br></br>
-						<input type="text" name="email" value={this.state.formData.email} onChange={this.updateEmail}/>
-						<br></br>
-					</div>
-					<div className='input-section'>
-						<label className='input-label'>Password:</label>
-						<br></br>
-						<input type="password" name="password" value={this.state.formData.password} onChange={this.updatePassword}/>
-						<br></br>
-					</div>
-					<input className='submit-button' type="submit" />
-				</form>
+				{this.props.authedUser
+					? <div>Logged in as {this.props.authedUser}</div>
+					:<form onSubmit={this.handleSubmit}>
+						<div className='input-section'>
+							<label className='input-label'>E-mail: </label>
+							<br></br>
+							<input type="text" name="email" value={this.state.formData.email} onChange={this.updateEmail}/>
+							<br></br>
+						</div>
+						<div className='input-section'>
+							<label className='input-label'>Password:</label>
+							<br></br>
+							<input type="password" name="password" value={this.state.formData.password} onChange={this.updatePassword}/>
+							<br></br>
+						</div>
+						<input className='submit-button' type="submit" />
+					</form>
+				}
 			</React.Fragment>
 		)
 	}
 }
 
 function mapStateToProps(state) {
-	return state;
+	let authedUser = state.authedUser.authedUser ? state.authedUser.authedUser.fname : null 
+	return {authedUser};
 }
 
 export default connect(mapStateToProps)(LoginForm);

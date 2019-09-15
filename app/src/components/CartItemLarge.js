@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {updateCart} from '../actions/cart';
+import {receiveCart} from '../actions/cart';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 
@@ -26,7 +26,15 @@ class CartItemLarge extends React.Component {
 				if (resObject.error) {
 					console.log(resObject.error);
 				} else {
-					this.props.dispatch(updateCart(resObject.cart));
+					fetch('http://localhost:5000/cart', {
+					  method: 'GET',
+					  mode: 'cors',
+					  credentials: 'include'
+					})
+					.then(res => res.json())
+					.then(resObject => {
+					    this.props.dispatch(receiveCart(resObject.cart))
+					})
 				}
 			})
 	}

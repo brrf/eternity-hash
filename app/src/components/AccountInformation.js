@@ -87,9 +87,7 @@ class AccountInformation extends React.Component {
 	}
 
 	loggedIn = () => {
-		this.setState({
-			redirect: true
-		})
+		this.props.dispatch(setCheckoutStep({currentStep: this.props.index + 1, completed: true}));
 	}
 
 	render() {
@@ -112,7 +110,10 @@ class AccountInformation extends React.Component {
 						{this.state.accountOwner
 							? <React.Fragment>
 								<LoginForm success={this.loggedIn}/>
-							  	<p onClick={this.toggleAccountOwner} className='checkout-step-account-toggle'>No account? Checkout with email only!</p>
+							  	{!this.props.authedUser
+							  		? <p onClick={this.toggleAccountOwner} className='checkout-step-account-toggle'>No account? Checkout with email only!</p>
+							  		: null
+							  	}
 							</React.Fragment>
 							: <React.Fragment>
 								<div className='checkout-step-forms-container'>

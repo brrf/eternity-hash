@@ -40,7 +40,9 @@ class Cart extends React.Component {
 		}
 		let subtotal = 0;
 		let shipping = 8.00;
-		this.props.cart.cart.forEach( item => subtotal += item.piece.price);
+		this.props.cart.cart.forEach( item => {
+			subtotal += item.piece.price;
+		});
 		let tax = Math.round((subtotal * 0.08)*100)/100;
 
 		return (

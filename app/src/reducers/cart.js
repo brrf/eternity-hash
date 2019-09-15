@@ -10,18 +10,11 @@ export default function cart (state = {cart: [], checkoutStep: {currentStep: 1, 
 				...state,
 				cart: action.cart
 			}
-		case 'UPDATE_CART':
-			return {
-				...state,
-				cart: action.newCart
-			}
 		case 'SET_CHECKOUT_STEP':
 			if (typeof action.checkoutStep.currentStep !== 'number') return state;
 			let completed = state.checkoutStep.completed;
 			if (action.checkoutStep.completed && action.checkoutStep.currentStep > state.checkoutStep.completed) {
-				console.log('here?');
 				completed++;
-				console.log({completed})
 			}
 			return {
 				...state, 

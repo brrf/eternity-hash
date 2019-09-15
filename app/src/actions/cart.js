@@ -12,13 +12,6 @@ export function receiveCart (cart) {
 	}
 }
 
-export function updateCart (newCart) {
-	return {
-		type: 'UPDATE_CART',
-		newCart
-	}
-}
-
 export function setCheckoutStep (checkoutStep) {
 	return {
 		type: 'SET_CHECKOUT_STEP',
