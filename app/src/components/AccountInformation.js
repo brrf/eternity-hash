@@ -50,7 +50,7 @@ class AccountInformation extends React.Component {
 			})
 			return;
 		}
-		this.props.dispatch(setCheckoutStep({currentStep: this.props.index + 1, completed: true}));
+		this.props.dispatch(setCheckoutStep({currentStep: this.props.index, completed: true}));
 	}
 
 	updateFname = (e) => {
@@ -87,7 +87,16 @@ class AccountInformation extends React.Component {
 	}
 
 	loggedIn = () => {
+		//go to next step in checkout form
 		this.props.dispatch(setCheckoutStep({currentStep: this.props.index + 1, completed: true}));
+		//autofill account information
+		this.setState({
+			formData: {
+				email: this.props.authedUser.email,
+				fname: this.props.authedUser.fname,
+				lname: this.props.authedUser.lname
+			}
+		});
 	}
 
 	render() {
@@ -97,6 +106,7 @@ class AccountInformation extends React.Component {
 			containerClassNames = 'checkout-step-container checkout-step-container-inactive'
 			clickEvent = () => this.props.clickEvent(this.props.index)
 		}
+		console.log({currentStep: this.props.checkoutStep})
 		return (
 			<div className={containerClassNames} onClick={clickEvent}>
 				<Warning errors={this.state.errors}/>
@@ -107,14 +117,11 @@ class AccountInformation extends React.Component {
 				{this.props.checkoutStep !== this.props.index
 					?  null		
 					: <React.Fragment>
-						{this.state.accountOwner
+						{this.state.accountOwner && !this.props.authedUser
 							? <React.Fragment>
 								<LoginForm success={this.loggedIn}/>
-							  	{!this.props.authedUser
-							  		? <p onClick={this.toggleAccountOwner} className='checkout-step-account-toggle'>No account? Checkout with email only!</p>
-							  		: null
-							  	}
-							</React.Fragment>
+								<p onClick={this.toggleAccountOwner} className='checkout-step-account-toggle'>No account? Checkout with email only!</p>
+							  </React.Fragment>
 							: <React.Fragment>
 								<div className='checkout-step-forms-container'>
 									<form onSubmit={this.handleSubmit} className='checkout-step-form-container'>
