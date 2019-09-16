@@ -44,7 +44,6 @@ class Cart extends React.Component {
 			subtotal += item.piece.price;
 		});
 		let tax = Math.round((subtotal * 0.08)*100)/100;
-		console.log({currentStep: this.props.cart.checkoutStep.currentStep, completed: this.props.cart.checkoutStep.completed})
 		return (
 			<div>
 				<Navbar />

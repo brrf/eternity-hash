@@ -13,7 +13,6 @@ export default function cart (state = {cart: [], checkoutStep: {currentStep: 1, 
 		case 'SET_CHECKOUT_STEP':
 			if (typeof action.checkoutStep.currentStep !== 'number') return state;
 			let completed = state.checkoutStep.completed;
-			console.log(action.checkoutStep.currentStep, state.checkoutStep.completed)
 			if (action.checkoutStep.completed && action.checkoutStep.currentStep > state.checkoutStep.completed) {
 				console.log('are we here?');
 				completed++;

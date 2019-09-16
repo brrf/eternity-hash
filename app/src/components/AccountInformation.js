@@ -106,7 +106,6 @@ class AccountInformation extends React.Component {
 			containerClassNames = 'checkout-step-container checkout-step-container-inactive'
 			clickEvent = () => this.props.clickEvent(this.props.index)
 		}
-		console.log({currentStep: this.props.checkoutStep})
 		return (
 			<div className={containerClassNames} onClick={clickEvent}>
 				<Warning errors={this.state.errors}/>
