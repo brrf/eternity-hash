@@ -80,7 +80,7 @@ class Cart extends React.Component {
 							</div>
 							<div className='checkout-details-large'>
 								<AccountInformation index={1} text='Account Information' clickEvent={this.toggleStep}/>
-								<AccountInformation index={2} text='Shipping Information' clickEvent={this.toggleStep}/>
+								<ShippingInformation index={2} text='Shipping Information' clickEvent={this.toggleStep}/>
 								<AccountInformation index={3} text='Payment Information' clickEvent={this.toggleStep}/>
 							</div>
 						</div>
