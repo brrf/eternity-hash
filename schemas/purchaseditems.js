@@ -1,20 +1,28 @@
 const mongoose = require('mongoose');
 const itemSchema = require('./item');
 
-const purchasedItemsSchema = new mongoose.Schema({
-	itemDetails: {
-		type: itemSchema
+const purchasedItemSchema = new mongoose.Schema({
+	date: {
+		type: Date,
 		required: true
 	},
-	//status: pendingDate, transactionSubmitted, transactionConfirmed, Printed, Shipped
+	message: {
+		type: String,
+		required: true
+	},
+	pieceId: {
+		type: String,
+		required: true
+	},
+	//status: accountInformation, shippingInformation, pendingDate, transactionSubmitted, transactionConfirmed, Printed, Shipped
 	status: {
 		type: String,
 		required: true,
-		default: 'pendingDate'
+		default: 'accountInformation'
 	},
 	shippingInformation: {
 		type: Object,
-		required: true
+		required: true,
 		default: {
 			address1: '',
 			address2: '',
@@ -22,7 +30,11 @@ const purchasedItemsSchema = new mongoose.Schema({
 			state: '',
 			postalCode: ''
 		}
+	},
+	accountInformation: {
+		type: Object,
+		required: true
 	}
 });
 
-module.exports = mongoose.model('PurchasedItems', purchasedItemsSchema);
+module.exports = mongoose.model('PurchasedItems', purchasedItemSchema);

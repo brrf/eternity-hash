@@ -1,7 +1,7 @@
 const UnregisteredCart = require('../schemas/unregistered-cart');
 const User = require('../schemas/users');
 const Piece = require('../schemas/pieces');
-const PurchasedItems = require('../schemas/purchaseditems');
+const PurchasedItem = require('../schemas/purchaseditems');
 const hydratePiece = require('../utils/hydrate-piece');
 const stripe = require("stripe")("sk_test_o39Kr0ePiALbt2HfXt9VrZ3s00GgKCxGbX");
 
@@ -146,5 +146,33 @@ module.exports = function (app) {
 				})
 			}
 			return res.json({error: null});
+		})
+
+	app.route('/purchases/accountinformation')
+		.post(async (req, res) => {
+			if (!req.body.email || !req.body.fname || !req.body.lname) {
+				return res.json({error: 'Must fill out all fields'})
+			}
+			let cartItem;
+			if (!req.user) {
+				const cartObj = await UnregisteredCart.findOne({ip: req.ip});
+				if (!cartObj) return res.json({error: 'Your cart is empty'});
+				cartItem = cartObj.cart
+			}
+			try {
+				await PurchasedItem.create({
+					date: cartItem[0].date,
+					message: cartItem[0].message,
+					pieceId: cartItem[0].pieceId,
+					accountInformation: {
+						email: req.body.email,
+						fname: req.body.fname,
+						lname: req.body.lname
+					}
+				})
+			} catch {
+				return res.json({error: 'Could not add account information to the order'})
+			}		
+			res.json({error: null})
 		})
 }

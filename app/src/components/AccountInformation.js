@@ -50,7 +50,22 @@ class AccountInformation extends React.Component {
 			})
 			return;
 		}
-		this.props.dispatch(setCheckoutStep({currentStep: this.props.index, completed: true}));
+
+		fetch('http://localhost:5000/purchases/accountinformation', {
+			method: 'POST',
+			body: JSON.stringify(this.state.formData),
+			headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "http://localhost:5000"},
+			mode: 'cors',
+			credentials: 'include'
+		})
+			.then(res => res.json())
+			.then(resObject => {
+				if (resObject.error) {
+					console.log(resObject.error)
+				} else {
+					this.props.dispatch(setCheckoutStep({currentStep: 2, completed: true}));
+				}			
+			});
 	}
 
 	updateFname = (e) => {
