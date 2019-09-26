@@ -148,31 +148,75 @@ module.exports = function (app) {
 			return res.json({error: null});
 		})
 
-	app.route('/purchases/accountinformation')
+	app.route('/purchases')
 		.post(async (req, res) => {
-			if (!req.body.email || !req.body.fname || !req.body.lname) {
-				return res.json({error: 'Must fill out all fields'})
+			if (!req.body.checkoutStep) {
+				return res.json({error: 'This form is not recognized'})
 			}
-			let cartItem;
+			let user;
+			//not logged in
 			if (!req.user) {
-				const cartObj = await UnregisteredCart.findOne({ip: req.ip});
-				if (!cartObj) return res.json({error: 'Your cart is empty'});
-				cartItem = cartObj.cart
+				try {
+					//find a user based off ip
+					user = await UnregisteredCart.findOne({ip: req.ip});
+				} catch {
+					return res.json({error: 'Error with server'});
+				}				
+			} else {
+				try {
+					//find a registered user
+					user = await User.findById(req.user._id);
+				} catch {
+					return res.json({error: 'Error with server'});
+				}	
 			}
-			try {
-				await PurchasedItem.create({
-					date: cartItem[0].date,
-					message: cartItem[0].message,
-					pieceId: cartItem[0].pieceId,
-					accountInformation: {
-						email: req.body.email,
-						fname: req.body.fname,
-						lname: req.body.lname
+			if (!user) return res.json({error: 'Your cart is empty'});
+
+			//checkoutStep1: update contact info, checkoutStep2: update shipping info
+			switch (req.body.checkoutStep) {
+				case 1:
+					if (!req.body.formData.email || !req.body.formData.fname || !req.body.formData.lname) {
+						return res.json({error: 'Must fill out all fields'})
 					}
-				})
-			} catch {
-				return res.json({error: 'Could not add account information to the order'})
-			}		
-			res.json({error: null})
-		})
+					let item;
+					try {
+						//created a purchased item
+						item = await PurchasedItem.create({
+							date: user.cart[0].date,
+							message: user.cart[0].message,
+							pieceId: user.cart[0].pieceId,
+							accountInformation: {
+								email: req.body.formData.email,
+								fname: req.body.formData.fname,
+								lname: req.body.formData.lname
+							}
+						})
+						//save purchased item id to user
+					//	await user.purchasedItems.push(item._id);
+					//	user.save();
+					} catch {
+						return res.json({error: 'Could not add account information to the order'})
+					}	
+					return res.json({error: null, purchasedItemId: item._id})
+				case 2:
+					if (!req.body.formData.address1 || !req.body.formData.city || !req.body.formData.state || !req.body.formData.zipcode) {
+						return res.json({error: 'Must fill out all fields'})
+					};
+					try {
+						await PurchasedItem.findByIdAndUpdate(req.body.purchaseItemId, {
+							shippingInformation: {
+								address1: req.body.formData.address1,
+								address2: req.body.formData.address2 || '',
+								city: req.body.formData.city,
+								state: req.body.formData.state,
+								zipcode: req.body.formData.zipcode
+							},
+							status: 'shippingInformation'
+						})
+					} catch {
+						return res.json({error: 'Error adding shipping information'});
+					}
+			}
+			res.json({error: null})	
+		});
 }

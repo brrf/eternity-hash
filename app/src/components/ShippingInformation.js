@@ -34,14 +34,19 @@ class ShippingInformation extends React.Component {
 		});
 		if (!this.state.formData.address1 || !this.state.formData.city || !this.state.formData.state || !this.state.formData.zipcode) {
 			this.setState({
-				errors: ['Please fill out all fields']
+				errors: ['Please fill out all the required fields']
 			})
 			return;
 		}
+		console.log({id: this.props.purchaseItemId})
 
-		fetch('http://localhost:5000/purchases/shippinginformation', {
+		fetch('http://localhost:5000/purchases', {
 			method: 'POST',
-			body: JSON.stringify(this.state.formData),
+			body: JSON.stringify({
+				formData: this.state.formData, 
+				checkoutStep: 2, 
+				purchaseItemId: this.props.purchaseItemId
+			}),
 			headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "http://localhost:5000"},
 			mode: 'cors',
 			credentials: 'include'
@@ -102,6 +107,7 @@ class ShippingInformation extends React.Component {
 	};
 
 	render() {
+		console.log({id: this.props.purchaseItemId})
 		let containerClassNames = 'checkout-step-container';
 		let clickEvent;
 		if (this.props.checkoutStep !== this.props.index) {

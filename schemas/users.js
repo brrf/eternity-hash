@@ -20,12 +20,10 @@ const userSchema = new mongoose.Schema({
 		unique: true
 	},
 	cart: {
-		type: [itemSchema],
-		default: []
+		type: [itemSchema]
 	},
 	purchasedItems: {
-		type: [itemSchema],
-		default: []
+		type: [itemSchema]
 	}
 });
 

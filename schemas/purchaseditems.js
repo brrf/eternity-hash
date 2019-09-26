@@ -28,7 +28,7 @@ const purchasedItemSchema = new mongoose.Schema({
 			address2: '',
 			city: '',
 			state: '',
-			postalCode: ''
+			zipcode: ''
 		}
 	},
 	accountInformation: {

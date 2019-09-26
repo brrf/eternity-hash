@@ -8,6 +8,9 @@ const unregisteredCartSchema = new mongoose.Schema({
 	},
 	cart: {
 		type: [itemSchema]
+	},
+	purchasedItems: {
+		type: [itemSchema]
 	}
 });
 
