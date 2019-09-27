@@ -14,11 +14,11 @@ const purchasedItemSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-	//status: accountInformation, shippingInformation, pendingDate, transactionSubmitted, transactionConfirmed, Printed, Shipped
+	//status: created, accountInformation, shippingInformation, pendingDate, transactionSubmitted, transactionConfirmed, Printed, Shipped
 	status: {
 		type: String,
 		required: true,
-		default: 'accountInformation'
+		default: 'created'
 	},
 	shippingInformation: {
 		type: Object,
@@ -33,7 +33,12 @@ const purchasedItemSchema = new mongoose.Schema({
 	},
 	accountInformation: {
 		type: Object,
-		required: true
+		required: true,
+		default: {
+			email: '',
+			fname: '',
+			lname: ''
+		}
 	}
 });
 

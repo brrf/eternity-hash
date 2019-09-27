@@ -51,9 +51,13 @@ class AccountInformation extends React.Component {
 			return;
 		}
 
-		fetch('http://localhost:5000/purchases/', {
+		fetch('http://localhost:5000/checkout/', {
 			method: 'POST',
-			body: JSON.stringify({formData: this.state.formData, checkoutStep: 1}),
+			body: JSON.stringify({
+				formData: this.state.formData, 
+				checkoutStep: 1, 
+				purchasedItemId: this.props.purchasedItemId
+			}),
 			headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "http://localhost:5000"},
 			mode: 'cors',
 			credentials: 'include'
@@ -63,7 +67,6 @@ class AccountInformation extends React.Component {
 				if (resObject.error) {
 					console.log(resObject.error)
 				} else {
-					this.props.assignPurchasedItemId(resObject.purchasedItemId);
 					this.props.dispatch(setCheckoutStep({currentStep: 2, completed: true}));
 				}			
 			});

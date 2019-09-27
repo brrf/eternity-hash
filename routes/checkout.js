@@ -3,6 +3,7 @@ const User = require('../schemas/users');
 const Piece = require('../schemas/pieces');
 const PurchasedItem = require('../schemas/purchaseditems');
 const hydratePiece = require('../utils/hydrate-piece');
+const assignUser = require('../utils/assignUser');
 const stripe = require("stripe")("sk_test_o39Kr0ePiALbt2HfXt9VrZ3s00GgKCxGbX");
 
 module.exports = function (app) {
@@ -148,29 +149,28 @@ module.exports = function (app) {
 			return res.json({error: null});
 		})
 
-	app.route('/purchases')
+	app.route('/checkout')
+		.get(async (req, res) => {
+			const user = await assignUser(req, res);
+			if (user.error) return res.json({error: user.error});
+			try {
+				//created a purchased item
+				const item = await PurchasedItem.create({
+					date: user.cart[0].date,
+					message: user.cart[0].message,
+					pieceId: user.cart[0].pieceId,
+				})
+				res.json({purchasedItemId: item._id})
+			} catch {
+				return res.json({error: 'Could not add item information to the order'})
+			}
+		})
 		.post(async (req, res) => {
 			if (!req.body.checkoutStep) {
 				return res.json({error: 'This form is not recognized'})
 			}
-			let user;
-			//not logged in
-			if (!req.user) {
-				try {
-					//find a user based off ip
-					user = await UnregisteredCart.findOne({ip: req.ip});
-				} catch {
-					return res.json({error: 'Error with server'});
-				}				
-			} else {
-				try {
-					//find a registered user
-					user = await User.findById(req.user._id);
-				} catch {
-					return res.json({error: 'Error with server'});
-				}	
-			}
-			if (!user) return res.json({error: 'Your cart is empty'});
+			// const user = assignUser(req.user);
+			// if (user.error) return res.json({error: user.error});
 
 			//checkoutStep1: update contact info, checkoutStep2: update shipping info
 			switch (req.body.checkoutStep) {
@@ -178,32 +178,26 @@ module.exports = function (app) {
 					if (!req.body.formData.email || !req.body.formData.fname || !req.body.formData.lname) {
 						return res.json({error: 'Must fill out all fields'})
 					}
-					let item;
 					try {
-						//created a purchased item
-						item = await PurchasedItem.create({
-							date: user.cart[0].date,
-							message: user.cart[0].message,
-							pieceId: user.cart[0].pieceId,
-							accountInformation: {
-								email: req.body.formData.email,
-								fname: req.body.formData.fname,
-								lname: req.body.formData.lname
-							}
-						})
-						//save purchased item id to user
-					//	await user.purchasedItems.push(item._id);
-					//	user.save();
+						//add account information
+							await PurchasedItem.findByIdAndUpdate(req.body.purchasedItemId, {
+								accountInformation: {
+									email: req.body.formData.email,
+									fname: req.body.formData.fname,
+									lname: req.body.formData.lname
+								},
+								status: 'accountInformation'
+							})
 					} catch {
 						return res.json({error: 'Could not add account information to the order'})
 					}	
-					return res.json({error: null, purchasedItemId: item._id})
+					return res.json({error: null})
 				case 2:
 					if (!req.body.formData.address1 || !req.body.formData.city || !req.body.formData.state || !req.body.formData.zipcode) {
 						return res.json({error: 'Must fill out all fields'})
 					};
 					try {
-						await PurchasedItem.findByIdAndUpdate(req.body.purchaseItemId, {
+						await PurchasedItem.findByIdAndUpdate(req.body.purchasedItemId, {
 							shippingInformation: {
 								address1: req.body.formData.address1,
 								address2: req.body.formData.address2 || '',
@@ -217,6 +211,6 @@ module.exports = function (app) {
 						return res.json({error: 'Error adding shipping information'});
 					}
 			}
-			res.json({error: null})	
+					return res.json({error: null})	
 		});
 }

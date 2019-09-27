@@ -38,14 +38,12 @@ class ShippingInformation extends React.Component {
 			})
 			return;
 		}
-		console.log({id: this.props.purchaseItemId})
-
-		fetch('http://localhost:5000/purchases', {
+		fetch('http://localhost:5000/checkout', {
 			method: 'POST',
 			body: JSON.stringify({
 				formData: this.state.formData, 
 				checkoutStep: 2, 
-				purchaseItemId: this.props.purchaseItemId
+				purchasedItemId: this.props.purchasedItemId
 			}),
 			headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "http://localhost:5000"},
 			mode: 'cors',
@@ -107,7 +105,6 @@ class ShippingInformation extends React.Component {
 	};
 
 	render() {
-		console.log({id: this.props.purchaseItemId})
 		let containerClassNames = 'checkout-step-container';
 		let clickEvent;
 		if (this.props.checkoutStep !== this.props.index) {
