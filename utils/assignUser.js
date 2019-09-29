@@ -13,9 +13,10 @@ async function assignUser(req, res) {
 				return ({error: 'Error with server'});
 			}				
 		} else {
+			console.log({user: req.user})
 			try {
 				//find a registered user
-				user = await User.findById(user._id);
+				user = await User.findById(req.user._id);
 			} catch {
 				return ({error: 'Error with server'});
 			}	

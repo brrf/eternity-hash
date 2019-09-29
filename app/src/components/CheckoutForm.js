@@ -109,7 +109,7 @@ class CheckoutForm extends React.Component {
             {...this.createOptions(this.props.fontSize)}
           />
         </label>
-        <button className='submit-button'>Pay</button>
+        <button className='submit-button'>Continue</button>
       </form>
     )
   }
