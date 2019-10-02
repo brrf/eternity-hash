@@ -10,6 +10,7 @@ import Piece from './Piece';
 import AddPiece from './AddPiece';
 import Cart from './Cart';
 import Checkout from './Checkout';
+import FinalizePayment from './FinalizePayment';
 import PurchasedItems from './PurchasedItems';
 import Other from './Other';
 
@@ -25,6 +26,7 @@ function App(props) {
             <Route path = '/collection/:id' component={Piece} />
             <Route path = '/addpiece' component={AddPiece} />
             <Route exact path = '/cart' component={Cart} />
+            <Route path = '/cart/final' component={FinalizePayment} />
             <Route path = '/cart/:id' component={Checkout} />
             <Route path ='/purchaseditems' component={PurchasedItems} />
             <Route path= '/comingsoon' component={Other} />

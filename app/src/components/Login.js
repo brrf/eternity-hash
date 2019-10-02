@@ -1,4 +1,4 @@
-import React from 'react';
+	import React from 'react';
 import {connect} from 'react-redux';
 import Warning from './Warning';
 import {Link, Redirect} from 'react-router-dom';

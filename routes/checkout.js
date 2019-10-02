@@ -30,11 +30,12 @@ module.exports = function (app) {
 			}
 
 			// transfer purchased items into a) users purchased items and b) items to be processed by admin. Then remove items from user cart
-			let user = await User.findById(req.user._id);
+			const user = await assignUser(req, res);
+			if (user.error) return res.json({error: user.error});
 			user.purchasedItems.push(...user.cart);
 			user.cart = [];
 			await user.save();
-			res.json({error: false, redirect: 'purchaseditems'});
+			res.json({error: false});
 		});
 	})
 

@@ -7,7 +7,8 @@ class CheckoutForm extends React.Component {
     super(props);
 
     this.state = {
-      redirect: false
+      redirect: false,
+      stripeToken: null
     }
 
     this.submit = this.submit.bind(this);
@@ -49,33 +50,22 @@ class CheckoutForm extends React.Component {
     };
   };
 
-  async submit(ev) {    
+  async submit(ev) {
+    ev.preventDefault();
     let {token} = await this.props.stripe.createToken({name: "Name"});
     if (!token) {
       console.log('error with card');
       return;
     }
-
-    await fetch("http://localhost:5000/charge", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({id: token.id}),
-      mode: 'cors',
-      credentials: 'include'
-    })
-      .then(res => res.json())
-      .then(resObject => {
-        resObject.error
-          ? console.log(resObject.error)
-          : this.setState({
-            redirect: resObject.redirect
-          })
-     });
+    this.setState({
+      redirect: true,
+      stripeToken: token.id
+    });
   };
 
   render() {
-    if (this.state.redirect) {
-      return <Redirect to={this.state.redirect} />
+    if (this.state.redirect && this.state.stripeToken) {
+      return <Redirect to={{pathname: '/cart/final', state: {stripeToken: this.state.stripeToken}}}/>
     }
     return (
       <form onSubmit={this.submit}>

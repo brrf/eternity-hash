@@ -8,7 +8,7 @@ function PaymentInformation (props) {
 	if (props.checkoutStep !== props.index) {
 		containerClassNames = 'checkout-step-container checkout-step-container-inactive'
 		clickEvent = () => props.clickEvent(props.index)
-	}
+	};
 
 	return (
 		<div className={containerClassNames} onClick={clickEvent}>

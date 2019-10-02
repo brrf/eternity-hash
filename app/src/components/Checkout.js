@@ -14,6 +14,8 @@ import '../cart.css'
 class Checkout extends React.Component {
 	constructor(props) {
 		super(props);	
+
+		this.toggleStep = this.toggleStep.bind(this);
 	}
 
 	toggleStep = (currentStep) => {
