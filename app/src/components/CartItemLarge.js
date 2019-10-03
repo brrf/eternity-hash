@@ -72,8 +72,4 @@ class CartItemLarge extends React.Component {
 	}
 }
 
-// function mapStateToProps(state) {
-// 	return {cart: state.cart.cart};
-// }
-
 export default connect()(CartItemLarge);

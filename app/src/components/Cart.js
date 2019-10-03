@@ -60,7 +60,7 @@ class Cart extends React.Component {
 						{this.props.cart.cart.length > 0
 							? this.props.cart.cart.map( (item, index) => {
 								if (item === null || !item.piece || !item.piece.thumbnails) return null;
-								return <CartItemLarge key={index} item={item}  />
+								return <CartItemLarge key={index} item={item} />
 							})
 							: <p>Cart Empty</p>
 						}

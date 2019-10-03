@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import Warning from './Warning'
 
 import {setCheckoutStep} from '../actions/cart';
+import {setShippingInformation} from '../actions/orderDetails';
 
 class ShippingInformation extends React.Component {
 	constructor(props) {
@@ -54,6 +55,7 @@ class ShippingInformation extends React.Component {
 				if (resObject.error) {
 					console.log(resObject.error)
 				} else {
+					this.props.dispatch(setShippingInformation(this.state.formData));
 					this.props.dispatch(setCheckoutStep({currentStep: 3, completed: true}));
 				}			
 			});

@@ -4,6 +4,7 @@ import LoginForm from './LoginForm';
 import Warning from './Warning'
 
 import {setCheckoutStep} from '../actions/cart';
+import {setAccountInformation} from '../actions/orderDetails';
 
 class AccountInformation extends React.Component {
 	constructor(props) {
@@ -67,6 +68,7 @@ class AccountInformation extends React.Component {
 				if (resObject.error) {
 					console.log(resObject.error)
 				} else {
+					this.props.dispatch(setAccountInformation(this.state.formData));
 					this.props.dispatch(setCheckoutStep({currentStep: 2, completed: true}));
 				}			
 			});
