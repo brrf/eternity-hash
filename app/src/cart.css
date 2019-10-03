@@ -190,3 +190,30 @@
 .finalize-payment-details-container {
 	margin-left: 25px;
 }
+
+.payment-details-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+.payment-details-section {
+	margin-bottom: 8px;
+}
+
+.payment-details-title {
+	font-family: none;
+	font-weight: bold;
+	font-size: 16px;
+	margin-bottom: 5px;
+}
+
+.payment-details-details-container {
+	margin-left: 3px;
+}
+
+.payment-details-details {
+	font-family: none;
+	font-size: 12px;
+	margin-bottom: 1px;
+}

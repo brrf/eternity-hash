@@ -18,7 +18,7 @@ class FinalizePayment extends React.Component {
 		await fetch("http://localhost:5000/charge", {
 	      method: "POST",
 	      headers: {"Content-Type": "application/json"},
-	      body: JSON.stringify({id: this.props.stripeToken}),
+	      body: JSON.stringify({id: this.props.location.state.stripeToken, orderDetails: this.props.orderDetails}),
 	      mode: 'cors',
 	      credentials: 'include'
 	    })
@@ -34,6 +34,7 @@ class FinalizePayment extends React.Component {
 
 	render () {
 		const {item} = this.props;
+		const {accountInformation, shippingInformation} = this.props.orderDetails;
 		return (
 			<React.Fragment>
 				<Navbar />
@@ -67,7 +68,26 @@ class FinalizePayment extends React.Component {
 							</div>
 						</div>
 						<div className='cart-container'>
-							<div></div>
+							<div className='payment-details-container'>
+								<div className='payment-details-section'>
+									<div className='payment-details-title'>Shipping Address</div>
+									<div className='payment-details-details-container'>
+										<div className='payment-details-details'>{`${accountInformation.fname} ${accountInformation.lname}`}</div>
+										<div className='payment-details-details'>{shippingInformation.address1}</div>
+										{shippingInformation.address2
+											? <div className='payment-details-details'>{shippingInformation.address2}</div>
+											: null
+										}
+										<div className='payment-details-details'>{`${shippingInformation.city}, ${shippingInformation.state} ${shippingInformation.zipcode}`}</div>
+									</div>
+								</div>
+								<div className='payment-details-section'>
+									<div className='payment-details-title'>Payment Method</div>
+									<div className='payment-details-details-container'>
+										<div className='payment-details-details'>{`${this.props.location.state.card.brand} ending in ${this.props.location.state.card.last4}`}</div>
+									</div>
+								</div>								
+							</div>
 						</div>
 					</div>
 				</div>
@@ -77,7 +97,7 @@ class FinalizePayment extends React.Component {
 };
 
 function mapStateToProps(state) {
-	return {item: state.cart.cart[0]};
+	return {item: state.cart.cart[0], orderDetails: state.orderDetails};
 };
 
 export default connect(mapStateToProps)(FinalizePayment);

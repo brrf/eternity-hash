@@ -8,7 +8,8 @@ class CheckoutForm extends React.Component {
 
     this.state = {
       redirect: false,
-      stripeToken: null
+      stripeToken: null,
+      card: null
     }
 
     this.submit = this.submit.bind(this);
@@ -57,15 +58,17 @@ class CheckoutForm extends React.Component {
       console.log('error with card');
       return;
     }
+    console.log({token});
     this.setState({
       redirect: true,
-      stripeToken: token.id
+      stripeToken: token.id,
+      card: token.card
     });
   };
 
   render() {
-    if (this.state.redirect && this.state.stripeToken) {
-      return <Redirect to={{pathname: '/cart/final', state: {stripeToken: this.state.stripeToken}}}/>
+    if (this.state.redirect && this.state.stripeToken && this.state.card) {
+      return <Redirect to={{pathname: '/cart/final', state: {stripeToken: this.state.stripeToken, card: this.state.card}}}/>
     }
     return (
       <form onSubmit={this.submit}>
