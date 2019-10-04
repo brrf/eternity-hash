@@ -18,7 +18,7 @@ function PaymentInformation (props) {
 			</div>
 			{props.checkoutStep !== props.index
 				? null
-				: <Stripe />
+				: <Stripe purchasedItemId={props.purchasedItemId} />
 			}
 		</div>
 	)

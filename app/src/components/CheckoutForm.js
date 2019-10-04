@@ -10,25 +10,9 @@ class CheckoutForm extends React.Component {
       redirect: false,
       stripeToken: null,
       card: null
-    }
+    } 
 
     this.submit = this.submit.bind(this);
-  };
-
-  handleBlur = () => {
-    console.log('[blur]');
-  };
-  handleChange = (change) => {
-    console.log('[change]', change);
-  };
-  handleClick = () => {
-    console.log('[click]');
-  };
-  handleFocus = () => {
-    console.log('[focus]');
-  };
-  handleReady = () => {
-    console.log('[ready]');
   };
 
   createOptions = (fontSize, padding) => {
@@ -58,47 +42,41 @@ class CheckoutForm extends React.Component {
       console.log('error with card');
       return;
     }
-    console.log({token});
     this.setState({
       redirect: true,
       stripeToken: token.id,
-      card: token.card
+      card: token.card,
     });
   };
 
   render() {
     if (this.state.redirect && this.state.stripeToken && this.state.card) {
-      return <Redirect to={{pathname: '/cart/final', state: {stripeToken: this.state.stripeToken, card: this.state.card}}}/>
+        return <Redirect to={{
+          pathname: '/cart/final', 
+          state: {
+            stripeToken: this.state.stripeToken, 
+            card: this.state.card,
+            purchasedItemId: this.props.purchasedItemId
+          }
+        }}/>
     }
     return (
       <form onSubmit={this.submit}>
         <label>
           Card number
           <CardNumberElement
-            onBlur={this.handleBlur}
-            onChange={this.handleChange}
-            onFocus={this.handleFocus}
-            onReady={this.handleReady}
             {...this.createOptions(this.props.fontSize)}
           />
         </label>
         <label>
           Expiration date
           <CardExpiryElement
-            onBlur={this.handleBlur}
-            onChange={this.handleChange}
-            onFocus={this.handleFocus}
-            onReady={this.handleReady}
             {...this.createOptions(this.props.fontSize)}
           />
         </label>
         <label>
           CVC
           <CardCVCElement
-            onBlur={this.handleBlur}
-            onChange={this.handleChange}
-            onFocus={this.handleFocus}
-            onReady={this.handleReady}
             {...this.createOptions(this.props.fontSize)}
           />
         </label>
@@ -106,6 +84,10 @@ class CheckoutForm extends React.Component {
       </form>
     )
   }
+};
+
+function mapStateToProps(state) {
+  return {state};
 };
 
 export default injectStripe(CheckoutForm);

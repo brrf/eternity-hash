@@ -9,6 +9,7 @@ const stripe = require("stripe")("sk_test_o39Kr0ePiALbt2HfXt9VrZ3s00GgKCxGbX");
 module.exports = function (app) {
 
 	app.post('/charge', async (req, res) => {
+		
 		const user = await assignUser(req, res);
 		if (user.error) return res.json({error: user.error});
 		let amount = 0;
@@ -28,6 +29,16 @@ module.exports = function (app) {
 				console.log({err});
 				return res.json({error: 'Could not charge card'})
 			}
+
+			//update purchased item status to 'pendingDate'
+			try {
+				console.log(req.body.purchasedItemId);
+				await PurchasedItem.findByIdAndUpdate(req.body.purchasedItemId, {
+					status: 'pendingDate'
+				})
+			} catch {
+				return res.json({error: 'error saving new purchase to database. Your card was already charged whooops.'})
+			}		
 
 			// transfer purchased items into a) users purchased items and b) items to be processed by admin. Then remove items from user cart
 			user.purchasedItems.push(...user.cart);
@@ -210,4 +221,12 @@ module.exports = function (app) {
 			}
 					return res.json({error: null})	
 		});
+	app.get('/purchases', async (req, res) => {
+		const purchases = await PurchasedItem.find({status: 'pendingDate'})
+		return res.json({purchases});
+	})
+
+
+
+
 }

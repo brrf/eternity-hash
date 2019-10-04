@@ -19,7 +19,11 @@ class FinalizePayment extends React.Component {
 		await fetch("http://localhost:5000/charge", {
 	      method: "POST",
 	      headers: {"Content-Type": "application/json"},
-	      body: JSON.stringify({id: this.props.location.state.stripeToken, orderDetails: this.props.orderDetails}),
+	      body: JSON.stringify({
+	      	id: this.props.location.state.stripeToken, 
+	      	orderDetails: this.props.orderDetails, 
+	      	purchasedItemId: this.props.location.state.purchasedItemId
+	      }),
 	      mode: 'cors',
 	      credentials: 'include'
 	    })

@@ -38,7 +38,7 @@ class Navbar extends React.Component {
                 		<Link to='/comingsoon' className='dropdown-item'>My Hashes</Link>
                 		<Link to={authenticationLink.link} className='dropdown-item'>{authenticationLink.title}</Link>
                     <Link to='/addpiece' className='dropdown-item'>Add Piece</Link>
-                    <Link to='/cart/final'>Go to final</Link>
+                    <Link to='/purchases'>See purchases</Link>
                 	</div>
                 	</div>
                 </div>

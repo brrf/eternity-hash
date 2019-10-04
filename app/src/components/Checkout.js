@@ -13,7 +13,7 @@ import '../cart.css'
 
 class Checkout extends React.Component {
 	constructor(props) {
-		super(props);	
+		super(props);
 
 		this.toggleStep = this.toggleStep.bind(this);
 	}
@@ -40,7 +40,7 @@ class Checkout extends React.Component {
 					<div className='checkout-details-large'>
 						<AccountInformation index={1} text='Account Information' clickEvent={this.toggleStep} purchasedItemId={this.props.match.params.id} />
 						<ShippingInformation index={2} text='Shipping Information' clickEvent={this.toggleStep} purchasedItemId={this.props.match.params.id} />
-						<PaymentInformation index={3} text='Payment Information' clickEvent={this.toggleStep}/>
+						<PaymentInformation index={3} text='Payment Information' clickEvent={this.toggleStep} purchasedItemId={this.props.match.params.id} />
 					</div>
 				</div>				
 			</div>
