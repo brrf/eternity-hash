@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from './Navbar';
 import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 import CartItemLarge from './CartItemLarge';
 
 import formatDate from '../utils/formatDate';
@@ -11,10 +12,10 @@ class FinalizePayment extends React.Component {
 		this.state = {
 			redirect: false,
 		}
-		this.handleRedirect = this.handleRedirect.bind(this);	
+		this.handleSubmit = this.handleSubmit.bind(this);	
 	}
 
-	handleRedirect = async () => {
+	handleSubmit = async () => {
 		await fetch("http://localhost:5000/charge", {
 	      method: "POST",
 	      headers: {"Content-Type": "application/json"},
@@ -33,7 +34,13 @@ class FinalizePayment extends React.Component {
 	}
 
 	render () {
+		if (this.state.redirect) {
+      		return <Redirect to='/' />
+  		}
 		const {item} = this.props;
+		const subtotal = item.piece.price;
+		const shipping = 8;
+		let tax = Math.round((subtotal * 0.08)*100)/100;
 		const {accountInformation, shippingInformation} = this.props.orderDetails;
 		return (
 			<React.Fragment>
@@ -87,6 +94,19 @@ class FinalizePayment extends React.Component {
 										<div className='payment-details-details'>{`${this.props.location.state.card.brand} ending in ${this.props.location.state.card.last4}`}</div>
 									</div>
 								</div>								
+							</div>
+						</div>
+					</div>
+					<div className='finalize-payment-payment-container'>
+						<div className='cart-container'>
+							<div className='payment-details-title'>Billing Summary</div>
+							<div className='payment-details-details-container'>
+								<p className='payment-details-details'>Subtotal: ${subtotal}</p>
+								<p className='payment-details-details'>Shipping: ${shipping}</p>
+								<p className='payment-details-details'>Estimated tax: ${tax}</p>
+								<hr/>
+								<p className='payment-details-title'>Total: ${tax + subtotal + shipping}</p>
+								<button onClick={this.handleSubmit} className='submit-button' style={{width: '250px'}}>Complete Payment</button>
 							</div>
 						</div>
 					</div>

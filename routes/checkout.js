@@ -9,11 +9,10 @@ const stripe = require("stripe")("sk_test_o39Kr0ePiALbt2HfXt9VrZ3s00GgKCxGbX");
 module.exports = function (app) {
 
 	app.post('/charge', async (req, res) => {
-		if (!req.user) {
-			return res.json({error: false, redirect: '/authentication/register'})
-		}
+		const user = await assignUser(req, res);
+		if (user.error) return res.json({error: user.error});
 		let amount = 0;
-		await Promise.all(req.user.cart.map(async itemRef => {
+		await Promise.all(user.cart.map(async itemRef => {
 			const piece = await Piece.findById(itemRef.pieceId);
 			if(!piece || !piece.price) return;
 			amount += piece.price;
@@ -21,8 +20,9 @@ module.exports = function (app) {
 	    await stripe.charges.create({
 	      amount: amount * 100,
 	      currency: "usd",
-	      description: "An example charge",
-	      source: req.body.id
+	      description: "Eternity Hash Purchase",
+	      source: req.body.id,
+	      receipt_email: req.body.orderDetails.accountInformation.email	      
 		}, async (err, charge) => {
 			if (err) {
 				console.log({err});
@@ -30,8 +30,6 @@ module.exports = function (app) {
 			}
 
 			// transfer purchased items into a) users purchased items and b) items to be processed by admin. Then remove items from user cart
-			const user = await assignUser(req, res);
-			if (user.error) return res.json({error: user.error});
 			user.purchasedItems.push(...user.cart);
 			user.cart = [];
 			await user.save();
@@ -170,8 +168,6 @@ module.exports = function (app) {
 			if (!req.body.checkoutStep) {
 				return res.json({error: 'This form is not recognized'})
 			}
-			// const user = assignUser(req.user);
-			// if (user.error) return res.json({error: user.error});
 
 			//checkoutStep1: update contact info, checkoutStep2: update shipping info
 			switch (req.body.checkoutStep) {

@@ -9,7 +9,6 @@
 	margin: 25px;
 	margin-bottom: 0px;
 	padding: 15px;
-	padding-bottom: 0px;
 	height: 100%;
 }
 
@@ -19,7 +18,6 @@
 
 .checkout-details-small {
 	width: 34%;
-	height: 30%;
 }
 
 .checkout-details-large {
@@ -189,6 +187,11 @@
 
 .finalize-payment-details-container {
 	margin-left: 25px;
+}
+
+.finalize-payment-payment-container {
+	margin-top: 50px;
+	height: 200px;
 }
 
 .payment-details-container {
