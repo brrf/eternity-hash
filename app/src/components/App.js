@@ -28,9 +28,7 @@ function App(props) {
             <Route path = '/addpiece' component={AddPiece} />
             <Route exact path = '/cart' component={Cart} />
             <Route path = '/cart/final' component={FinalizePayment} />  
-            <Route path = '/cart/:id' render={(matchProps) => 
-              <Checkout {...matchProps} />
-            } />
+            <Route path = '/cart/:id' component={Checkout} />
             <Route path ='/purchaseditems' component={PurchasedItems} />
             <Route path= '/comingsoon' component={Other} />
             <Route path = '/purchases' component={Purchases} />

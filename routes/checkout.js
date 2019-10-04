@@ -9,7 +9,7 @@ const stripe = require("stripe")("sk_test_o39Kr0ePiALbt2HfXt9VrZ3s00GgKCxGbX");
 module.exports = function (app) {
 
 	app.post('/charge', async (req, res) => {
-		
+
 		const user = await assignUser(req, res);
 		if (user.error) return res.json({error: user.error});
 		let amount = 0;
@@ -32,7 +32,6 @@ module.exports = function (app) {
 
 			//update purchased item status to 'pendingDate'
 			try {
-				console.log(req.body.purchasedItemId);
 				await PurchasedItem.findByIdAndUpdate(req.body.purchasedItemId, {
 					status: 'pendingDate'
 				})
