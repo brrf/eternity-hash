@@ -7,6 +7,7 @@ export default class Purchases extends React.Component {
 		this.state = {
 			purchases: []
 		}
+		this.testBitcoin = this.testBitcoin.bind(this);
 	}
 
 	componentDidMount () {
@@ -29,14 +30,33 @@ export default class Purchases extends React.Component {
 			});
 	}
 
+	testBitcoin = (e) => {
+		e.preventDefault();
+		console.log('here');
+		fetch('http://api.blockcypher.com/v1/btc/main', {
+			method: 'GET',
+			headers: {"Content-Type": "application/json"},
+			mode: 'cors'
+		})
+			.then(res => res.json())
+			.then(resObject => {
+				console.log(resObject);
+			});
+	}
+
+
+
 	render() {
 		return (
-			<ol className='cart-container'>
-				{this.state.purchases.map( purchase => (
-					<li className='payment-details-details' key={purchase._id}>{purchase.date}</li>
-					))
-				}
-			</ol>
+			<React.Fragment>
+				<ol>
+					{this.state.purchases.map( purchase => (
+						<li className='payment-details-details' key={purchase._id}>{purchase.date}</li>
+						))
+					}
+				</ol>
+				<button onClick={this.testBitcoin}>Test Bitcoin</button>
+			</React.Fragment>
 		)
 	}
 }
