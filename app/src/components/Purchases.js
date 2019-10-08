@@ -32,11 +32,16 @@ export default class Purchases extends React.Component {
 
 	testBitcoin = (e) => {
 		e.preventDefault();
-		console.log('here');
-		fetch('http://api.blockcypher.com/v1/btc/main', {
-			method: 'GET',
+		var newtx = {
+		  inputs: [{addresses: ['CEztKBAYNoUEEaPYbkyFeXC5v8Jz9RoZH9']}],
+		  outputs: [{addresses: ['C1rGdt7QEPGiwPMFhNKNhHmyoWpa5X92pn'], value: 100000}]
+		};
+
+		fetch('http://api.blockcypher.com/v1/btc/test/txs/new', {
+			method: 'POST',
+			body: JSON.stringify(newtx),
 			headers: {"Content-Type": "application/json"},
-			mode: 'cors'
+			mode: 'no-cors'
 		})
 			.then(res => res.json())
 			.then(resObject => {
