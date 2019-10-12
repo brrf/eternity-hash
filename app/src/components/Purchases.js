@@ -1,16 +1,22 @@
 import React from 'react';
+import bigi from 'bigi';
+import buffer from 'buffer';
+
+var bitcoin = require('bitcoinjs-lib');
 
 export default class Purchases extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			purchases: []
+			purchases: [],
+			transaction: null
 		}
 		this.testBitcoin = this.testBitcoin.bind(this);
 		this.getAddress1= this.getAddress1.bind(this);
 		this.getAddress2= this.getAddress2.bind(this);
 		this.getTransactionDetails = this.getTransactionDetails.bind(this);
+		this.submitTransaction = this.submitTransaction.bind(this);
 	}
 
 	componentDidMount () {
@@ -47,9 +53,9 @@ export default class Purchases extends React.Component {
 	// 	wif: "Bp8cnjyLQN2Pxrh3XSzJH4znSorEKTezmZwmrzQUVgM7iSNqkUFa"
 	// }
 
-	testBitcoin = (e) => {
+
+	testBitcoin = async (e) => {
 		e.preventDefault();
-		var data = {"address": "CCKn36iNpCBcHeqmb9CY38hqzwG1kuQadj", "amount": 100000}
 		const token = 'a38ba880bab24358b4273b07344a9e3f';
 		var newtx = {
 		  inputs: [{addresses: ['CCKn36iNpCBcHeqmb9CY38hqzwG1kuQadj']}],
@@ -61,24 +67,51 @@ export default class Purchases extends React.Component {
 			body: JSON.stringify(newtx),
 			headers: {"Content-Type": "application/json"}
 		})
-			.then(res => res.json())
-			.then(resObject => {
-				console.log(resObject);
-			});
+		.then(res => res.json())
+		.then(tempTx => {
+			const pKey = "30f24dfb3ae13f2dcbc7f3c1054aee5617f41f6136cf4c5978b6e2a7022845c1";
+			const keypair = bitcoin.ECPair.fromPrivateKey(Buffer.from(pKey, "hex"))
+			
+			
+			tempTx.pubkeys = [];
+			tempTx.pubkeys.push(keypair.publicKey.toString("hex"));
+
+		    tempTx.signatures = tempTx.tosign.map(function(tosign) {
+		     	let signature = keypair.sign(Buffer.from(tosign, "hex"));
+		     	let encodedSignature = bitcoin.script.signature.encode(signature,  bitcoin.Transaction.SIGHASH_NONE).toString("hex");
+		     	return encodedSignature.slice(0, encodedSignature.length - 2);
+		     })
+
+		    this.setState({
+		    	transaction: tempTx
+		    })
+		});		
+	};
+
+	submitTransaction = (e) => {
+		e.preventDefault();
+	   fetch("https://api.blockcypher.com/v1/bcy/test/txs/send", {
+			method: "POST",
+			body: JSON.stringify(this.state.transaction),
+			headers: {"Content-Type": "application/json"}
+		})
+		.then(finalTx => console.log(finalTx));
 	}
 
-	getAddress1 = (e) => {
+	getAddress1 = async (e) => {
 		e.preventDefault();
-		let txSkeleton;
+		
 
-		fetch("https://api.blockcypher.com/v1/bcy/test/addrs/CCKn36iNpCBcHeqmb9CY38hqzwG1kuQadj", {
+		await fetch("https://api.blockcypher.com/v1/bcy/test/addrs/CCKn36iNpCBcHeqmb9CY38hqzwG1kuQadj", {
 			method: "GET",
 			headers: {"Content-Type": "application/json"}
 		})
 			.then(res => res.json())
 			.then(resObject => {
-				txSkeleton = resObject;
+				console.log(resObject);
 			});
+
+
 	}
 
 	getAddress2 = (e) => {
@@ -97,7 +130,7 @@ export default class Purchases extends React.Component {
 	getTransactionDetails = (e) => {
 		e.preventDefault();
 
-		fetch("https://api.blockcypher.com/v1/bcy/test/txs/$hash", {
+		fetch("https://api.blockcypher.com/v1/bcy/test/txs/3fa5ec5021334e084f8cafa30bbae66456bb1a32107590e67a1948841e6930de", {
 			method: "GET",
 			headers: {"Content-Type": "application/json"}
 		})
@@ -122,6 +155,11 @@ export default class Purchases extends React.Component {
 				<button onClick={this.getAddress1}>Get address1 details</button>
 				<button onClick={this.getAddress2}>Get address2 details</button>
 				<button onClick={this.getTransactionDetails}>Get transaction</button>
+				{
+					this.state.transaction
+						?  <button onClick={this.submitTransaction}>Submit transaction</button>
+						: null
+				}
 			</React.Fragment>
 		)
 	}
