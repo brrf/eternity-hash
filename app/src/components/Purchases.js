@@ -1,5 +1,4 @@
 import React from 'react';
-import bigi from 'bigi';
 import buffer from 'buffer';
 
 var bitcoin = require('bitcoinjs-lib');
@@ -17,6 +16,7 @@ export default class Purchases extends React.Component {
 		this.getAddress2= this.getAddress2.bind(this);
 		this.getTransactionDetails = this.getTransactionDetails.bind(this);
 		this.submitTransaction = this.submitTransaction.bind(this);
+		this.facuet = this.faucet.bind(this);
 	}
 
 	componentDidMount () {
@@ -53,14 +53,40 @@ export default class Purchases extends React.Component {
 	// 	wif: "Bp8cnjyLQN2Pxrh3XSzJH4znSorEKTezmZwmrzQUVgM7iSNqkUFa"
 	// }
 
+	faucet = async (e) => {
+		e.preventDefault();
+		const data  = {
+			"address": "CCKn36iNpCBcHeqmb9CY38hqzwG1kuQadj",
+			"amount": 100000000
+		}
+		fetch("https://api.blockcypher.com/v1/bcy/test/faucet?token=a38ba880bab24358b4273b07344a9e3f", {
+			method: "POST",
+			body: JSON.stringify(data),
+			headers: {"Content-Type": "application/json"}
+		})
+		.then(res => res.json())
+		.then(response => console.log(response));
+	}
+
 
 	testBitcoin = async (e) => {
 		e.preventDefault();
 		const token = 'a38ba880bab24358b4273b07344a9e3f';
+
 		var newtx = {
-		  inputs: [{addresses: ['CCKn36iNpCBcHeqmb9CY38hqzwG1kuQadj']}],
-		  outputs: [{addresses: ['BvzvHJFXyq6X7fwDhvjeSqcLqZj2c2yJ6A'], value: 10}]
+		  inputs: [{
+		  	addresses: ['CCKn36iNpCBcHeqmb9CY38hqzwG1kuQadj']
+		  }],
+		  outputs: [{
+		  	addresses: ['BvzvHJFXyq6X7fwDhvjeSqcLqZj2c2yJ6A'], 
+		  	value: 0,
+		  	script: '6a48457465726e69747920486173682077617320686572652e',
+		  	script_type: "null-data",
+		    // data_hex: '2',	  	
+		  }]
 		};
+
+		console.log(JSON.stringify(newtx));
 
 		fetch("https://api.blockcypher.com/v1/bcy/test/txs/new", {
 			method: "POST",
@@ -69,6 +95,7 @@ export default class Purchases extends React.Component {
 		})
 		.then(res => res.json())
 		.then(tempTx => {
+			console.log({tempTx});
 			const pKey = "30f24dfb3ae13f2dcbc7f3c1054aee5617f41f6136cf4c5978b6e2a7022845c1";
 			const keypair = bitcoin.ECPair.fromPrivateKey(Buffer.from(pKey, "hex"))
 			
@@ -81,10 +108,10 @@ export default class Purchases extends React.Component {
 		     	let encodedSignature = bitcoin.script.signature.encode(signature,  bitcoin.Transaction.SIGHASH_NONE).toString("hex");
 		     	return encodedSignature.slice(0, encodedSignature.length - 2);
 		     })
-
 		    this.setState({
 		    	transaction: tempTx
 		    })
+		    console.log(this.state.transaction);
 		});		
 	};
 
@@ -155,6 +182,7 @@ export default class Purchases extends React.Component {
 				<button onClick={this.getAddress1}>Get address1 details</button>
 				<button onClick={this.getAddress2}>Get address2 details</button>
 				<button onClick={this.getTransactionDetails}>Get transaction</button>
+				<button onClick={this.facuet}>Get satoshis</button>
 				{
 					this.state.transaction
 						?  <button onClick={this.submitTransaction}>Submit transaction</button>
