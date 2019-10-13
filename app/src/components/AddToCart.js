@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom'
 import {addItemToCart} from '../actions/cart'
 import DatePicker from "react-datepicker";
+import TimezonePicker from 'react-bootstrap-timezone-picker';
+
 
 import 'react-datepicker/dist/react-datepicker.css';
 import '../add-to-cart.css'
@@ -14,6 +16,8 @@ class AddToCart extends React.Component {
 		this.state = {
 			formData: {
 				date: new Date(),
+				timeZone: '',
+				absolute: false,
 				message: '',
 				pieceId: this.props.piece._id
 			},
@@ -23,6 +27,7 @@ class AddToCart extends React.Component {
 		this.changeDate = this.changeDate.bind(this);
 		this.changeMessage = this.changeMessage.bind(this);
 		this.submitForm = this.submitForm.bind(this);
+		this.changeTimeZone = this.changeTimeZone.bind(this);
 	}
 
 	submitForm = (e) => {
@@ -41,7 +46,6 @@ class AddToCart extends React.Component {
 			if (resObject.error) {
 				console.log(resObject.error)
 			} else {
-				//console.log(typeof resObject.item.date)
 				this.props.dispatch(addItemToCart(resObject.item))
 				this.setState({
 					redirect: true
@@ -59,6 +63,16 @@ class AddToCart extends React.Component {
 			}		
 		});
 	};
+
+	changeTimeZone(timeZone) {
+	    this.setState({ 
+	    	formData: {
+	    		...this.state.formData,
+	    		timeZone
+	    	}
+	    })
+	    console.log(timeZone)
+	}
 
 	changeMessage = e => {
 		this.setState({
@@ -89,7 +103,14 @@ class AddToCart extends React.Component {
 				        selected={this.state.formData.date}
 				        onChange={this.changeDate}
 				    />
-					<br />
+				    <br />
+				    <label className='cart-input-label'>Time zone:</label>			   
+			        <TimezonePicker
+			          placeholder   = "Select your timezone"
+			          onChange      = {this.changeTimeZone}
+			          absolute      = {true}
+			          value         = {this.state.timeZone}
+			        />
 					<label className='cart-input-label'>Please provide a special message:</label>
 					<br />
 					<input className='cart-input' type='text' value={this.state.formData.message} onChange={this.changeMessage}/>

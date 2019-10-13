@@ -6,6 +6,8 @@ const hydratePiece = require('../utils/hydrate-piece');
 const assignUser = require('../utils/assignUser');
 const stripe = require("stripe")("sk_test_o39Kr0ePiALbt2HfXt9VrZ3s00GgKCxGbX");
 
+const calculateDate = require('../utils/calculateDate');
+
 module.exports = function (app) {
 
 	app.post('/charge', async (req, res) => {
@@ -91,12 +93,14 @@ module.exports = function (app) {
 			res.json({cart})
 		})
 		.post(async (req, res) => {
-			if (!req.body.date || !req.body.message) {
-				return res.json({error: 'Please provide a date and personalized message'})
+			console.log(req.body.date)
+			if (!req.body.date || !req.body.message || !req.body.timeZone) {
+				return res.json({error: 'Please provide a date, timezone and personalized message'})
 			}
+			
 			const item = {
 				message: req.body.message,
-				date: req.body.date,
+				date: calculateDate(req.body.date, req.body.timeZone),
 				pieceId: req.body.pieceId
 			}
 			//if logged in, add item to their cart

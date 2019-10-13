@@ -3,7 +3,7 @@ const itemSchema = require('./item');
 
 const purchasedItemSchema = new mongoose.Schema({
 	date: {
-		type: Date,
+		type: Number,
 		required: true
 	},
 	message: {

@@ -16,7 +16,7 @@ export default class Purchases extends React.Component {
 		this.getAddress2= this.getAddress2.bind(this);
 		this.getTransactionDetails = this.getTransactionDetails.bind(this);
 		this.submitTransaction = this.submitTransaction.bind(this);
-		this.facuet = this.faucet.bind(this);
+		this.faucet = this.faucet.bind(this);
 	}
 
 	componentDidMount () {
@@ -80,14 +80,11 @@ export default class Purchases extends React.Component {
 		  outputs: [{
 		  	addresses: ['BvzvHJFXyq6X7fwDhvjeSqcLqZj2c2yJ6A'], 
 		  	value: 0,
+		  	//following the 6a48 include a hex-string of your message
 		  	script: '6a48457465726e69747920486173682077617320686572652e',
-		  	script_type: "null-data",
-		    // data_hex: '2',	  	
+		  	script_type: "null-data"  	
 		  }]
 		};
-
-		console.log(JSON.stringify(newtx));
-
 		fetch("https://api.blockcypher.com/v1/bcy/test/txs/new", {
 			method: "POST",
 			body: JSON.stringify(newtx),
@@ -111,7 +108,6 @@ export default class Purchases extends React.Component {
 		    this.setState({
 		    	transaction: tempTx
 		    })
-		    console.log(this.state.transaction);
 		});		
 	};
 
@@ -178,6 +174,7 @@ export default class Purchases extends React.Component {
 						))
 					}
 				</ol>
+				
 				<button onClick={this.testBitcoin}>Test Bitcoin</button>
 				<button onClick={this.getAddress1}>Get address1 details</button>
 				<button onClick={this.getAddress2}>Get address2 details</button>

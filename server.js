@@ -14,6 +14,8 @@ const authentication = require('./routes/authentication.js');
 const pieces = require('./routes/pieces.js');
 const checkout = require('./routes/checkout.js');
 
+const transactionExecuter = require('./utils/transaction-executer');
+
 require('dotenv').config();
 
 const app = express();
@@ -68,6 +70,10 @@ app.get('/', (req, res)=> {
 authentication(app);
 pieces(app);
 checkout(app);
+
+//Check for transactions eligible transactions every 5 seconds
+const timerId = setInterval(transactionExecuter, 5000);
+
 
 //404 Not Found Middleware
 app.use(function(req, res, next) {
