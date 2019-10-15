@@ -16,7 +16,7 @@ export default class Purchases extends React.Component {
 		this.getAddress2= this.getAddress2.bind(this);
 		this.getTransactionDetails = this.getTransactionDetails.bind(this);
 		this.submitTransaction = this.submitTransaction.bind(this);
-		this.faucet = this.faucet.bind(this);
+		this.facuet = this.faucet.bind(this);
 	}
 
 	componentDidMount () {
@@ -80,44 +80,69 @@ export default class Purchases extends React.Component {
 		  outputs: [{
 		  	addresses: ['BvzvHJFXyq6X7fwDhvjeSqcLqZj2c2yJ6A'], 
 		  	value: 0,
-		  	//following the 6a48 include a hex-string of your message
-		  	script: '6a48457465726e69747920486173682077617320686572652e',
-		  	script_type: "null-data"  	
+		  	script: '6a4868656c6c6f207468657265206d792062616265',
+		  	script_type: "null-data",
+		    // data_hex: '2',	  	
 		  }]
 		};
-		fetch("https://api.blockcypher.com/v1/bcy/test/txs/new", {
-			method: "POST",
-			body: JSON.stringify(newtx),
-			headers: {"Content-Type": "application/json"}
-		})
-		.then(res => res.json())
-		.then(tempTx => {
-			console.log({tempTx});
-			const pKey = "30f24dfb3ae13f2dcbc7f3c1054aee5617f41f6136cf4c5978b6e2a7022845c1";
-			const keypair = bitcoin.ECPair.fromPrivateKey(Buffer.from(pKey, "hex"))
-			
-			
-			tempTx.pubkeys = [];
-			tempTx.pubkeys.push(keypair.publicKey.toString("hex"));
 
-		    tempTx.signatures = tempTx.tosign.map(function(tosign) {
-		     	let signature = keypair.sign(Buffer.from(tosign, "hex"));
-		     	let encodedSignature = bitcoin.script.signature.encode(signature,  bitcoin.Transaction.SIGHASH_NONE).toString("hex");
-		     	return encodedSignature.slice(0, encodedSignature.length - 2);
-		     })
-		    this.setState({
-		    	transaction: tempTx
-		    })
-		});		
+		console.log(JSON.stringify(newtx));
+
+			fetch("https://api.blockcypher.com/v1/bcy/test/txs/new?token=a38ba880bab24358b4273b07344a9e3f", {
+				method: "POST",
+				body: JSON.stringify(newtx),
+				headers: {"Content-Type": "application/json"}
+			})
+			.then(res => res.json())
+			.then(tempTx => {
+				console.log({tempTx});
+				const pKey = "30f24dfb3ae13f2dcbc7f3c1054aee5617f41f6136cf4c5978b6e2a7022845c1";
+				const keypair = bitcoin.ECPair.fromPrivateKey(Buffer.from(pKey, "hex"))
+				
+				
+				tempTx.pubkeys = [];
+				
+
+			    tempTx.signatures = tempTx.tosign.map(function(tosign) {
+			    	tempTx.pubkeys.push(keypair.publicKey.toString("hex"));
+			     	let signature = keypair.sign(Buffer.from(tosign, "hex"));
+			     	let encodedSignature = bitcoin.script.signature.encode(signature,  bitcoin.Transaction.SIGHASH_NONE).toString("hex");
+			     	return encodedSignature.slice(0, encodedSignature.length - 2);
+			     })
+			    //return tempTx
+			    this.setState({
+			    	transaction: tempTx
+			    })
+			})
+			.then(setTimeout(() =>{
+				fetch("https://api.blockcypher.com/v1/bcy/test/txs/send?token=a38ba880bab24358b4273b07344a9e3f", {
+				method: "POST",
+				body: JSON.stringify(this.state.transaction),
+				headers: {"Content-Type": "application/json"}
+				})
+				.then(res => res.json())
+				.then(finalTx => console.log(finalTx));
+			}, 1000))
+		// .then(finalTx => {
+		// 	console.log({finalTx})
+		//     fetch("https://api.blockcypher.com/v1/bcy/test/txs/send", {
+		// 	method: "POST",
+		// 	body: JSON.stringify(finalTx),
+		// 	headers: {"Content-Type": "application/json"}
+		// 	})
+		// })
+		// .catch(error => {
+		// 	console.log({error})
+		// })
 	};
 
 	submitTransaction = (e) => {
 		e.preventDefault();
-	   fetch("https://api.blockcypher.com/v1/bcy/test/txs/send", {
+	    fetch("https://api.blockcypher.com/v1/bcy/test/txs/send", {
 			method: "POST",
 			body: JSON.stringify(this.state.transaction),
 			headers: {"Content-Type": "application/json"}
-		})
+			})
 		.then(finalTx => console.log(finalTx));
 	}
 
@@ -174,7 +199,6 @@ export default class Purchases extends React.Component {
 						))
 					}
 				</ol>
-				
 				<button onClick={this.testBitcoin}>Test Bitcoin</button>
 				<button onClick={this.getAddress1}>Get address1 details</button>
 				<button onClick={this.getAddress2}>Get address2 details</button>
