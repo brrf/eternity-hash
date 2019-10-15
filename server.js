@@ -15,6 +15,7 @@ const pieces = require('./routes/pieces.js');
 const checkout = require('./routes/checkout.js');
 
 const transactionExecuter = require('./utils/transaction-executer');
+const confirmTransaction = require('./utils/confirm-transaction');
 
 require('dotenv').config();
 
@@ -72,7 +73,8 @@ pieces(app);
 checkout(app);
 
 //Check for transactions eligible transactions every 5 seconds
-const timerId = setInterval(transactionExecuter, 5000);
+//const timerId = setInterval(transactionExecuter, 5000);
+confirmTransaction();
 
 
 //404 Not Found Middleware
