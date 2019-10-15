@@ -225,8 +225,9 @@ module.exports = function (app) {
 					return res.json({error: null})	
 		});
 	app.get('/purchases', async (req, res) => {
-		const purchases = await PurchasedItem.find({status: 'pendingDate'})
-		return res.json({purchases});
+		const pendingTransaction = await PurchasedItem.find({status: 'pendingDate'})
+		const pendingConfirmation = await PurchasedItem.find({status: 'transactionSubmitted'})
+		return res.json({pendingTransaction, pendingConfirmation});
 	})
 
 

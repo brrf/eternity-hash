@@ -8,7 +8,8 @@ export default class Purchases extends React.Component {
 		super(props);
 
 		this.state = {
-			purchases: [],
+			pendingTransaction: [],
+			pendingConfirmation: [],
 			transaction: null
 		}
 		this.testBitcoin = this.testBitcoin.bind(this);
@@ -32,9 +33,10 @@ export default class Purchases extends React.Component {
 					console.log(resObject.error)
 				} else {
 					this.setState({
-						purchases: resObject.purchases
+						pendingTransaction: resObject.pendingTransaction,
+						pendingConfirmation: resObject.pendingConfirmation
 					})
-					console.log({purchases: resObject.purchases});
+					//console.log({purchases: resObject.purchases});
 				}			
 			});
 	}
@@ -194,7 +196,13 @@ export default class Purchases extends React.Component {
 		return (
 			<React.Fragment>
 				<ol>
-					{this.state.purchases.map( purchase => (
+					{this.state.pendingTransaction.map( purchase => (
+						<li className='payment-details-details' key={purchase._id}>{purchase.date}</li>
+						))
+					}
+				</ol>
+				<ol>
+					{this.state.pendingConfirmation.map( purchase => (
 						<li className='payment-details-details' key={purchase._id}>{purchase.date}</li>
 						))
 					}

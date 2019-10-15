@@ -20,6 +20,10 @@ const purchasedItemSchema = new mongoose.Schema({
 		required: true,
 		default: 'created'
 	},
+	hash: {
+		type: String,
+		required: false
+	},
 	shippingInformation: {
 		type: Object,
 		required: true,

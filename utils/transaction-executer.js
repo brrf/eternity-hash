@@ -47,18 +47,24 @@ async function findAndExecuteTransactions () {
 			     	return encodedSignature.slice(0, encodedSignature.length - 2);
 			     })
 			    //return tempTx
-			    transaction = tempTx
+			    return tempTx
 			})
-			.then(setTimeout(() => {
-				fetch("https://api.blockcypher.com/v1/bcy/test/txs/send?token=a38ba880bab24358b4273b07344a9e3f", {
-				method: "POST",
-				body: JSON.stringify(transaction),
-				headers: {"Content-Type": "application/json"}
-				})
-				.then(res => res.json())
-				.then(finalTx => console.log(finalTx.tx.hash))
-			}, 1000))
-			
+			.then(tempTx => {
+				setTimeout(() => {
+					fetch("https://api.blockcypher.com/v1/bcy/test/txs/send?token=a38ba880bab24358b4273b07344a9e3f", {
+					method: "POST",
+					body: JSON.stringify(tempTx),
+					headers: {"Content-Type": "application/json"}
+					})
+					.then(res => res.json())
+					.then(async finalTx => {
+						await PurchasedItem.findByIdAndUpdate(purchase._id, {
+							status: 'transactionSubmitted',
+							hash: finalTx.tx.hash
+						})
+					}
+				)}, 1000)
+			})			
 		} else {
 			notReadyYet.push(purchase.message);
 		}
