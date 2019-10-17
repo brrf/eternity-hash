@@ -73,7 +73,7 @@ pieces(app);
 checkout(app);
 
 //Check for transactions eligible transactions every 5 seconds
-//const timerId = setInterval(transactionExecuter, 5000);
+const timerId = setInterval(transactionExecuter, 5000);
 confirmTransaction();
 
 

@@ -2,6 +2,8 @@ const PurchasedItem = require('../schemas/purchaseditems');
 const bitcoin = require('bitcoinjs-lib');
 const fetch = require('node-fetch');
 
+const hashMessage = require('./hash-message');
+
 
 async function findAndExecuteTransactions () {
 	//find all transactions that are pendingDate - if 5 hours into the date then execute bitcoin transaction 
@@ -18,17 +20,22 @@ async function findAndExecuteTransactions () {
 		outputs: [{
 			addresses: ['BvzvHJFXyq6X7fwDhvjeSqcLqZj2c2yJ6A'], 
 			value: 0,
-			script: '6a4868656c6c6f207468657265206d792062616265',
-			script_type: "null-data",	  	
+			//script: '6a4868656c6c6f207468657265206d792062616265',
+			script_type: "null-data"  	
 		}]
 	};
 
-
 	purchases.forEach(purchase => {
-		console.log(purchase.date - new Date().getTime())
+		//console.log(purchase.date - new Date().getTime())
 		//18000000 = 5 hours; transactions will be executed at 5am. For testing purposes, will do 30000(30s)
 		if ((purchase.date - new Date().getTime()) <= -30000) {
 			ready.push(purchase.message);
+
+			//add user personal message to transaction body
+			const message = hashMessage(purchase.message);
+
+			console.log({message});
+			newtx.outputs[0].script = `6a48${message}`;
 
 			//prepare transaction
 			fetch("https://api.blockcypher.com/v1/bcy/test/txs/new?token=a38ba880bab24358b4273b07344a9e3f", {
@@ -55,6 +62,7 @@ async function findAndExecuteTransactions () {
 			    return tempTx
 			})
 			.then(tempTx => {
+				//console.log(tempTx);
 				setTimeout(() => {
 					//submit transaction
 					fetch("https://api.blockcypher.com/v1/bcy/test/txs/send?token=a38ba880bab24358b4273b07344a9e3f", {
@@ -64,6 +72,7 @@ async function findAndExecuteTransactions () {
 					})
 					.then(res => res.json())
 					.then(async finalTx => {
+						console.log({finalTx})
 						//update status of purchasedItem
 						await PurchasedItem.findByIdAndUpdate(purchase._id, {
 							status: 'transactionSubmitted',
@@ -76,7 +85,7 @@ async function findAndExecuteTransactions () {
 			notReadyYet.push(purchase.message);
 		}
 	})
-	console.log(notReadyYet, ready);
+	//console.log(notReadyYet, ready);
 }
 
 module.exports = findAndExecuteTransactions;
