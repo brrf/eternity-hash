@@ -13,6 +13,7 @@ const session = require('express-session');
 const authentication = require('./routes/authentication.js');
 const pieces = require('./routes/pieces.js');
 const checkout = require('./routes/checkout.js');
+const shipping = require('./routes/shipping.js');
 
 const transactionExecuter = require('./utils/transaction-executer');
 const confirmTransaction = require('./utils/confirm-transaction');
@@ -71,9 +72,10 @@ app.get('/', (req, res)=> {
 authentication(app);
 pieces(app);
 checkout(app);
+shipping(app);
 
 //Check for transactions eligible transactions every 5 seconds
-const timerId = setInterval(transactionExecuter, 5000);
+const timerId = setInterval(transactionExecuter, 600000);
 confirmTransaction();
 
 

@@ -55,6 +55,17 @@ export default class Purchases extends React.Component {
 	// 	wif: "Bp8cnjyLQN2Pxrh3XSzJH4znSorEKTezmZwmrzQUVgM7iSNqkUFa"
 	// }
 
+	testShipping = (e) => {
+		e.preventDefault();
+		fetch("http://localhost:5000/shipping", {
+			method: 'GET'
+		})
+		.then(res => res.json())
+		.then(resObject => {
+			console.log(resObject);
+		})
+	}
+
 	faucet = async (e) => {
 		e.preventDefault();
 		const data  = {
@@ -207,6 +218,7 @@ export default class Purchases extends React.Component {
 						))
 					}
 				</ol>
+				<button onClick = {this.testShipping}>Test Shipping</button>
 				<button onClick={this.testBitcoin}>Test Bitcoin</button>
 				<button onClick={this.getAddress1}>Get address1 details</button>
 				<button onClick={this.getAddress2}>Get address2 details</button>

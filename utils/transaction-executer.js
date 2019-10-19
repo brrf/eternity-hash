@@ -26,15 +26,12 @@ async function findAndExecuteTransactions () {
 	};
 
 	purchases.forEach(purchase => {
-		//console.log(purchase.date - new Date().getTime())
 		//18000000 = 5 hours; transactions will be executed at 5am. For testing purposes, will do 30000(30s)
 		if ((purchase.date - new Date().getTime()) <= -30000) {
 			ready.push(purchase.message);
 
 			//add user personal message to transaction body
 			const message = hashMessage(purchase.message);
-
-			console.log({message});
 			newtx.outputs[0].script = `6a48${message}`;
 
 			//prepare transaction
@@ -62,7 +59,6 @@ async function findAndExecuteTransactions () {
 			    return tempTx
 			})
 			.then(tempTx => {
-				//console.log(tempTx);
 				setTimeout(() => {
 					//submit transaction
 					fetch("https://api.blockcypher.com/v1/bcy/test/txs/send?token=a38ba880bab24358b4273b07344a9e3f", {
@@ -78,8 +74,9 @@ async function findAndExecuteTransactions () {
 							status: 'transactionSubmitted',
 							hash: finalTx.tx.hash
 						})
-					}
-				)}, 1000)
+					})
+					.catch(err => console.log(err));
+				}, 1000)
 			})			
 		} else {
 			notReadyYet.push(purchase.message);

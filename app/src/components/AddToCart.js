@@ -113,14 +113,14 @@ class AddToCart extends React.Component {
 			        />
 					<label className='cart-input-label'>Please provide a special message:</label>
 					<br />
-					<input className='cart-input' type='text' value={this.state.formData.message} onChange={this.changeMessage}/>
+					<textarea className='cart-input' style={{width: '200px', height: '85px'}} value={this.state.formData.message} onChange={this.changeMessage}/>
 					<br />
 					<input className='submit-button' type='submit' value='Purchase this Piece' />
 				</form>
 				<hr/>
 				<p className='cart-educational-text'>On the day of your event, we will store a copy of your message on the blockchain. This message will be stored for eternity!</p>
 				<p className='cart-educational-text'>The Bitcoin blockchain will provide a "hash", which can be used to find this message whenever you like. The hash is unique. Another exact hash will never be produced again.</p>
-				<p className='cart-educational-text'>The unique nature of this hash will be infused into your Eternity piece. This will ensure that your Eternity piece will also be one-of-a-kind</p> 
+				<p className='cart-educational-text'>The unique nature of this hash will be infused into your Eternity piece. This will ensure that your Eternity piece will also be one-of-a-kind.</p> 
 
 			</div>
 		)
