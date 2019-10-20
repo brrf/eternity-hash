@@ -1,4 +1,3 @@
-
 export default async function getShippingRates(address, item) {
 	let response = await fetch('http://localhost:5000/shippingrate', {
 		method: 'POST',

@@ -1,6 +1,9 @@
 import React from 'react';
 import {CardNumberElement, CardExpiryElement, CardCVCElement, injectStripe} from 'react-stripe-elements';
+import getShippingRates from '../utils/getShippingRates';
+import {setShippingRates} from '../actions/orderDetails';
 import {Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 class CheckoutForm extends React.Component {
   constructor(props) {
@@ -37,6 +40,9 @@ class CheckoutForm extends React.Component {
 
   async submit(ev) {
     ev.preventDefault();
+    let rates = await getShippingRates(this.props.address, this.props.cart.cart[0]);
+    this.props.dispatch(setShippingRates(rates))
+
     let {token} = await this.props.stripe.createToken({name: "Name"});
     if (!token) {
       console.log('error with card');
@@ -86,4 +92,8 @@ class CheckoutForm extends React.Component {
   }
 };
 
-export default injectStripe(CheckoutForm);
+function mapStateToProps(state) {
+  return {cart: state.cart, rates: state.orderDetails.shippingRates, address: state.orderDetails.shippingInformation};
+}
+
+export default connect(mapStateToProps)(injectStripe(CheckoutForm));

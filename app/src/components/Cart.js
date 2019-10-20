@@ -29,8 +29,10 @@ class Cart extends React.Component {
 		})
 	}
 
-	estimateShipping = async (address, piece) => {
-		const rates = await getShippingRates(address, piece)
+	estimateShipping = async (address, item) => {
+		let rates = await getShippingRates(address, item);
+		this.props.dispatch(setShippingRates(rates))
+		rates = this.props.rates;
 		let lowestRate;
 		rates.forEach(rate => {
 			const currentRate = Number(rate.amount);
@@ -42,7 +44,7 @@ class Cart extends React.Component {
 				estimateShipping: false
 			})
 			this.props.dispatch(setShippingInformation(address));
-			this.props.dispatch(setShippingRates(rates));
+			
 	}
 
 	handleRedirect = () => {
@@ -106,7 +108,7 @@ class Cart extends React.Component {
 }
 
 function mapStateToProps(state) {
-	return {cart: state.cart};
+	return {cart: state.cart, rates: state.orderDetails.shippingRates};
 }
 
 export default connect(mapStateToProps)(Cart);

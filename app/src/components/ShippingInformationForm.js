@@ -48,7 +48,7 @@ class ShippingInformationForm extends React.Component {
 			})
 			return;
 		}
-		this.props.submitForm(this.state.formData, this.props.cart.cart[0]);
+		this.props.submitForm(this.state.formData);
 	}
 
 	updateAddress = (e) => {
@@ -129,7 +129,7 @@ class ShippingInformationForm extends React.Component {
 function mapStateToProps(state) {
 	return({
 		shippingInformation: state.orderDetails.shippingInformation,
-		cart: state.cart
+		cart: state.cart,
 	});
 }
 
