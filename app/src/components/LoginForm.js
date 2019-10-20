@@ -1,12 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Warning from './Warning';
-import {Link, Redirect} from 'react-router-dom';
 
-import handleLoginuser from '../actions/login'
-
-import logo from '../images/logo-192.png'
-import '../authenticate.css'
+import handleLoginuser from '../actions/login';
+import '../authenticate.css';
 
 class LoginForm extends React.Component {
 	constructor (props) {

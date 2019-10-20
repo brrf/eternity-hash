@@ -2,7 +2,8 @@ const shippo = require('shippo')('shippo_test_123829ef0b7d82342424adfab4d13c75f2
 const validateUsAddress = require('../utils/validateUsAddress');
 
 module.exports = function (app) {
-	app.get('/shipping', (req, res) => {
+	app.post('/shippingrate', (req, res) => {
+		console.log(req.body);
 		const addressFrom  = {
 	    "name": "Eternity Hash",
 	    "street1": "2138 S Indiana Avenue, 1709",
@@ -13,11 +14,11 @@ module.exports = function (app) {
 		};
 
 		const addressTo = {
-		    "name": "Elizabeth Harris",
-		    "street1": "8014 N Pennsylvania St",
-		    "city": "Indianapolis",
-		    "state": "IN",
-		    "zip": "46240",
+		    "name": "Unregistered user",
+		    "street1": req.body.address,
+		    "city": req.body.city,
+		    "state": req.body.state,
+		    "zip": req.body.zipcode,
 		    "country": "US"
 		};
 
@@ -42,18 +43,22 @@ module.exports = function (app) {
 				const UsAddress = await validateUsAddress(shipment.address_to);
 				if (UsAddress === false) res.json({error: 'Not a valid address'});
 				if (UsAddress === null) res.json({error: 'We currently only ship to the US'});
-				shippo.transaction.create({
-			    "rate": shipment.rates[1].object_id,
-			    "label_file_type": "PDF",
-			    "async": false
-			}, function(err, transaction) {
-			   if (err) {
-			   	res.json({error: 'an error occurred making your label'})
-			   } else {
-			   	res.json({transaction})
-			   }
-});
-			}   
+			} 
+			res.json({shipment})  
 		});	
+	})
+
+	app.post('/shippinglabel', (req, res) => {
+		shippo.transaction.create({
+		    "rate": shipment.rates[1].object_id,
+		    "label_file_type": "PDF",
+		    "async": false
+		}, function(err, transaction) {
+		   if (err) {
+		   	res.json({error: 'an error occurred making your label'})
+		   } else {
+		   	res.json(transaction)
+		   }
+		});
 	})	
 };

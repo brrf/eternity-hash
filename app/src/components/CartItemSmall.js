@@ -2,10 +2,6 @@ import React from 'react';
 import formatDate from '../utils/formatDate';
 
 export default class CartItemSmall extends React.Component {
-	constructor (props) {
-		super(props);
-	}
-
 	render() {
 		const {item} = this.props;
 		return (

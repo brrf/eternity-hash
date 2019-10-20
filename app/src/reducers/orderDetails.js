@@ -1,4 +1,4 @@
-export default function orderDetails (state = {accountInformation: {}, shippingInformation: {}}, action) {
+export default function orderDetails (state = {accountInformation: undefined, shippingInformation: undefined, shippingRates: undefined}, action) {
 	console.log()
 	switch (action.type) {
 		case 'SET_ACCOUNT_INFORMATION':
@@ -14,12 +14,17 @@ export default function orderDetails (state = {accountInformation: {}, shippingI
 			return {
 				...state,
 				shippingInformation: {
-					address1: action.shippingInformation.address1,
-					address2: action.shippingInformation.address2,
+					address: action.shippingInformation.address,
 					city: action.shippingInformation.city,
 					state: action.shippingInformation.state,
-					zipcode: action.shippingInformation.zipcode
+					zipcode: action.shippingInformation.zipcode,
+					country: action.shippingInformation.country
 				}
+			}
+		case 'SET_SHIPPING_RATES':
+			return {
+				...state,
+				shippingRates: action.rates
 			}
 		default: 
 			return state;

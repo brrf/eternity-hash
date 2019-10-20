@@ -1,5 +1,5 @@
 import React from 'react';
-import {CardNumberElement, CardExpiryElement, CardCVCElement, PostalCodeElement, injectStripe} from 'react-stripe-elements';
+import {CardNumberElement, CardExpiryElement, CardCVCElement, injectStripe} from 'react-stripe-elements';
 import {Redirect} from 'react-router-dom';
 
 class CheckoutForm extends React.Component {
@@ -80,14 +80,10 @@ class CheckoutForm extends React.Component {
             {...this.createOptions(this.props.fontSize)}
           />
         </label>
-        <button className='submit-button'>Continue</button>
+        <button className='submit-button'>Review Final Order</button>
       </form>
     )
   }
-};
-
-function mapStateToProps(state) {
-  return {state};
 };
 
 export default injectStripe(CheckoutForm);

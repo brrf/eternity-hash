@@ -11,3 +11,10 @@ export function setShippingInformation (shippingInformation) {
 		shippingInformation
 	}
 }
+
+export function setShippingRates (rates) {
+	return {
+		type: 'SET_SHIPPING_RATES',
+		rates
+	}
+}

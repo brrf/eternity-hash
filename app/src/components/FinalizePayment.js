@@ -2,7 +2,6 @@ import React from 'react';
 import Navbar from './Navbar';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
-import CartItemLarge from './CartItemLarge';
 
 import formatDate from '../utils/formatDate';
 
@@ -84,11 +83,7 @@ class FinalizePayment extends React.Component {
 									<div className='payment-details-title'>Shipping Address</div>
 									<div className='payment-details-details-container'>
 										<div className='payment-details-details'>{`${accountInformation.fname} ${accountInformation.lname}`}</div>
-										<div className='payment-details-details'>{shippingInformation.address1}</div>
-										{shippingInformation.address2
-											? <div className='payment-details-details'>{shippingInformation.address2}</div>
-											: null
-										}
+										<div className='payment-details-details'>{shippingInformation.address}</div>
 										<div className='payment-details-details'>{`${shippingInformation.city}, ${shippingInformation.state} ${shippingInformation.zipcode}`}</div>
 									</div>
 								</div>

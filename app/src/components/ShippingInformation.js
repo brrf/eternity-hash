@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import Warning from './Warning'
 
 import {setCheckoutStep} from '../actions/cart';
 import {setShippingInformation} from '../actions/orderDetails';

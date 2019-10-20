@@ -1,14 +1,12 @@
 import React from 'react';
 import Navbar from './Navbar';
 import CartItemLarge from './CartItemLarge';
-import CartItemSmall from './CartItemSmall';
-import AccountInformation from './AccountInformation';
-import ShippingInformation from './ShippingInformation';
-import PaymentInformation from './PaymentInformation';	
+import ShippingInformationForm from './ShippingInformationForm'
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
-import {setCheckoutStep} from '../actions/cart';
+import {setShippingInformation, setShippingRates} from '../actions/orderDetails';
+import getShippingRates from '../utils/getShippingRates';
 
 import '../cart.css'
 
@@ -17,13 +15,34 @@ class Cart extends React.Component {
 		super(props);	
 		this.state = {
 			redirect: false,
-			purchasedItemId: null
+			purchasedItemId: null,
+			estimateShipping: false,
+			shipping: 0
 		}
-		this.handleRedirect = this.handleRedirect.bind(this);	
+		this.handleRedirect = this.handleRedirect.bind(this);
+		this.estimateShipping = this.estimateShipping.bind(this);
 	}
 
-	estimateShipping = (e) => {
-		alert('hello!!!!');
+	showEstimateShipping = () => {
+		this.setState({
+			estimateShipping: !this.state.estimateShipping
+		})
+	}
+
+	estimateShipping = async (address, piece) => {
+		const rates = await getShippingRates(address, piece)
+		let lowestRate;
+		rates.forEach(rate => {
+			const currentRate = Number(rate.amount);
+			if (!lowestRate) lowestRate = currentRate;
+			if (currentRate < lowestRate) lowestRate = rate.amount;
+		})
+			this.setState({
+				shipping: Number(lowestRate),
+				estimateShipping: false
+			})
+			this.props.dispatch(setShippingInformation(address));
+			this.props.dispatch(setShippingRates(rates));
 	}
 
 	handleRedirect = () => {
@@ -51,11 +70,10 @@ class Cart extends React.Component {
 			return <Redirect to={`/cart/${this.state.purchasedItemId}`} />
 		}
 		let subtotal = 0;
-		let shipping = 0;
 		this.props.cart.cart.forEach( item => {
 			subtotal += item.piece.price;
 		});
-		let tax = Math.round((subtotal * 0.08)*100)/100;
+		const tax = subtotal * 0.08;
 		return (
 			<div>
 				<Navbar />
@@ -71,10 +89,14 @@ class Cart extends React.Component {
 					</div>
 					<div className={'cart-container checkout-details-small'}>
 						<p className='checkout-details-label'>Subtotal:</p><span className='checkout-price-value'>${subtotal}</span><br/>
-						<p className='checkout-details-label'>Shipping:</p><span onClick={this.estimateShipping} className='checkout-price-value checkout-shipping-estimate'>{shipping === 0 ? 'Estimate shipping' : `$${shipping}`}</span><br/>
+						<p className='checkout-details-label'>Shipping:</p><span onClick={this.showEstimateShipping} className={`checkout-price-value ${this.state.shipping === 0 ? 'checkout-shipping-estimate' : null}`}>{this.state.shipping === 0 ? 'Estimate shipping' : `$${this.state.shipping}`}</span><br/>
+						{this.state.estimateShipping 
+							? <ShippingInformationForm submitForm={this.estimateShipping} />
+							: null
+						}
 						<p className='checkout-details-label'>Estimated Tax:</p><span className='checkout-price-value'>${tax}</span><br/>
 						<hr/>
-						<p className='checkout-details-label'>Estimated Total:</p><span className='checkout-price-value'>${subtotal + shipping + tax}</span><br/>
+						<p className='checkout-details-label'>Estimated Total:</p><span className='checkout-price-value'>{Math.round((subtotal + this.state.shipping + tax) *100)/100}</span><br/>
 						<button onClick={this.handleRedirect} disabled={!this.props.cart.cart.length} className='submit-button' style={{width: '250px'}}>Proceed to 3-Step Checkout</button>
 					</div>
 				</div>	

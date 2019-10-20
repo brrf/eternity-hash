@@ -1,5 +1,4 @@
 import React from 'react';
-import buffer from 'buffer';
 
 var bitcoin = require('bitcoinjs-lib');
 
@@ -87,7 +86,6 @@ export default class Purchases extends React.Component {
 
 	testBitcoin = async (e) => {
 		e.preventDefault();
-		const token = 'a38ba880bab24358b4273b07344a9e3f';
 
 		var newtx = {
 		  inputs: [{

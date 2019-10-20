@@ -204,17 +204,17 @@ module.exports = function (app) {
 					}	
 					return res.json({error: null})
 				case 2:
-					if (!req.body.formData.address1 || !req.body.formData.city || !req.body.formData.state || !req.body.formData.zipcode) {
+					if (!req.body.formData.address || !req.body.formData.city || !req.body.formData.state || !req.body.formData.zipcode) {
 						return res.json({error: 'Must fill out all fields'})
 					};
 					try {
 						await PurchasedItem.findByIdAndUpdate(req.body.purchasedItemId, {
 							shippingInformation: {
-								address1: req.body.formData.address1,
-								address2: req.body.formData.address2 || '',
+								address: req.body.formData.address,
 								city: req.body.formData.city,
 								state: req.body.formData.state,
-								zipcode: req.body.formData.zipcode
+								zipcode: req.body.formData.zipcode,
+								country: req.body.formData.country
 							},
 							status: 'shippingInformation'
 						})

@@ -1,9 +1,6 @@
 	import React from 'react';
 import {connect} from 'react-redux';
-import Warning from './Warning';
 import {Link, Redirect} from 'react-router-dom';
-
-import handleLoginuser from '../actions/login'
 
 import LoginForm from './LoginForm'
 

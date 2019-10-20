@@ -23,6 +23,7 @@ function convertMonthToString (month) {
 		case 9: return "October"
 		case 10: return "November"
 		case 11: return "December"
+		default: return 
 	}
 }
 

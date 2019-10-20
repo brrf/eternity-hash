@@ -29,10 +29,10 @@ const purchasedItemSchema = new mongoose.Schema({
 		required: true,
 		default: {
 			address1: '',
-			address2: '',
 			city: '',
 			state: '',
-			zipcode: ''
+			zipcode: '',
+			country: ''
 		}
 	},
 	accountInformation: {
@@ -43,6 +43,10 @@ const purchasedItemSchema = new mongoose.Schema({
 			fname: '',
 			lname: ''
 		}
+	},
+	shippingCarrier: {
+		type: Object,
+		required: false
 	}
 });
 

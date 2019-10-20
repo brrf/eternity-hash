@@ -6,10 +6,6 @@ import {faShoppingCart} from '@fortawesome/free-solid-svg-icons';
 import {receiveCart} from '../actions/cart';
 
 class Navbar extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     fetch('http://localhost:5000/cart', {
       method: 'GET',
@@ -23,8 +19,8 @@ class Navbar extends React.Component {
   }
   render () {
     let fname = this.props.fname ? (this.props.fname.charAt(0).toUpperCase() + this.props.fname.slice(1)) : null;
-  let loginStatus = this.props.fname ? true : false; 
-  let authenticationLink = loginStatus ? {link: '/authentication/logout', title: 'Logout'} : {link: '/authentication/login', title: 'Login'};
+    let loginStatus = this.props.fname ? true : false; 
+    let authenticationLink = loginStatus ? {link: '/authentication/logout', title: 'Logout'} : {link: '/authentication/login', title: 'Login'};
 
   	return (
       <div className='navbar-parent'>
