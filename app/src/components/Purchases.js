@@ -62,7 +62,10 @@ export default class Purchases extends React.Component {
 		})
 		.then(res => res.json())
 		.then(resObject => {
-			console.log(resObject);
+			if (!resObject.error && resObject.transaction) {
+				console.log(resObject.transaction);
+			}
+			
 		})
 	}
 

@@ -42,32 +42,35 @@ class CartItemLarge extends React.Component {
 	render() {
 		const {item} = this.props;
 		return (
-			<div className='cart-piece'>
-				<div className='cart-item-image-container'>
-					<img 
-						className='piece-image-large'
-						src={require(`../../public/pieces-images/${item.piece.thumbnails[0]}`)}
-						alt='piece'		
-					/>
+			<React.Fragment>
+				<div className='cart-piece'>
+					<div className='cart-item-image-container'>
+						<img 
+							className='piece-image-large'
+							src={require(`../../public/pieces-images/${item.piece.thumbnails[0]}`)}
+							alt='piece'		
+						/>
+					</div>
+					<div className='cart-details-container'>
+						<div className='cart-piece-details-container'>
+							<div className='cart-piece-details'>
+								<div className='cart-piece-title'>{item.piece.title}</div>
+								<div>By <span className='cart-piece-artist'>{item.piece.artist}</span></div>
+							</div>
+							<FontAwesomeIcon icon={faTrashAlt} size='1x' className='cart-action' onClick={() => this.deleteItem(item.itemId)} />
+						</div>
+						<hr/>
+						<div className='cart-item-details-container'>
+							<div className='cart-item-message'>Message: {item.message}</div>
+							<div className='cart-item-bottom'>
+								<div className='cart-item-date'>Date: {formatDate(item.date)}</div>
+								<div className='cart-piece-price value'>${item.piece.price}<span className='cart-piece-price currency'>USD</span></div>
+							</div>
+						</div>
+					</div>				
 				</div>
-				<div className='cart-details-container'>
-					<div className='cart-piece-details-container'>
-						<div className='cart-piece-details'>
-							<div className='cart-piece-title'>{item.piece.title}</div>
-							<div>By <span className='cart-piece-artist'>{item.piece.artist}</span></div>
-						</div>
-						<FontAwesomeIcon icon={faTrashAlt} size='1x' className='cart-action' onClick={() => this.deleteItem(item.itemId)} />
-					</div>
-					<hr/>
-					<div className='cart-item-details-container'>
-						<div className='cart-item-message'>{item.message}</div>
-						<div className='cart-item-bottom'>
-							<div className='cart-item-date'>Date: {formatDate(item.date)}</div>
-							<div className='cart-piece-price value'>${item.piece.price}<span className='cart-piece-price currency'>USD</span></div>
-						</div>
-					</div>
-				</div>				
-			</div>
+				<hr/>			
+			</React.Fragment>
 		)
 	}
 }

@@ -1,9 +1,10 @@
 const shippo = require('shippo')('shippo_test_123829ef0b7d82342424adfab4d13c75f294e16f');
+const validateUsAddress = require('../utils/validateUsAddress');
 
 module.exports = function (app) {
 	app.get('/shipping', (req, res) => {
 		const addressFrom  = {
-	    "name": "Moshe Praver",
+	    "name": "Eternity Hash",
 	    "street1": "2138 S Indiana Avenue, 1709",
 	    "city": "Chicago",
 	    "state": "IL",
@@ -34,11 +35,24 @@ module.exports = function (app) {
 		    "address_to": addressTo,
 		    "parcels": [parcel],
 		    "async": false
-		}, function(err, shipment) {
+		}, async function(err, shipment) {
 			if(err) {
-				res.json({error: 'an error occurred'})
+				res.json({error: 'an error occurred searching for carriers'})
 			} else {
-				res.json({shipment})
+				const UsAddress = await validateUsAddress(shipment.address_to);
+				if (UsAddress === false) res.json({error: 'Not a valid address'});
+				if (UsAddress === null) res.json({error: 'We currently only ship to the US'});
+				shippo.transaction.create({
+			    "rate": shipment.rates[1].object_id,
+			    "label_file_type": "PDF",
+			    "async": false
+			}, function(err, transaction) {
+			   if (err) {
+			   	res.json({error: 'an error occurred making your label'})
+			   } else {
+			   	res.json({transaction})
+			   }
+});
 			}   
 		});	
 	})	

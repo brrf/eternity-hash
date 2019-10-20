@@ -22,6 +22,10 @@ class Cart extends React.Component {
 		this.handleRedirect = this.handleRedirect.bind(this);	
 	}
 
+	estimateShipping = (e) => {
+		alert('hello!!!!');
+	}
+
 	handleRedirect = () => {
 		fetch('http://localhost:5000/checkout/', {
 			method: 'GET',
@@ -47,7 +51,7 @@ class Cart extends React.Component {
 			return <Redirect to={`/cart/${this.state.purchasedItemId}`} />
 		}
 		let subtotal = 0;
-		let shipping = 8.00;
+		let shipping = 0;
 		this.props.cart.cart.forEach( item => {
 			subtotal += item.piece.price;
 		});
@@ -67,10 +71,10 @@ class Cart extends React.Component {
 					</div>
 					<div className={'cart-container checkout-details-small'}>
 						<p className='checkout-details-label'>Subtotal:</p><span className='checkout-price-value'>${subtotal}</span><br/>
-						<p className='checkout-details-label'>Shipping:</p><span className='checkout-price-value'>${shipping}</span><br/>
+						<p className='checkout-details-label'>Shipping:</p><span onClick={this.estimateShipping} className='checkout-price-value checkout-shipping-estimate'>{shipping === 0 ? 'Estimate shipping' : `$${shipping}`}</span><br/>
 						<p className='checkout-details-label'>Estimated Tax:</p><span className='checkout-price-value'>${tax}</span><br/>
 						<hr/>
-						<p className='checkout-details-label'>Total:</p><span className='checkout-price-value'>${subtotal + shipping + tax}</span><br/>
+						<p className='checkout-details-label'>Estimated Total:</p><span className='checkout-price-value'>${subtotal + shipping + tax}</span><br/>
 						<button onClick={this.handleRedirect} disabled={!this.props.cart.cart.length} className='submit-button' style={{width: '250px'}}>Proceed to 3-Step Checkout</button>
 					</div>
 				</div>	
