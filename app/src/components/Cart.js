@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import {setShippingInformation, setShippingRates} from '../actions/orderDetails';
 import getShippingRates from '../utils/getShippingRates';
 
+import SelectUSState from 'react-select-us-states';
 import '../cart.css'
 
 class Cart extends React.Component {
@@ -17,10 +18,13 @@ class Cart extends React.Component {
 			redirect: false,
 			purchasedItemId: null,
 			estimateShipping: false,
-			shipping: 0
+			estimateTax: false,
+			shipping: 0,
+			tax: undefined
 		}
 		this.handleRedirect = this.handleRedirect.bind(this);
 		this.estimateShipping = this.estimateShipping.bind(this);
+		this.estimateTax = this.estimateTax.bind(this);
 	}
 
 	showEstimateShipping = () => {
@@ -28,6 +32,12 @@ class Cart extends React.Component {
 			estimateShipping: !this.state.estimateShipping
 		})
 	}
+
+	showEstimateTax = () => {
+		this.setState({
+			estimateTax: !this.state.estimateTax
+		})
+	};
 
 	estimateShipping = async (address, item) => {
 		let rates = await getShippingRates(address, item);
@@ -43,8 +53,15 @@ class Cart extends React.Component {
 				shipping: Number(lowestRate),
 				estimateShipping: false
 			})
-			this.props.dispatch(setShippingInformation(address));
-			
+			this.props.dispatch(setShippingInformation(address));			
+	}
+
+	estimateTax = (newValue) => {
+			if (newValue === 'IL') this.state.tax = 0.1025;
+			else this.state.tax = 0;
+			this.setState({
+				estimateTax: false
+			})
 	}
 
 	handleRedirect = () => {
@@ -75,7 +92,8 @@ class Cart extends React.Component {
 		this.props.cart.cart.forEach( item => {
 			subtotal += item.piece.price;
 		});
-		const tax = subtotal * 0.08;
+		let tax = subtotal * this.state.tax;
+
 		return (
 			<div>
 				<Navbar />
@@ -91,14 +109,18 @@ class Cart extends React.Component {
 					</div>
 					<div className={'cart-container checkout-details-small'}>
 						<p className='checkout-details-label'>Subtotal:</p><span className='checkout-price-value'>${subtotal}</span><br/>
-						<p className='checkout-details-label'>Shipping:</p><span onClick={this.showEstimateShipping} className={`checkout-price-value ${this.state.shipping === 0 ? 'checkout-shipping-estimate' : null}`}>{this.state.shipping === 0 ? 'Estimate shipping' : `$${this.state.shipping}`}</span><br/>
+						<p className='checkout-details-label'>Shipping:</p><span onClick={this.state.shipping === 0 ? this.showEstimateShipping : null} className={`checkout-price-value ${this.state.shipping === 0 ? 'checkout-estimate' : null}`}>{this.state.shipping === 0 ? 'Estimate shipping' : `$${this.state.shipping}`}</span><br/>
 						{this.state.estimateShipping 
 							? <ShippingInformationForm submitForm={this.estimateShipping} />
 							: null
 						}
-						<p className='checkout-details-label'>Estimated Tax:</p><span className='checkout-price-value'>${tax}</span><br/>
-						<hr/>
-						<p className='checkout-details-label'>Estimated Total:</p><span className='checkout-price-value'>{Math.round((subtotal + this.state.shipping + tax) *100)/100}</span><br/>
+						<p className='checkout-details-label'>Tax:</p><span onClick={this.state.tax === undefined ? this.showEstimateTax : null} className={`checkout-price-value ${this.state.tax === undefined ? 'checkout-estimate' : null}`}>{this.state.tax === undefined ? 'Estimate tax' : `$${tax}`}</span><br/>
+						{this.state.estimateTax
+							? <div style={{marginTop: '8px', fontFamily: 'none', fontSize: '14px'}}>Delivery State: <SelectUSState id="myId" className="myClassName" onChange={this.estimateTax}/></div>
+							: null
+						}
+						<hr/>					
+						<p className='checkout-details-label'>Estimated Total:</p><span className='checkout-price-value'>${Math.round((subtotal + this.state.shipping + (this.state.tax === undefined ? 0 : tax)) *100)/100}</span><br/>
 						<button onClick={this.handleRedirect} disabled={!this.props.cart.cart.length} className='submit-button' style={{width: '250px'}}>Proceed to 3-Step Checkout</button>
 					</div>
 				</div>	
