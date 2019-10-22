@@ -5,6 +5,8 @@ import {setShippingRates} from '../actions/orderDetails';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
+import {setTaxRate} from '../actions/orderDetails';
+
 class CheckoutForm extends React.Component {
   constructor(props) {
     super(props);
@@ -40,8 +42,29 @@ class CheckoutForm extends React.Component {
 
   async submit(ev) {
     ev.preventDefault();
+
+    //load up shipping rates into redux store from shippo
     let rates = await getShippingRates(this.props.address, this.props.cart.cart[0]);
-    this.props.dispatch(setShippingRates(rates))
+    this.props.dispatch(setShippingRates(rates));
+
+    //load up tax rates into redux store based on label location
+    fetch('http://localhost:5000/checkout/' + this.props.purchasedItemId, {
+      method: 'GET',
+      headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "http://localhost:5000"},
+      mode: 'cors',
+      credentials: 'include'
+    })
+    .then(res => res.json())
+    .then(resObject => {
+      console.log({resObject})
+      let taxRate;
+      if (resObject.shippingInformation.state === 'IL') {
+        taxRate = 0.1025
+      } else {
+        taxRate = 0;
+      }
+      this.props.dispatch(setTaxRate(taxRate))
+    })
 
     let {token} = await this.props.stripe.createToken({name: "Name"});
     if (!token) {

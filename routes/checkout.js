@@ -93,7 +93,6 @@ module.exports = function (app) {
 			res.json({cart})
 		})
 		.post(async (req, res) => {
-			console.log(req.body.date)
 			if (!req.body.date || !req.body.message || !req.body.timeZone) {
 				return res.json({error: 'Please provide a date, timezone and personalized message'})
 			}
@@ -163,28 +162,26 @@ module.exports = function (app) {
 		})
 
 	app.route('/checkout')
-		.get(async (req, res) => {
-			const user = await assignUser(req, res);
-			if (user.error) return res.json({error: user.error});
-			try {
-				//created a purchased item
-				const item = await PurchasedItem.create({
-					date: user.cart[0].date,
-					message: user.cart[0].message,
-					pieceId: user.cart[0].pieceId,
-				})
-				res.json({purchasedItemId: item._id})
-			} catch {
-				return res.json({error: 'Could not add item information to the order'})
-			}
-		})
 		.post(async (req, res) => {
-			if (!req.body.checkoutStep) {
+			if (req.body.checkoutStep === undefined) {
 				return res.json({error: 'This form is not recognized'})
 			}
-
-			//checkoutStep1: update contact info, checkoutStep2: update shipping info
+			//checkoutStep0: create item with date/message/pieceId, checkoutStep1: update contact info, checkoutStep2: update shipping info
 			switch (req.body.checkoutStep) {
+				case 0: 
+					const user = await assignUser(req, res);
+					if (user.error) return res.json({error: user.error});
+					try {
+						//created a purchased item
+						const item = await PurchasedItem.create({
+							date: user.cart[0].date,
+							message: user.cart[0].message,
+							pieceId: user.cart[0].pieceId,
+						})
+						return res.json({purchasedItemId: item._id})
+					} catch {
+						return res.json({error: 'Could not add item information to the order'})
+					}
 				case 1:
 					if (!req.body.formData.email || !req.body.formData.fname || !req.body.formData.lname) {
 						return res.json({error: 'Must fill out all fields'})
@@ -224,6 +221,17 @@ module.exports = function (app) {
 			}
 					return res.json({error: null})	
 		});
+
+	app.get('/checkout/:purchasedItemId', async (req, res) => {
+		try {
+			const purchasedItem = await PurchasedItem.findById(req.params.purchasedItemId);
+			return res.json(purchasedItem)
+		} catch {
+			res.json({error: 'Could not find your purchase in the database'})
+		}
+		
+	})
+
 	app.get('/purchases', async (req, res) => {
 		const pendingTransaction = await PurchasedItem.find({status: 'pendingDate'})
 		const pendingConfirmation = await PurchasedItem.find({status: 'transactionSubmitted'})

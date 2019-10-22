@@ -66,8 +66,11 @@ class Cart extends React.Component {
 
 	handleRedirect = () => {
 		fetch('http://localhost:5000/checkout/', {
-			method: 'GET',
+			method: 'POST',
 			headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "http://localhost:5000"},
+			body: JSON.stringify({
+				checkoutStep: 0
+			}),
 			mode: 'cors',
 			credentials: 'include'
 		})
@@ -116,7 +119,7 @@ class Cart extends React.Component {
 						}
 						<p className='checkout-details-label'>Tax:</p><span onClick={this.state.tax === undefined ? this.showEstimateTax : null} className={`checkout-price-value ${this.state.tax === undefined ? 'checkout-estimate' : null}`}>{this.state.tax === undefined ? 'Estimate tax' : `$${tax}`}</span><br/>
 						{this.state.estimateTax
-							? <div style={{marginTop: '8px', fontFamily: 'none', fontSize: '14px'}}>Delivery State: <SelectUSState id="myId" className="myClassName" onChange={this.estimateTax}/></div>
+							? <div style={{marginTop: '8px', fontFamily: 'none', fontSize: '14px'}}>Delivery State: <SelectUSState onChange={this.estimateTax}/></div>
 							: null
 						}
 						<hr/>					

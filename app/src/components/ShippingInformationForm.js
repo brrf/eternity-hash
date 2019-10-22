@@ -1,6 +1,7 @@
 import React from 'react';
 import Warning from './Warning';
 import {connect} from 'react-redux';
+import SelectUSState from 'react-select-us-states';
 
 class ShippingInformationForm extends React.Component {
 	constructor(props) {
@@ -69,11 +70,11 @@ class ShippingInformationForm extends React.Component {
 		})
 	};
 
-	updateState = (e) => {
+	updateState = (state) => {
 		this.setState({
 			formData: {
 				...this.state.formData,
-				state: e.target.value
+				state
 			}		
 		})
 	};
@@ -108,7 +109,7 @@ class ShippingInformationForm extends React.Component {
 						<div className='input-section'>
 							<label className='input-label long'>State:</label>
 							<br></br>
-							<input type="state" name="state" onChange={this.updateState} value={this.state.formData.state}/>
+							<SelectUSState onChange={this.updateState}/>
 							<br></br>
 						</div>
 						<div className='input-section'>

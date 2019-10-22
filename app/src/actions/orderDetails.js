@@ -18,3 +18,10 @@ export function setShippingRates (rates) {
 		rates
 	}
 }
+
+export function setTaxRate (taxRate) {
+	return {
+		type: 'SET_TAX_RATE',
+		taxRate
+	}
+}

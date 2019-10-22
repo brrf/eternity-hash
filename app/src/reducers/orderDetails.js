@@ -1,4 +1,4 @@
-export default function orderDetails (state = {accountInformation: undefined, shippingInformation: undefined, shippingRates: undefined}, action) {
+export default function orderDetails (state = {accountInformation: undefined, shippingInformation: undefined, shippingRates: undefined, taxRate: undefined}, action) {
 	console.log()
 	switch (action.type) {
 		case 'SET_ACCOUNT_INFORMATION':
@@ -25,6 +25,11 @@ export default function orderDetails (state = {accountInformation: undefined, sh
 			return {
 				...state,
 				shippingRates: action.rates
+			}
+		case 'SET_TAX_RATE':
+			return {
+				...state,
+				taxRate: action.taxRate
 			}
 		default: 
 			return state;
