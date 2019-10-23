@@ -39,12 +39,6 @@ class FinalizePayment extends React.Component {
 	}
 
 	selectShipping = (e) => {
-		console.log(e.target);
-		console.log({
-			index: e.target.index,
-			value: e.target.value,
-			type: e.target.type
-		})
 		this.setState({
 			shippingOption: e.target.value
 		})
