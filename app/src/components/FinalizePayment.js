@@ -10,7 +10,7 @@ class FinalizePayment extends React.Component {
 		super(props);	
 		this.state = {
 			redirect: false,
-			shippingPrice: 0
+			shippingOption: 1
 		}
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.selectShipping.bind(this);
@@ -39,8 +39,14 @@ class FinalizePayment extends React.Component {
 	}
 
 	selectShipping = (e) => {
+		console.log(e.target);
+		console.log({
+			index: e.target.index,
+			value: e.target.value,
+			type: e.target.type
+		})
 		this.setState({
-			shippingPrice: e.value
+			shippingOption: e.target.value
 		})
 	}
 
@@ -68,7 +74,7 @@ class FinalizePayment extends React.Component {
 //     "itemId": "5dac9feaf64bd7a84e662194"
 //   }
 // })).item
-//   	console.log({item});
+//   	//console.log({item});
 
 
 // const {accountInformation, shippingInformation, shippingRates} = JSON.parse(JSON.stringify({
@@ -173,10 +179,13 @@ class FinalizePayment extends React.Component {
 
 
 
-
+		
 		const {item} = this.props;
 		const subtotal = item.piece.price;
 		const {accountInformation, shippingInformation, shippingRates, taxRate} = this.props.orderDetails;
+		const shippingPrice = Number(shippingRates[this.state.shippingOption].amount);
+		const tax = taxRate * subtotal;
+
 		return (
 			<React.Fragment>
 				<Navbar />
@@ -233,10 +242,10 @@ class FinalizePayment extends React.Component {
 							<div className='payment-details-title'>Billing Summary</div>
 							<div className='payment-details-details-container'>
 								<p className='payment-details-details'>Subtotal: ${subtotal}</p>
-								<p className='payment-details-details'>Shipping: ${this.state.shippingPrice}</p>
-								<p className='payment-details-details'>Tax: ${taxRate * subtotal}</p>
+								<p className='payment-details-details'>Shipping: ${shippingPrice}</p>
+								<p className='payment-details-details'>Tax: ${tax}</p>
 								<hr/>
-								<p className='payment-details-title'>Total: ${taxRate + subtotal + this.state.shippingPrice}</p>
+								<p className='payment-details-title'>Total: ${tax + subtotal + shippingPrice}</p>
 								<button onClick={this.handleSubmit} className='submit-button' style={{width: '250px'}}>Complete Payment</button>
 							</div>
 						</div>
@@ -245,7 +254,7 @@ class FinalizePayment extends React.Component {
 							shippingRates.map((rate, index) => {
 								return (
 									<div key={rate.amount} className='shipping-rate-container'>
-										<input className='shipping-rate-radio' onChange={this.selectShipping} type="radio" name='shipping-rate' value={rate.amount} defaultChecked={index === 1} /><span>{rate.provider}: {rate.servicelevel.name}</span><br />
+										<input className='shipping-rate-radio' onChange={this.selectShipping} type="radio" name='shipping-rate' value={index} defaultChecked={index === 1} /><span>{rate.provider}: {rate.servicelevel.name}</span><br />
 										<div className='shipping-rate-details'>
 											<div>${rate.amount} - Estimated Days: {rate.estimated_days}</div>
 										</div>
