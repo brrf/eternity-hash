@@ -1,4 +1,4 @@
-const PurchasedItem = require('../schemas/purchaseditems');
+const PurchasedItem = require('../schemas/order');
 const bitcoin = require('bitcoinjs-lib');
 const fetch = require('node-fetch');
 

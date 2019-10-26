@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from './Navbar';
 import CartItemLarge from './CartItemLarge';
-import ShippingInformationForm from './ShippingInformationForm'
+import ShippingInformationForm from './ShippingInformationForm';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
@@ -49,11 +49,14 @@ class Cart extends React.Component {
 			if (!lowestRate) lowestRate = currentRate;
 			if (currentRate < lowestRate) lowestRate = rate.amount;
 		})
-			this.setState({
-				shipping: Number(lowestRate),
-				estimateShipping: false
-			})
-			this.props.dispatch(setShippingInformation(address));			
+		this.setState({
+			shipping: Number(lowestRate),
+			estimateShipping: false
+		})
+		this.props.dispatch(setShippingInformation(address));
+
+		//since we have the address, we can estimate the tax too
+		this.estimateTax(address.state);
 	}
 
 	estimateTax = (newValue) => {

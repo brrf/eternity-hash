@@ -1,4 +1,4 @@
-const PurchasedItem = require('../schemas/purchaseditems');
+const PurchasedItem = require('../schemas/order');
 const fetch = require('node-fetch');
 
 async function confirmTransaction () {

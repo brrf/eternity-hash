@@ -76,7 +76,7 @@ shipping(app);
 
 //Check for transactions eligible transactions every 5 seconds
 const timerId = setInterval(transactionExecuter, 600000);
-confirmTransaction();
+//confirmTransaction();
 
 
 //404 Not Found Middleware

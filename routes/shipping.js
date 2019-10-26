@@ -3,7 +3,6 @@ const validateUsAddress = require('../utils/validateUsAddress');
 
 module.exports = function (app) {
 	app.post('/shippingrate', (req, res) => {
-		console.log(req.body);
 		const addressFrom  = {
 	    "name": "Eternity Hash",
 	    "street1": "2138 S Indiana Avenue, 1709",

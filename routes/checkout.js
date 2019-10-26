@@ -1,31 +1,60 @@
 const UnregisteredCart = require('../schemas/unregistered-cart');
 const User = require('../schemas/users');
 const Piece = require('../schemas/pieces');
-const PurchasedItem = require('../schemas/purchaseditems');
+const Order = require('../schemas/order');
 const hydratePiece = require('../utils/hydrate-piece');
 const assignUser = require('../utils/assignUser');
 const stripe = require("stripe")("sk_test_o39Kr0ePiALbt2HfXt9VrZ3s00GgKCxGbX");
 
 const calculateDate = require('../utils/calculateDate');
+const calculateTax = require('../utils/calculateTax');
 
 module.exports = function (app) {
 
 	app.post('/charge', async (req, res) => {
-
 		const user = await assignUser(req, res);
 		if (user.error) return res.json({error: user.error});
+
+		//find order by Id
+		let order;
+		try {
+			order = await Order.findById(req.body.orderId);
+			console.log({order})
+		} catch {
+			return res.json({error: 'Could not find your order'})
+		}
+
+		console.log(order);
+		
+		//calculate charge amount by iterating through cart. Add charged items to order as you go.		
 		let amount = 0;
-		await Promise.all(user.cart.map(async itemRef => {
-			const piece = await Piece.findById(itemRef.pieceId);
-			if(!piece || !piece.price) return;
-			amount += piece.price;
-		}));
+		try {
+			await Promise.all(user.cart.map(async itemRef => {
+				const piece = await Piece.findById(itemRef.pieceId);
+				if(!piece || !piece.price) return;
+				amount += piece.price;
+				try {
+					await order.updateOne({itemId: itemRef._id});
+				} catch {
+					return res.json({error: 'Could not add an item to your order'})
+				};
+			}));
+		} catch {
+			return res.json({error: 'Error calculating subtotal'})
+		}
+
+		//add tax and shipping fee
+		const shippingFee = Number(req.body.shippingRate.amount);
+		const tax = amount * calculateTax(order.shippingInformation.state);
+
+		amount = amount + shippingFee + tax;
+
 	    await stripe.charges.create({
 	      amount: amount * 100,
 	      currency: "usd",
 	      description: "Eternity Hash Purchase",
-	      source: req.body.id,
-	      receipt_email: req.body.orderDetails.accountInformation.email	      
+	      source: req.body.stripeToken,
+	      receipt_email: order.accountInformation.email      
 		}, async (err, charge) => {
 			if (err) {
 				console.log({err});
@@ -34,7 +63,7 @@ module.exports = function (app) {
 
 			//update purchased item status to 'pendingDate'
 			try {
-				await PurchasedItem.findByIdAndUpdate(req.body.purchasedItemId, {
+				await order.updateOne({
 					status: 'pendingDate'
 				})
 			} catch {
@@ -166,21 +195,17 @@ module.exports = function (app) {
 			if (req.body.checkoutStep === undefined) {
 				return res.json({error: 'This form is not recognized'})
 			}
-			//checkoutStep0: create item with date/message/pieceId, checkoutStep1: update contact info, checkoutStep2: update shipping info
+			//checkoutStep0: create orderId, checkoutStep1: update contact info, checkoutStep2: update shipping info
 			switch (req.body.checkoutStep) {
 				case 0: 
 					const user = await assignUser(req, res);
 					if (user.error) return res.json({error: user.error});
 					try {
 						//created a purchased item
-						const item = await PurchasedItem.create({
-							date: user.cart[0].date,
-							message: user.cart[0].message,
-							pieceId: user.cart[0].pieceId,
-						})
-						return res.json({purchasedItemId: item._id})
+						const order = await Order.create({})
+						return res.json({purchasedItemId: order._id})
 					} catch {
-						return res.json({error: 'Could not add item information to the order'})
+						return res.json({error: 'Could not add create order ID'})
 					}
 				case 1:
 					if (!req.body.formData.email || !req.body.formData.fname || !req.body.formData.lname) {
@@ -188,7 +213,7 @@ module.exports = function (app) {
 					}
 					try {
 						//add account information
-							await PurchasedItem.findByIdAndUpdate(req.body.purchasedItemId, {
+							await Order.findByIdAndUpdate(req.body.purchasedItemId, {
 								accountInformation: {
 									email: req.body.formData.email,
 									fname: req.body.formData.fname,
@@ -205,7 +230,7 @@ module.exports = function (app) {
 						return res.json({error: 'Must fill out all fields'})
 					};
 					try {
-						await PurchasedItem.findByIdAndUpdate(req.body.purchasedItemId, {
+						await Order.findByIdAndUpdate(req.body.purchasedItemId, {
 							shippingInformation: {
 								address: req.body.formData.address,
 								city: req.body.formData.city,
@@ -224,7 +249,7 @@ module.exports = function (app) {
 
 	app.get('/checkout/:purchasedItemId', async (req, res) => {
 		try {
-			const purchasedItem = await PurchasedItem.findById(req.params.purchasedItemId);
+			const purchasedItem = await Order.findById(req.params.purchasedItemId);
 			return res.json(purchasedItem)
 		} catch {
 			res.json({error: 'Could not find your purchase in the database'})
@@ -233,12 +258,8 @@ module.exports = function (app) {
 	})
 
 	app.get('/purchases', async (req, res) => {
-		const pendingTransaction = await PurchasedItem.find({status: 'pendingDate'})
-		const pendingConfirmation = await PurchasedItem.find({status: 'transactionSubmitted'})
+		const pendingTransaction = await Order.find({status: 'pendingDate'})
+		const pendingConfirmation = await Order.find({status: 'transactionSubmitted'})
 		return res.json({pendingTransaction, pendingConfirmation});
 	})
-
-
-
-
 }

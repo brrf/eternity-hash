@@ -21,9 +21,9 @@ class FinalizePayment extends React.Component {
 	      method: "POST",
 	      headers: {"Content-Type": "application/json"},
 	      body: JSON.stringify({
-	      	id: this.props.location.state.stripeToken, 
-	      	orderDetails: this.props.orderDetails, 
-	      	purchasedItemId: this.props.location.state.purchasedItemId
+	      	stripeToken: this.props.location.state.stripeToken, 
+	      	orderId: this.props.location.state.purchasedItemId,
+	      	shippingRate: this.props.orderDetails.shippingRates[this.state.shippingOption]
 	      }),
 	      mode: 'cors',
 	      credentials: 'include'
@@ -54,6 +54,8 @@ class FinalizePayment extends React.Component {
 		const {accountInformation, shippingInformation, shippingRates, taxRate} = this.props.orderDetails;
 		const shippingPrice = Number(shippingRates[this.state.shippingOption].amount);
 		const tax = taxRate * subtotal;
+
+		console.log(shippingRates);
 
 		return (
 			<React.Fragment>

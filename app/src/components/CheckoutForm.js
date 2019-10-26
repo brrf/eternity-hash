@@ -1,10 +1,10 @@
 import React from 'react';
 import {CardNumberElement, CardExpiryElement, CardCVCElement, injectStripe} from 'react-stripe-elements';
 import getShippingRates from '../utils/getShippingRates';
-import {setShippingRates} from '../actions/orderDetails';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
+import {setShippingRates} from '../actions/orderDetails';
 import {setTaxRate} from '../actions/orderDetails';
 
 class CheckoutForm extends React.Component {
