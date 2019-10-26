@@ -5,11 +5,6 @@ const orderSchema = new mongoose.Schema({
 	item: {
 		type: Object,
 		required: true,
-		default: {
-			pieceId: '',
-			message: '',
-			date: ''
-		}
 	},
 	//status: created, accountInformation, shippingInformation, pendingDate, transactionSubmitted, transactionConfirmed, Printed, Shipped
 	status: {

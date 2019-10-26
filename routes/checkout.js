@@ -5,6 +5,7 @@ const Order = require('../schemas/order');
 const hydratePiece = require('../utils/hydrate-piece');
 const assignUser = require('../utils/assignUser');
 const stripe = require("stripe")("sk_test_o39Kr0ePiALbt2HfXt9VrZ3s00GgKCxGbX");
+const shippo = require('shippo')('shippo_test_123829ef0b7d82342424adfab4d13c75f294e16f');
 
 const calculateDate = require('../utils/calculateDate');
 const calculateTax = require('../utils/calculateTax');
@@ -74,7 +75,27 @@ module.exports = function (app) {
 			user.purchasedItems.push(...user.cart);
 			user.cart = [];
 			await user.save();
-			res.json({error: false});
+
+			//create the shipping label
+			shippo.transaction.create({
+		    "rate": req.body.shippingRate.object_id,
+		    "label_file_type": "PDF",
+		    "async": false
+			}, async function(err, transaction) {
+			   if (err) {
+			   	res.json({error: 'an error occurred making your shipping label'})
+			   } else {
+			   	try {
+			   		await order.updateOne({
+			   			shippingLabel: transaction
+			   		});
+			   		res.json({error: false});
+			   	} catch {
+			   		res.json({error: 'could not update order with shipping label'})
+			   	}
+			   }
+			});
+			
 		});
 	})
 
