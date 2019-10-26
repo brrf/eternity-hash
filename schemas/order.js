@@ -2,9 +2,14 @@ const mongoose = require('mongoose');
 const itemSchema = require('./item');
 
 const orderSchema = new mongoose.Schema({
-	itemId: {
-		type: String,
-		required: false
+	item: {
+		type: Object,
+		required: true,
+		default: {
+			pieceId: '',
+			message: '',
+			date: ''
+		}
 	},
 	//status: created, accountInformation, shippingInformation, pendingDate, transactionSubmitted, transactionConfirmed, Printed, Shipped
 	status: {
@@ -36,7 +41,7 @@ const orderSchema = new mongoose.Schema({
 			lname: ''
 		}
 	},
-	shippingCarrier: {
+	shippingLabel: {
 		type: Object,
 		required: false
 	}

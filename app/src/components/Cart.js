@@ -72,7 +72,8 @@ class Cart extends React.Component {
 			method: 'POST',
 			headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "http://localhost:5000"},
 			body: JSON.stringify({
-				checkoutStep: 0
+				checkoutStep: 0,
+				item: this.props.cart.cart[0]
 			}),
 			mode: 'cors',
 			credentials: 'include'

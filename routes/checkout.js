@@ -200,9 +200,16 @@ module.exports = function (app) {
 				case 0: 
 					const user = await assignUser(req, res);
 					if (user.error) return res.json({error: user.error});
+					console.log(req.body.item.piece._id);
 					try {
 						//created a purchased item
-						const order = await Order.create({})
+						const order = await Order.create({
+							item: {
+								pieceId: req.body.item.piece._id,
+								message: req.body.item.message,
+								date: req.body.item.date
+							}
+						})
 						return res.json({purchasedItemId: order._id})
 					} catch {
 						return res.json({error: 'Could not add create order ID'})

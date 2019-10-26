@@ -1,4 +1,4 @@
-const PurchasedItem = require('../schemas/order');
+const Order = require('../schemas/order');
 const bitcoin = require('bitcoinjs-lib');
 const fetch = require('node-fetch');
 
@@ -7,7 +7,7 @@ const hashMessage = require('./hash-message');
 
 async function findAndExecuteTransactions () {
 	//find all transactions that are pendingDate - if 5 hours into the date then execute bitcoin transaction 
-	const purchases = await PurchasedItem.find({status: 'pendingDate'});
+	const purchases = await Order.find({status: 'pendingDate'});
 	
 	//for testing purposes only
 	let notReadyYet = [];
@@ -69,8 +69,8 @@ async function findAndExecuteTransactions () {
 					.then(res => res.json())
 					.then(async finalTx => {
 						console.log({finalTx})
-						//update status of purchasedItem
-						await PurchasedItem.findByIdAndUpdate(purchase._id, {
+						//update status of Order
+						await Order.findByIdAndUpdate(purchase._id, {
 							status: 'transactionSubmitted',
 							hash: finalTx.tx.hash
 						})
