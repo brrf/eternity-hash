@@ -17,7 +17,6 @@ class AddToCart extends React.Component {
 			formData: {
 				date: new Date(),
 				timeZone: '',
-				absolute: false,
 				message: '',
 				pieceId: this.props.piece._id
 			},

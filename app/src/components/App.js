@@ -5,6 +5,7 @@ import Home from './Home';
 import Login from './Login';
 import Logout from './Logout';
 import Register from './Register';
+import ScheduleHash from './ScheduleHash';
 import Collection from './Collection';
 import Piece from './Piece';
 import AddPiece from './AddPiece';
@@ -23,6 +24,7 @@ function App(props) {
             <Route path ='/authentication/login' component={Login} />
             <Route path ='/authentication/logout' component={Logout} />
             <Route path ='/authentication/register' component={Register} />
+            <Route path ='/schedulehash' component={ScheduleHash} />
             <Route exact path = '/collection' component={Collection} />
             <Route path = '/collection/:id' component={Piece} />
             <Route path = '/addpiece' component={AddPiece} />

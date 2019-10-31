@@ -221,14 +221,13 @@ module.exports = function (app) {
 				case 0: 
 					const user = await assignUser(req, res);
 					if (user.error) return res.json({error: user.error});
-					console.log(req.body.item.piece._id);
 					try {
 						//created a purchased item
 						const order = await Order.create({
 							item: {
 								pieceId: req.body.item.piece._id,
 								message: req.body.item.message,
-								date: req.body.item.date
+								date: new Date(req.body.item.date)
 							}
 						})
 						return res.json({purchasedItemId: order._id})
@@ -286,8 +285,10 @@ module.exports = function (app) {
 	})
 
 	app.get('/purchases', async (req, res) => {
-		const pendingTransaction = await Order.find({status: 'pendingDate'})
-		const pendingConfirmation = await Order.find({status: 'transactionSubmitted'})
-		return res.json({pendingTransaction, pendingConfirmation});
+		const pendingDate = await Order.find({status: 'pendingDate'});
+		const transactionSubmitted = await Order.find({status: 'transactionSubmitted'});
+		const transactionConfirmed = await Order.find({status: 'transactionConfirmed'});
+		const shipped = await Order.find({status: 'shipped'});
+		return res.json({pendingDate, transactionSubmitted, transactionConfirmed, shipped});
 	})
 }

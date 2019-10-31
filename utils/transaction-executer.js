@@ -8,11 +8,6 @@ const hashMessage = require('./hash-message');
 async function findAndExecuteTransactions () {
 	//find all transactions that are pendingDate - if 5 hours into the date then execute bitcoin transaction 
 	const purchases = await Order.find({status: 'pendingDate'});
-	
-	//for testing purposes only
-	let notReadyYet = [];
-	let ready = [];
-
 	var newtx = {
 		inputs: [{
 			addresses: ['CCKn36iNpCBcHeqmb9CY38hqzwG1kuQadj']
@@ -26,12 +21,14 @@ async function findAndExecuteTransactions () {
 	};
 
 	purchases.forEach(purchase => {
+		//console.log(purchase.item.date - new Date().getTime());
+		//console.log(date - new Date().getTime());
 		//18000000 = 5 hours; transactions will be executed at 5am. For testing purposes, will do 30000(30s)
-		if ((purchase.date - new Date().getTime()) <= -30000) {
-			ready.push(purchase.message);
+		if ((purchase.item.date - new Date().getTime()) <= -30000) {
+
 
 			//add user personal message to transaction body
-			const message = hashMessage(purchase.message);
+			const message = hashMessage(purchase.item.message);
 			newtx.outputs[0].script = `6a48${message}`;
 
 			//prepare transaction
@@ -78,11 +75,8 @@ async function findAndExecuteTransactions () {
 					.catch(err => console.log(err));
 				}, 1000)
 			})			
-		} else {
-			notReadyYet.push(purchase.message);
 		}
 	})
-	//console.log(notReadyYet, ready);
 }
 
 module.exports = findAndExecuteTransactions;

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const itemSchema = require('./item');
+const hashSchema = require('./hash').hashSchema;
 
 const userSchema = new mongoose.Schema({
 	password: {
@@ -21,6 +22,9 @@ const userSchema = new mongoose.Schema({
 	},
 	cart: {
 		type: [itemSchema]
+	},
+	hashes: {
+		type: [hashSchema]
 	},
 	purchasedItems: {
 		type: [itemSchema]

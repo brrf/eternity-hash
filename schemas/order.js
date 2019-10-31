@@ -6,7 +6,7 @@ const orderSchema = new mongoose.Schema({
 		type: Object,
 		required: true,
 	},
-	//status: created, accountInformation, shippingInformation, pendingDate, transactionSubmitted, transactionConfirmed, Printed, Shipped
+	//status: created, accountInformation, shippingInformation, pendingDate, transactionSubmitted, transactionConfirmed, shipped
 	status: {
 		type: String,
 		required: true,
@@ -14,6 +14,10 @@ const orderSchema = new mongoose.Schema({
 	},
 	hash: {
 		type: String,
+		required: false
+	},
+	confirmations: {
+		type: Number,
 		required: false
 	},
 	shippingInformation: {
