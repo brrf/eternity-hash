@@ -18,7 +18,6 @@ class Navbar extends React.Component {
     })
   }
   render () {
-    let fname = this.props.fname ? (this.props.fname.charAt(0).toUpperCase() + this.props.fname.slice(1)) : null;
     let loginStatus = this.props.fname ? true : false; 
     let authenticationLink = loginStatus ? {link: '/authentication/logout', title: 'Logout'} : {link: '/authentication/login', title: 'Login'};
 
@@ -27,7 +26,7 @@ class Navbar extends React.Component {
   		  <div className='navbar'>
           <Link to='/' className='navbar-home'>Eternity Hash</Link>
           <div className='navbar-right'>
-            <Link className='navbar-item' to="/schedulehash">Schedule A Hash</Link>
+            <Link className='navbar-item' to="/hashes">Schedule A Hash</Link>
             <Link className='navbar-item' to="/collection">Browse Collection</Link>
             <Link to='/cart'>
               <FontAwesomeIcon icon={faShoppingCart} size='1x' className='navbar-item cart-svg'/>

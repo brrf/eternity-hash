@@ -14,7 +14,7 @@ export default class scheduleHashForm extends React.Component {
 				timeZone: '',
 				message: '',
 			},
-			errors: []
+			errors: [],
 		}
 		this.changeDate = this.changeDate.bind(this);
 		this.changeMessage = this.changeMessage.bind(this);
@@ -26,7 +26,7 @@ export default class scheduleHashForm extends React.Component {
 		this.setState({
 			errors: []
 		})
-		if (this.state.formData.date || this.state.formData.timeZone || this.state.formData.message) {
+		if (!this.state.formData.date || !this.state.formData.timeZone || !this.state.formData.message) {
 			this.setState({
 				errors: ['Please fill out all fields']
 			})
@@ -41,8 +41,8 @@ export default class scheduleHashForm extends React.Component {
 			credentials: 'include'
 		})
 		.then(res => res.json())
-		.then(async resObject => {
-			console.log(resObject)
+		.then(resObject => {
+			this.props.redirect(resObject.id)
 		})
 	}
 
@@ -62,7 +62,6 @@ export default class scheduleHashForm extends React.Component {
 	    		timeZone
 	    	}
 	    })
-	    console.log(timeZone)
 	}
 
 	changeMessage = e => {
@@ -74,7 +73,7 @@ export default class scheduleHashForm extends React.Component {
 		});
 	};
 
-	render () {
+	render () {		
 		return (
 			<form onSubmit={this.submitForm} className='cart-form'>
 				<Warning errors={this.state.errors}/>

@@ -60,11 +60,18 @@ class Cart extends React.Component {
 	}
 
 	estimateTax = (newValue) => {
-			if (newValue === 'IL') this.state.tax = 0.1025;
-			else this.state.tax = 0;
-			this.setState({
-				estimateTax: false
-			})
+			if (newValue === 'IL') {
+				this.setState({
+					tax: 0.1025,
+					estimateTax: false
+				})
+			}
+			else {
+				this.setState({
+					tax: 0,
+					estimateTax: false
+				})
+			}
 	}
 
 	handleRedirect = () => {

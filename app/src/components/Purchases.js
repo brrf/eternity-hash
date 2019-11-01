@@ -4,9 +4,6 @@ import '../orders.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faFileUpload} from '@fortawesome/free-solid-svg-icons';
 
-var bitcoin = require('bitcoinjs-lib');
-
-
 export default class Purchases extends React.Component {
 	constructor(props) {
 		super(props);
@@ -85,7 +82,7 @@ export default class Purchases extends React.Component {
 									<td>{item.item.date}</td>
 									<td>{item.hash}</td>
 									<td>>{item.confirmations}</td>
-									<td><a href={item.shippingLabel.label_url} target="_blank"><FontAwesomeIcon icon={faFileUpload} size='1x' /></a></td>
+									<td><a href={item.shippingLabel.label_url} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faFileUpload} size='1x' /></a></td>
 								</tr>
 							)})
 						}

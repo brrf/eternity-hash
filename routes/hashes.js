@@ -17,9 +17,9 @@ module.exports = function(app) {
 					date,
 					message: req.body.message
 				})
-				res.json({hash})
+				res.json({id: hash._id})
 			} catch {
-				console.log('catch')
+				console.log({error: 'Could not create new hash'})
 			}
 		})
 }
