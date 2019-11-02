@@ -41,8 +41,8 @@ export default class scheduleHashForm extends React.Component {
 			credentials: 'include'
 		})
 		.then(res => res.json())
-		.then(resObject => {
-			this.props.redirect(resObject.id)
+		.then(hashObject => {
+			this.props.redirect(hashObject)
 		})
 	}
 

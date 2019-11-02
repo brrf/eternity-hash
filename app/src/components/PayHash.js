@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from './Navbar';
 
+import PayHashForm from './PayHashForm';
 import {Elements, StripeProvider} from 'react-stripe-elements';
 
 export default class PayHash extends React.Component {
@@ -8,11 +9,16 @@ export default class PayHash extends React.Component {
 		super(props);
 	}
 	render () {
-		console.log('here');
 		return (
 			<div>
 				<Navbar />
-				<div>Hello</div>
+				<StripeProvider apiKey="pk_test_MBRlAb7bEYiivk4yPFdUgGNd00U1dtjalz">
+			        <div className="example">
+			          <Elements>
+			            <PayHashForm/>
+			          </Elements>
+			        </div>
+			    </StripeProvider>
 			</div>
 		)	
 	}

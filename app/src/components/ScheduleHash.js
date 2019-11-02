@@ -3,8 +3,10 @@ import {Redirect} from 'react-router-dom';
 import Navbar from './Navbar';
 import ScheduleHashForm from './ScheduleHashForm';
 import PayHash from './PayHash';
+import {setHash} from '../actions/hash';
+import {connect} from 'react-redux';
 
-export default class scheduleHash extends React.Component {
+class scheduleHash extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -14,9 +16,10 @@ export default class scheduleHash extends React.Component {
 		this.redirect = this.redirect.bind(this);
 	}
 
-	redirect = (id) => {
+	redirect = (hashObject) => {
+		this.props.dispatch(setHash(hashObject))
 		this.setState({
-			hashId: id
+			hashId: hashObject._id
 		})
 	}
 
@@ -30,6 +33,12 @@ export default class scheduleHash extends React.Component {
 				<ScheduleHashForm redirect={this.redirect} />
 			</div>
 		)	
-	}
-	
+	}	
 }
+
+function mapStateToProps(state) {
+	console.log(state)
+	return {}
+}
+
+export default connect(mapStateToProps)(scheduleHash);

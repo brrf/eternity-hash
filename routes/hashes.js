@@ -7,7 +7,6 @@ const calculateTax = require('../utils/calculateTax');
 module.exports = function(app) {
 	app.route('/hashes')
 		.post( async (req, res) => {
-			console.log(req.body)
 			if (!req.body.date || !req.body.timeZone || !req.body.message) {
 				return res.json({error: 'Incomplete form'});
 			}
@@ -17,9 +16,14 @@ module.exports = function(app) {
 					date,
 					message: req.body.message
 				})
-				res.json({id: hash._id})
+				res.json(hash)
 			} catch {
 				console.log({error: 'Could not create new hash'})
 			}
+		})
+	app.route('/hashes/:id')
+		.post(async (req, res) => {
+			console.log(req.body);
+			res.json({errors: false})
 		})
 }

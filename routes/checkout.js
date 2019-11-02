@@ -24,8 +24,6 @@ module.exports = function (app) {
 		} catch {
 			return res.json({error: 'Could not find your order'})
 		}
-
-		console.log(order);
 		
 		//calculate charge amount by iterating through cart. Add charged items to order as you go.		
 		let amount = 0;

@@ -1,0 +1,22 @@
+.pay-hash-form-container {
+	box-sizing: border-box;
+	background-color: white;
+	width: 50%;
+	margin: 10px;
+	padding: 7px;
+}
+
+.order-summary-container {
+	margin-left: 15px;
+}
+
+.order-summary-item {
+	display: inline-block;
+	width: 50px;
+	margin: 0 75px 8px 0;
+	font-weight: bold;
+}
+
+.order-summary-item-value {
+
+}
