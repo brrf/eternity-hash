@@ -1,102 +1,84 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import Warning from './Warning';
+import React, {useState} from "react";
+import { connect } from "react-redux";
+import Warning from "./Warning";
 
-import handleLoginuser from '../actions/login';
-import '../authenticate.css';
+import handleLoginuser from "../actions/login";
+import "../authenticate.css";
 
-class LoginForm extends React.Component {
-	constructor (props) {
-		super(props);
+function LoginForm (props) {
 
-		this.state = {
-			formData: {
-				email: '',
-				password: '',
-			},
-			errors: [],
-		}
-		this.updateEmail = this.updateEmail.bind(this);
-		this.updatePassword = this.updatePassword.bind(this);
-	}
+  const [email, updateEmail] = useState("");
+  const [password, updatePassword] = useState("");
+  const [errors, updateErrors] = useState([]);
 
-	handleSubmit = (e) => {
-		e.preventDefault();
-		this.setState({
-			errors: []
-		})
-		if (!this.state.formData.email || !this.state.formData.password) {
-			this.setState({
-				errors: [...this.state.errors, 'Please fill out all fields']
-			})
-			return;
-		}
-		fetch('http://localhost:5000/authentication/login', {
-			method: 'POST',
-			body: JSON.stringify(this.state.formData),
-			headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "http://localhost:5000"},
-			mode: 'cors',
-			credentials: 'include'
-		})
-			.then(res => res.json())
-			.then(resObject => {
-				if (resObject.errors) {
-					console.log('errors')
-				} else {
-					this.props.dispatch(handleLoginuser(resObject.user));
-					this.props.success();
-				}			
-			});
-	}
-
-	updateEmail = (e) => {
-		this.setState({
-			formData: {
-				...this.state.formData,
-				email: e.target.value
-			}		
-		})
-	};
-
-	updatePassword = (e) => {
-		this.setState({
-			formData: {
-				...this.state.formData,
-				password: e.target.value
-			}		
-		})
-	};
-	render() {
-		return (
-			<React.Fragment>
-				<Warning errors={this.state.errors}/>
-				{this.props.authedUser
-					? <div>Logged in as {this.props.authedUser}</div>
-					:<form onSubmit={this.handleSubmit}>
-						<div className='input-section'>
-							<label className='input-label'>E-mail: </label>
-							<br></br>
-							<input type="text" name="email" value={this.state.formData.email} onChange={this.updateEmail}/>
-							<br></br>
-						</div>
-						<div className='input-section'>
-							<label className='input-label'>Password:</label>
-							<br></br>
-							<input type="password" name="password" value={this.state.formData.password} onChange={this.updatePassword}/>
-							<br></br>
-						</div>
-						<input className='submit-button' type="submit" />
-					</form>
-				}
-			</React.Fragment>
-		)
-	}
+  function handleSubmit (e) {
+    e.preventDefault();
+    updateErrors([]);
+    if (!email || !password) {
+      updateErrors([...errors, "Please fill out all fields"])
+      return;
+    }
+    fetch("http://localhost:5000/authentication/login", {
+      method: "POST",
+      body: JSON.stringify({email, password}),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "http://localhost:5000"
+      },
+      mode: "cors",
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(resObject => {
+        if (resObject.errors) {
+          console.log("errors");
+        } else {
+          props.dispatch(handleLoginuser(resObject.user));
+          props.success();
+        }
+      });
+  };
+  return (
+    <React.Fragment>
+      <Warning errors={errors} />
+      {props.authedUser ? (
+        <div>Logged in as {props.authedUser}</div>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <div className="input-section">
+            <label className="input-label">E-mail: </label>
+            <br></br>
+            <input
+              type="text"
+              name="email"
+              value={email}
+              onChange={(e) => updateEmail(e.target.value)}
+            />
+            <br></br>
+          </div>
+          <div className="input-section">
+            <label className="input-label">Password:</label>
+            <br></br>
+            <input
+              type="password"
+              name="password"
+              value={password}
+              onChange={(e) => updatePassword(e.target.value)}
+            />
+            <br></br>
+          </div>
+          <input className="submit-button" type="submit" />
+        </form>
+      )}
+    </React.Fragment>
+  );
 }
 
 function mapStateToProps(state) {
-	let authedUser = state.authedUser.authedUser ? state.authedUser.authedUser.fname : null 
-	return {authedUser};
+  let authedUser = state.authedUser.authedUser
+    ? state.authedUser.authedUser.fname
+    : null;
+  return { authedUser };
 }
 
 export default connect(mapStateToProps)(LoginForm);
-

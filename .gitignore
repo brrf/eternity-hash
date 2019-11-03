@@ -2,3 +2,6 @@
 .env
 *build
 app/public/pieces-images/
+.prettierrc
+.DS_Store
+dist/

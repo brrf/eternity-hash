@@ -1,10 +1,11 @@
-{
+  {
   "name": "eternity-hash",
   "version": "1.0.0",
   "description": "",
   "main": "App.js",
   "scripts": {
     "test": "react-scripts test",
+    "format": "prettier \"app/**/*.{js,css,html}\" --write",
     "start": "nodemon server.js",
     "react": "react-scripts start",
     "build": "react-scripts build",
@@ -53,5 +54,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "prettier": "^1.18.2"
   }
 }

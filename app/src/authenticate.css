@@ -1,96 +1,97 @@
 body {
-	background-color: #F4F4F4;
-	color: #373737;
+  background-color: #f4f4f4;
+  color: #373737;
 }
 
 .account-container {
-	width: 20%;
-	height: 25%;	
-	margin: auto;	
+  width: 20%;
+  height: 25%;
+  margin: auto;
 }
 
 .error-list {
-	list-style: none;
-	font-family: none;
-	font-weight: bold;
-	width: 100%; 
-	padding: 0;
-	margin: 0;
+  list-style: none;
+  font-family: none;
+  font-weight: bold;
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .flash {
-	color: white;
-	margin: 5px;
-	padding: 5px;
-	margin-bottom: 15px;
+  color: white;
+  margin: 5px;
+  padding: 5px;
+  margin-bottom: 15px;
 }
 
 .error {
-	background-color: #da2b0fad;
+  background-color: #da2b0fad;
 }
 
 .registered {
-	background-color: #63bd6ee8;
+  background-color: #63bd6ee8;
 }
 
 .form-container {
-	border: 2px solid #373737;	
-	margin-top: 10%;
-	padding: 10px;
+  border: 2px solid #373737;
+  margin-top: 10%;
+  padding: 10px;
 }
 
 .header {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	font-family: 'Italianno', cursive;
-	font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Italianno", cursive;
+  font-size: 20px;
 }
 
 .logo {
-	display: block;
-	margin: 0 auto;
+  display: block;
+  margin: 0 auto;
 }
 
 h2 {
-	margin-bottom: 0;
-	margin-top: 5px;
+  margin-bottom: 0;
+  margin-top: 5px;
 }
 
 input {
-	width: 200px;
+  width: 200px;
 }
 
 .input-section {
-	margin: 8px;
+  margin: 8px;
 }
 
 .input-label {
-	display: inline-block;
-	width: 150px;
+  display: inline-block;
+  width: 150px;
 }
 
 .submit-button {
-	width: 150px;
-	height: 30px;
-	margin: 8px;
-	background-color: #3e6079;
-	color: white;
-	font-weight: bold;
+  width: 150px;
+  height: 30px;
+  margin: 8px;
+  background-color: #3e6079;
+  color: white;
+  font-weight: bold;
 }
 
 .submit-button:hover {
-	opacity: 0.8;
+  opacity: 0.8;
 }
 
-label, p {
-	font-family: none;
+label,
+p {
+  font-family: none;
 }
 
 .toggle-link {
-	font-size: 25px;
-	color: #3e6079;
-	text-decoration: none;
-	font-family: 'Italianno', cursive;
-	margin-left: 3px;
+  font-size: 25px;
+  color: #3e6079;
+  text-decoration: none;
+  font-family: "Italianno", cursive;
+  margin-left: 3px;
 }

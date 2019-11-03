@@ -1,6 +1,6 @@
-export function setHash (hash) {
-	return {
-		type: 'SET_HASH',
-		hash
-	}
+export function setHash(hash) {
+  return {
+    type: "SET_HASH",
+    hash
+  };
 }

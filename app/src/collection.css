@@ -1,68 +1,67 @@
-
 .collection-container {
-	margin-left: 25%;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
+  margin-left: 25%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .piece {
-	background-color: #e0d3c3;
-  	border:solid 3vmin #050a0a;
-  	border-bottom-color:#050a0aab;
-  	border-left-color:#050a0ab8;
-  	border-radius:2px;
-  	border-right-color:#050a0ab8;
-  	border-top-color:#050a0ade;
-  	box-shadow:0 0 5px 0 rgba(0,0,0,.25) inset, 0 5px 10px 5px rgba(0,0,0,.25);
-  	box-sizing:border-box;
-  	display:inline-block;
-  	margin: 3vh 3vw;
-  	padding:3vmin;
-  	position:relative;
-  	text-align:center;
-  	width: 36%;
-  	height: 59%;
+  background-color: #e0d3c3;
+  border: solid 3vmin #050a0a;
+  border-bottom-color: #050a0aab;
+  border-left-color: #050a0ab8;
+  border-radius: 2px;
+  border-right-color: #050a0ab8;
+  border-top-color: #050a0ade;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.25) inset,
+    0 5px 10px 5px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  display: inline-block;
+  margin: 3vh 3vw;
+  padding: 3vmin;
+  position: relative;
+  text-align: center;
+  width: 36%;
+  height: 59%;
 }
 
 .piece:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .piece:before {
-    border-radius:2px;
-    bottom:-2vmin;
-    box-shadow:0 2px 5px 0 rgba(0,0,0,.25) 
-	inset;
-    content:"";
-    left:-2vmin;
-    position:absolute;
-    right:-2vmin;
-    top:-2vmin;
- }
+  border-radius: 2px;
+  bottom: -2vmin;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.25) inset;
+  content: "";
+  left: -2vmin;
+  position: absolute;
+  right: -2vmin;
+  top: -2vmin;
+}
 
 .piece:after {
-    border-radius:2px;
-    bottom:-2.5vmin;
-    box-shadow: 0 2px 5px 0 rgba(0,0,0,.25);
-    content:"";
-    left:-2.5vmin;
-    position:absolute;
-    right:-2.5vmin;
-    top:-2.5vmin;
-  }
+  border-radius: 2px;
+  bottom: -2.5vmin;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.25);
+  content: "";
+  left: -2.5vmin;
+  position: absolute;
+  right: -2.5vmin;
+  top: -2.5vmin;
+}
 
 .piece-row {
-	display: flex;
-	flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .piece-image {
-	border:solid 2px;
-  	border-bottom-color:#ffe;
-  	border-left-color:#eed;
-  	border-right-color:#eed;
-  	border-top-color:#ccb;
-  	max-width: 100%;
-  	height: 200px;
+  border: solid 2px;
+  border-bottom-color: #ffe;
+  border-left-color: #eed;
+  border-right-color: #eed;
+  border-top-color: #ccb;
+  max-width: 100%;
+  height: 200px;
 }
