@@ -13,9 +13,9 @@ function LoginForm (props) {
 
   function handleSubmit (e) {
     e.preventDefault();
-    updateErrors([]);
+    
     if (!email || !password) {
-      updateErrors([...errors, "Please fill out all fields"])
+      updateErrors(["Please fill out all fields"])
       return;
     }
     fetch("http://localhost:5000/authentication/login", {

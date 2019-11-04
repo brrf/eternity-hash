@@ -108,6 +108,7 @@
 .cart-item-message {
   margin: 5px;
   fontsize: 10px;
+  overflow: scroll;
 }
 
 .cart-item-bottom {

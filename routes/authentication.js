@@ -25,7 +25,7 @@ module.exports = function (app) {
 					})	
 			}	
 		} catch {
-			return res.json({error: 'error saving item to registered cart'})
+			return res.json({errors: 'error saving item to registered cart'})
 		}	
 		console.log(`${req.user.fname} is logged in`);
     	res.json({errors: false, user: req.user})

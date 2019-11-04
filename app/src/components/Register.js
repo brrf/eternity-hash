@@ -32,6 +32,7 @@ export default class Register extends React.Component {
     this.setState({
       errors: []
     });
+    
     fetch("http://localhost:5000/authentication/register", {
       method: "POST",
       body: JSON.stringify(this.state.formData),
