@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import { connect } from "react-redux";
 import Warning from "./Warning";
+import TestComponent from './TestComponent';
 
 import handleLoginuser from "../actions/login";
 import "../authenticate.css";
@@ -75,6 +76,7 @@ function LoginForm (props) {
           <input className="submit-button" type="submit" />
         </form>
       )}
+      <TestComponent />
     </React.Fragment>
   );
 }
