@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import { connect } from "react-redux";
 import Warning from "./Warning";
 
@@ -10,10 +10,14 @@ function LoginForm (props) {
   const [email, updateEmail] = useState("");
   const [password, updatePassword] = useState("");
   const [errors, updateErrors] = useState([]);
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus()
+  }, []) 
 
   function handleSubmit (e) {
     e.preventDefault();
-    
     if (!email || !password) {
       updateErrors(["Please fill out all fields"])
       return;
@@ -49,6 +53,7 @@ function LoginForm (props) {
             <label className="input-label">E-mail: </label>
             <br></br>
             <input
+              ref={inputRef}
               type="text"
               name="email"
               value={email}
